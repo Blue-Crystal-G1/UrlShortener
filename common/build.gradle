@@ -13,6 +13,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-jdbc'
     compile 'org.springframework.hateoas:spring-hateoas'
+    compile 'com.google.apis:google-api-services-safebrowsing:v4-rev34-1.23.0'
 
     compile 'commons-validator:commons-validator:1.6'
 	compile 'com.google.guava:guava:23.0'
