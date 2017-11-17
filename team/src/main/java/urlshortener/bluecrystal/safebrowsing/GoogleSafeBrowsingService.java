@@ -1,4 +1,4 @@
-package urlshortener.common.safebrowsing;
+package urlshortener.bluecrystal.safebrowsing;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -8,16 +8,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import urlshortener.common.safebrowsing.util.PlatformType;
-import urlshortener.common.safebrowsing.util.ThreatEntryType;
-import urlshortener.common.safebrowsing.util.ThreatType;
+import urlshortener.bluecrystal.safebrowsing.util.PlatformType;
+import urlshortener.bluecrystal.safebrowsing.util.ThreatEntryType;
+import urlshortener.bluecrystal.safebrowsing.util.ThreatType;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.Collections;
 
-@Service("googleSafeBrowsingService")
+@Service
 public class GoogleSafeBrowsingService implements IGoogleSafeBrowsingService {
     private final static Logger LOGGER = LoggerFactory.getLogger(GoogleSafeBrowsingService.class);
 

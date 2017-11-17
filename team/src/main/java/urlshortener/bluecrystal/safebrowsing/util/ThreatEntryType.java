@@ -1,4 +1,4 @@
-package urlshortener.common.safebrowsing.util;
+package urlshortener.bluecrystal.safebrowsing.util;
 
 public enum ThreatEntryType {
     THREAT_ENTRY_TYPE_UNSPECIFIED,

@@ -1,4 +1,4 @@
-package urlshortener.bluecrystal.availableURITask;
+package urlshortener.bluecrystal.safeURITask;
 
 import com.google.api.services.safebrowsing.model.FindThreatMatchesResponse;
 import com.google.api.services.safebrowsing.model.ThreatMatch;
@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import urlshortener.bluecrystal.safebrowsing.IGoogleSafeBrowsingService;
+import urlshortener.bluecrystal.safebrowsing.util.ThreatType;
 import urlshortener.common.domain.ShortURL;
 import urlshortener.common.repository.ShortURLRepository;
-import urlshortener.common.safebrowsing.IGoogleSafeBrowsingService;
-import urlshortener.common.safebrowsing.util.ThreatType;
 
 import java.util.List;
 

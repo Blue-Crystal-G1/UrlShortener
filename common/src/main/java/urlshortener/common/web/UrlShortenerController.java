@@ -13,7 +13,6 @@ import urlshortener.common.domain.Click;
 import urlshortener.common.domain.ShortURL;
 import urlshortener.common.repository.ClickRepository;
 import urlshortener.common.repository.ShortURLRepository;
-import urlshortener.common.safebrowsing.IGoogleSafeBrowsingService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
@@ -33,9 +32,6 @@ public class UrlShortenerController {
 
 	@Autowired
 	protected ClickRepository clickRepository;
-
-	@Autowired
-	IGoogleSafeBrowsingService googleSafeBrowsingService;
 
 	@RequestMapping(value = "/{id:(?!link).*}", method = RequestMethod.GET)
 	public ResponseEntity<?> redirectTo(@PathVariable String id,
@@ -70,7 +66,6 @@ public class UrlShortenerController {
 	public ResponseEntity<ShortURL> shortener(@RequestParam("url") String url,
 											  @RequestParam(value = "sponsor", required = false) String sponsor,
 											  HttpServletRequest request) {
-		//googleSafeBrowsingService.checkUrl(url);
 		ShortURL su = createAndSaveIfValid(url, sponsor, UUID
 				.randomUUID().toString(), extractIP(request));
 		if (su != null) {

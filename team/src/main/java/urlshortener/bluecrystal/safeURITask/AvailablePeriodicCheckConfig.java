@@ -1,9 +1,8 @@
-package urlshortener.bluecrystal.config;
+package urlshortener.bluecrystal.safeURITask;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import urlshortener.bluecrystal.availableURITask.AvailablePeriodicCheck;
 
 
 @Configuration

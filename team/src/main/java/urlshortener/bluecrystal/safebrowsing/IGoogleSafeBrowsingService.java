@@ -1,4 +1,4 @@
-package urlshortener.common.safebrowsing;
+package urlshortener.bluecrystal.safebrowsing;
 
 import com.google.api.services.safebrowsing.model.FindThreatMatchesResponse;
 
