@@ -1,4 +1,4 @@
-package urlshortener.bluecrystal.domain.messages;
+package urlshortener.bluecrystal.domain.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
