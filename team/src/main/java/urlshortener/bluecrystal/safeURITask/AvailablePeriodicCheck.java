@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import urlshortener.bluecrystal.domain.ShortURL;
+import urlshortener.bluecrystal.repository.ShortURLRepository;
 import urlshortener.bluecrystal.safebrowsing.IGoogleSafeBrowsingService;
 import urlshortener.bluecrystal.safebrowsing.util.ThreatType;
-import urlshortener.common.domain.ShortURL;
-import urlshortener.common.repository.ShortURLRepository;
 
 import java.util.List;
 
@@ -39,13 +39,13 @@ public class AvailablePeriodicCheck {
 
                 boolean isGoogleSafeBrowsingSafe = urlIsSafe(matches);
 
-                if(isGoogleSafeBrowsingSafe && !url.isSafe())
+                if(isGoogleSafeBrowsingSafe && !url.getSafe())
                 {
                     LOGGER.info("[TASK] Check URL availability: URL is safe now {}", url.getTarget());
                     url.setSafe(true);
                     shortURLRepository.update(url);
                 }
-                else if(!isGoogleSafeBrowsingSafe && url.isSafe()) {
+                else if(!isGoogleSafeBrowsingSafe && url.getSafe()) {
                     LOGGER.info("[TASK] Check URL availability: URL is unsafe now {}", url.getTarget());
                     url.setSafe(false);
                     shortURLRepository.update(url);

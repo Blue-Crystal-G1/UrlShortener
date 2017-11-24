@@ -25,7 +25,7 @@ public class GoogleSafeBrowsingService implements IGoogleSafeBrowsingService {
     @Value("${googlesafebrowsing.api_key}")
     private String API_KEY;
 
-    @Value("$googlesafebrowsing.appname")
+    @Value("${googlesafebrowsing.appname}")
     private String APP_NAME;
 
     @Override

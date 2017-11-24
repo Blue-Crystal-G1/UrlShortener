@@ -5,14 +5,23 @@ eclipse {
 }
 
 dependencies {
-   compile project(':common')
+    runtime 'org.hsqldb:hsqldb'
 
-   runtime 'org.hsqldb:hsqldb'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-jdbc'
+    compile 'org.springframework.hateoas:spring-hateoas'
+    compile 'com.google.apis:google-api-services-safebrowsing:v4-rev34-1.23.0'
+    compile 'commons-validator:commons-validator:1.6'
+    compile 'com.google.guava:guava:23.0'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
-   compile 'org.webjars:bootstrap:3.3.5'
-   compile 'org.webjars:jquery:2.1.4'
+    compile 'org.webjars:bootstrap:3.3.5'
+    compile 'org.webjars:jquery:2.1.4'
+    // SpringFox swagger dependencies
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.5.0'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.5.0'
 
-   // Testing framework
-   testCompile 'org.springframework.boot:spring-boot-starter-test'
-   testCompile 'org.apache.httpcomponents:httpclient'
+    // Testing framework
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.apache.httpcomponents:httpclient'
 }
