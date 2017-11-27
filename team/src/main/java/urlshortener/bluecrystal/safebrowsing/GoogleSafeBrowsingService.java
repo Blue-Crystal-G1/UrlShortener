@@ -19,8 +19,8 @@ import java.util.Collections;
 
 @Service
 public class GoogleSafeBrowsingService implements IGoogleSafeBrowsingService {
-    private final static Logger LOGGER = LoggerFactory.getLogger(GoogleSafeBrowsingService.class);
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(GoogleSafeBrowsingService.class);
 
     @Value("${googlesafebrowsing.api_key}")
     private String API_KEY;
@@ -73,10 +73,12 @@ public class GoogleSafeBrowsingService implements IGoogleSafeBrowsingService {
 
                 return find.execute();
             } catch (IOException e) {
+                LOGGER.error("Looking for threats at url {}", url);
                 e.printStackTrace();
             }
 
         } catch (GeneralSecurityException | IOException e) {
+            LOGGER.error("Looking for threats at url {}", url);
             e.printStackTrace();
         }
 

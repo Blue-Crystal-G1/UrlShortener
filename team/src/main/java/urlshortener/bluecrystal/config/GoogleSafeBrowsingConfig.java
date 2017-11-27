@@ -7,6 +7,7 @@ import urlshortener.bluecrystal.safebrowsing.IGoogleSafeBrowsingService;
 
 @Configuration
 public class GoogleSafeBrowsingConfig {
+
     @Bean
     IGoogleSafeBrowsingService googleSafeBrowsingService() {
         return new GoogleSafeBrowsingService();

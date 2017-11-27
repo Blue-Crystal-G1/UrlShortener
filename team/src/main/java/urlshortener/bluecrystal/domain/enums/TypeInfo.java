@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum TypeInfo {
 
+    ALL_TYPES("ALL_TYPES"),
+
     RAM_USAGE("RAM_USAGE"),
 
     MEMORY_USAGE("MEMORY_USAGE"),
