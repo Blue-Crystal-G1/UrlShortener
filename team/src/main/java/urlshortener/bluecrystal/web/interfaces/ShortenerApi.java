@@ -22,7 +22,7 @@ public interface ShortenerApi {
     @RequestMapping(value = "/shortener/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<ShortURL> getShortedURLByID(@ApiParam(value = "The ID that needs to be fetched.", required = true) @PathVariable("id") Long id) {
+    default ResponseEntity<ShortURL> getShortedURLByID(@ApiParam(value = "The ID that needs to be fetched.", required = true) @PathVariable("id") String id) {
         // do some magic!
         return new ResponseEntity<ShortURL>(HttpStatus.OK);
     }
