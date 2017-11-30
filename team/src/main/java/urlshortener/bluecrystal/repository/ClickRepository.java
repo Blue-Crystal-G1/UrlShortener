@@ -1,25 +1,15 @@
 package urlshortener.bluecrystal.repository;
 
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import urlshortener.bluecrystal.domain.Click;
 
 import java.util.List;
 
-public interface ClickRepository {
+public interface ClickRepository extends JpaRepository<Click,Long> {
 
 	List<Click> findByHash(String hash);
 
-	Long clicksByHash(String hash);
+	//Long clicksByHash(String hash);
 
-	Click save(Click cl);
-
-	void update(Click cl);
-
-	void delete(Long id);
-
-	void deleteAll();
-
-	Long count();
-
-	List<Click> list(Long limit, Long offset);
 }

@@ -39,10 +39,22 @@ public class User {
         return this;
     }
 
+    public User(Long id, String username, String firstName, String lastName, String email, String password, String phone, Boolean enabled) {
+        this.id = id;
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.enabled = enabled;
+    }
+
     /**
      * Get id
      *
      * @return id
+
      **/
     @ApiModelProperty(value = "")
     public Long getId() {

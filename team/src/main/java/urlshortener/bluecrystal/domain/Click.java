@@ -1,39 +1,56 @@
 package urlshortener.bluecrystal.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDate;
 import java.util.Objects;
 
 /**
  * Click
  */
-
+@Entity
+@Table(name="CLICK")
 public class Click {
+    @Id
+    @Column(name = "ID")
     @JsonProperty("id")
     private Long id = null;
 
+    @Column(name = "HASH")
     @JsonProperty("hash")
     private String hash = null;
 
+    @Column(name = "CREATED")
     @JsonProperty("created")
     private LocalDate created = null;
 
+    @Column(name = "REFERRER")
     @JsonProperty("referrer")
     private String referrer = null;
 
+    @Column(name = "BROWSER")
     @JsonProperty("browser")
     private String browser = null;
 
+    @Column(name = "PLATFORM")
     @JsonProperty("platform")
     private String platform = null;
 
+    @Column(name = "IP")
     @JsonProperty("ip")
     private String ip = null;
 
+    @Column(name = "COUNTRY")
     @JsonProperty("country")
     private String country = null;
+
+    public Click() {}
 
     public Click id(Long id) {
         this.id = id;

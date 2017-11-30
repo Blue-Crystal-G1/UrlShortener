@@ -24,7 +24,7 @@ public interface UrlInfoApi {
     @RequestMapping(value = "/urlInfo/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<URLInfo> getUrlInfoById(@ApiParam(value = "The shortUrl ID that needs to be fetched.", required = true) @PathVariable("id") Long id) {
+    default ResponseEntity<URLInfo> getUrlInfoById(@ApiParam(value = "The shortUrl ID that needs to be fetched.", required = true) @PathVariable("id") String id) {
         // do some magic!
         return new ResponseEntity<URLInfo>(HttpStatus.OK);
     }
