@@ -10,14 +10,22 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-jdbc'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compile 'org.thymeleaf:thymeleaf:3.0.9.RELEASE'
+    compile 'org.thymeleaf:thymeleaf-spring4:3.0.9.RELEASE'
 
     compile 'org.springframework.hateoas:spring-hateoas'
     compile 'commons-validator:commons-validator:1.6'
     compile 'com.google.guava:guava:23.0'
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
+    // CSS and JS libraries
     compile 'org.webjars:bootstrap:3.3.5'
-    compile 'org.webjars:jquery:2.1.4'
+    compile 'org.webjars:jquery:3.2.1'
+    compile 'org.webjars.bower:chart.js:2.7.1'
+    compile 'org.webjars.bower:perfect-scrollbar:0.8.1'
+    compile 'org.webjars:font-awesome:4.7.0'
+    compile 'org.webjars.bower:tether:1.4.0'
 
     // SpringFox swagger
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.5.0'
@@ -25,6 +33,12 @@ dependencies {
 
     // Google Safe Browsing
     compile 'com.google.apis:google-api-services-safebrowsing:v4-rev34-1.23.0'
+
+    // Thymeleaf layout dialect
+    compile 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.2.2'
+
+    // Thymeleaf extras
+    compile 'org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.1.RELEASE'
 
     // Testing framework
     testCompile 'org.springframework.boot:spring-boot-starter-test'

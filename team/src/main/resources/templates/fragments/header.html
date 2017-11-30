@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <!--<link rel="stylesheet" type="text/css" href="/static/css/style.css"-->
+          <!--media="screen, projection" th:href="@{/css/style.css}"/>-->
+</head>
+<body>
+    <nav class="navbar bg-primary-gradient col-lg-12 col-12 p-0 fixed-top navbar-inverse d-flex flex-row" th:fragment="header">
+        <div class="bg-white text-center navbar-brand-wrapper">
+            <a class="navbar-brand brand-logo" href="#">
+                <img src="/static/images/logo.png" alt="Logo"
+                     th:src="@{/images/logo.png}"/>
+            </a>
+            <a class="navbar-brand brand-logo-mini" href="#">
+                <img src="/static/images/logo_mini.png" alt="LogoMini"
+                     th:src="@{/images/logo_mini.png}"/>
+            </a>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-center">
+            <button class="navbar-toggler navbar-toggler hidden-md-down align-self-center mr-3" type="button" data-toggle="minimize">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <button class="navbar-toggler navbar-toggler hidden-lg-up align-self-center" type="button" data-toggle="offcanvas">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!--<script type="text/javascript" src="/static/js/off-canvas.js"></script>-->
+
+</body>
+</html>

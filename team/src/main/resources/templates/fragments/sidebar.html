@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <!--<link rel="stylesheet" type="text/css" href="/static/css/style.css"-->
+          <!--media="screen, projection" th:href="@{/css/style.css}"/>-->
+</head>
+<body>
+    <nav class="bg-white sidebar sidebar-fixed sidebar-offcanvas" id="sidebar" th:fragment="sidebar">
+        <div class="user-info">
+            <!--th:src="@{/resources/static/images/icons/008-user.png}"-->
+            <img src="/static/images/icons/008-user.png" alt="UserIcon"
+                 th:src="@{/images/icons/008-user.png}"/>
+            <p class="name">Nombre Apellido</p>
+            <p class="designation">Usuario</p>
+            <span class="online"></span>
+        </div>
+        <ul class="nav">
+            <li class="nav-item"><!--active-->
+                <a class="nav-link" href="#">
+                    <img src="/static/images/icons/006-house.png" alt="HomeIcon"
+                         th:src="@{/images/icons/006-house.png}"/>
+                    <span class="menu-title">Inicio</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../../pages/stats.html">
+                    <img src="/static/images/icons/001-graphic.png" alt="StatsIcon"
+                         th:src="@{/images/icons/001-graphic.png}"/>
+                    <span class="menu-title">Estadísticas</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../../pages/account.html">
+                    <img src="/static/images/icons/004-account.png" alt="AccountIcon"
+                         th:src="@{/images/icons/004-account.png}" />
+                    <span class="menu-title">Mi cuenta</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../../pages/logout.html">
+                    <img src="/static/images/icons/009-exit.png" alt="LogoutIcon"
+                         th:src="@{/images/icons/009-exit.png}"/>
+                    <span class="menu-title">Cerrar sesión</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!--<script type="text/javascript" src="/static/js/off-canvas.js"></script>-->
+    <!--<script type="text/javascript" src="/static/js/hoverable-collapse.js"></script>-->
+    <!--<script type="text/javascript" src="/static/js/misc.js"></script>-->
+
+</body>
+</html>
