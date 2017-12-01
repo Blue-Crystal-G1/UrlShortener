@@ -21,6 +21,7 @@ import urlshortener.bluecrystal.config.ServiceConfig;
 import urlshortener.bluecrystal.config.propertiesConfig;
 
 import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -42,7 +43,7 @@ public class safeURIServiceTest {
         String badUrl = "http://malware.testing.google.test/testing/malware/";
 
         assertFalse(safeURIService.isSafe(badUrl));
-//        assertTrue(safeService.isSafe("http://google.com"));
+        assertTrue(safeURIService.isSafe("http://google.com"));
     }
 
 
