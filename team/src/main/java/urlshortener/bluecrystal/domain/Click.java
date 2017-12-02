@@ -1,14 +1,10 @@
 package urlshortener.bluecrystal.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.time.LocalDate;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -19,6 +15,8 @@ import java.util.Objects;
 public class Click {
     @Id
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+
     @JsonProperty("id")
     private Long id = null;
 
@@ -28,7 +26,7 @@ public class Click {
 
     @Column(name = "CREATED")
     @JsonProperty("created")
-    private LocalDate created = null;
+    private LocalDateTime created = null;
 
     @Column(name = "REFERRER")
     @JsonProperty("referrer")
@@ -57,7 +55,7 @@ public class Click {
         return this;
     }
 
-    public Click(Long id, String hash, LocalDate created, String referrer, String browser,
+    public Click(Long id, String hash, LocalDateTime created, String referrer, String browser,
                  String platform, String ip, String country) {
         this.id = id;
         this.hash = hash;
@@ -102,7 +100,7 @@ public class Click {
         this.hash = hash;
     }
 
-    public Click created(LocalDate created) {
+    public Click created(LocalDateTime created) {
         this.created = created;
         return this;
     }
@@ -113,11 +111,11 @@ public class Click {
      * @return created
      **/
     @ApiModelProperty(value = "")
-    public LocalDate getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDate created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 

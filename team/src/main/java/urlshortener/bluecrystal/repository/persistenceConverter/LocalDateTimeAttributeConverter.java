@@ -2,11 +2,12 @@ package urlshortener.bluecrystal.repository.persistenceConverter;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
-import java.sql.Date;
-import java.time.LocalDate;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Converter(autoApply = true)
-public class LocalDateTimeAttributeConverter implements AttributeConverter<LocalDate, Date> {
+public class LocalDateTimeAttributeConverter implements AttributeConverter<LocalDateTime, Timestamp> {
 
     /**
      * Converts the value stored in the entity attribute into the
@@ -16,8 +17,8 @@ public class LocalDateTimeAttributeConverter implements AttributeConverter<Local
      * @return the converted data to be stored in the database column
      */
     @Override
-    public Date convertToDatabaseColumn(LocalDate attribute) {
-        return (attribute == null ? null : Date.valueOf(attribute));
+    public Timestamp convertToDatabaseColumn(LocalDateTime attribute) {
+        return (attribute == null ? null : Timestamp.valueOf(attribute));
     }
 
     /**
@@ -32,8 +33,7 @@ public class LocalDateTimeAttributeConverter implements AttributeConverter<Local
      * @return the converted value to be stored in the entity attribute
      */
     @Override
-    public LocalDate convertToEntityAttribute(Date dbData) {
-        return (dbData == null ? null : dbData.toLocalDate());
-
+    public LocalDateTime convertToEntityAttribute(Timestamp dbData) {
+        return (dbData == null ? null : dbData.toLocalDateTime());
     }
 }

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <div class="content-wrapper" th:fragment="content">
+        <h3 class="text-primary mb-4">
+          Información de <a href="http://localhost:8080/gh44HyD3" class="btn-shortlink">localhost:8080/gh44HyD3</a>
+        </h3>
+
+        <div class="row">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
+                <div class="card">
+                    <div class="card-block">
+                        <div class="clearfix">
+                            <i class="fa fa-bar-chart float-right icon-grey-big"></i>
+                        </div>
+                        <h4 class="card-title font-weight-normal text-success">45465</h4>
+                        <h6 class="card-subtitle mb-4">Clicks</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
+                <div class="card">
+                    <div class="card-block">
+                        <div class="clearfix">
+                            <i class="fa fa-arrow-circle-o-right float-right icon-grey-big"></i>
+                        </div>
+                        <h4 class="card-title font-weight-normal text-success"><a href="https://www.google.es" class="btn-shortlink text-success">www.google.es</a></h4>
+                        <h6 class="card-subtitle mb-4">URL original</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-4">
+                <div class="card">
+                    <div class="card-block">
+                        <div class="clearfix">
+                            <i class="fa fa-clock-o float-right icon-grey-big"></i>
+                        </div>
+                        <h4 class="card-title font-weight-normal text-success">Hace 2 horas</h4>
+                        <h6 class="card-subtitle mb-4">Creación</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <h4 class="card-title mb-0">Tráfico</h4>
+                    </div>
+                    <!--/.col-->
+                    <div class="col-sm-10">
+                        <div class="btn-toolbar float-right" role="toolbar" aria-label="Toolbar with button groups">
+                            <div class="btn-group mr-3" data-toggle="buttons" aria-label="First group">
+                                <label class="btn btn-outline-secondary">
+                                    <input type="radio" name="options" id="option1"> Día
+                                </label>
+                                <label class="btn btn-outline-secondary active">
+                                    <input type="radio" name="options" id="option2" checked=""> Semana
+                                </label>
+                                    <label class="btn btn-outline-secondary">
+                                <input type="radio" name="options" id="option3"> Mes
+                                </label>
+                                <label class="btn btn-outline-secondary">
+                                    <input type="radio" name="options" id="option4"> Año
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/.col-->
+                </div>
+               <!--/.row-->
+               <div class="chart-wrapper" style="height:300px;margin-top:40px;">
+                  <canvas id="clicks-chart" class="chart" height="300"></canvas>
+               </div>
+            </div>
+        </div>
+        <!--/.card-->
+
+        <div class="row">
+            <div class="col-lg-6 col-12 mb-4">
+                <div class="card">
+                    <div class="card-block">
+                        <h5 class="card-title mb-4">Referidores</h5>
+                        <canvas id="referrers-chart" style="height:250px"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12 mb-4">
+                <div class="card">
+                    <div class="card-block">
+                        <h5 class="card-title mb-4">Países</h5>
+                        <canvas id="countries-chart" style="height:250px"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-12 mb-4">
+                <div class="card">
+                    <div class="card-block">
+                        <h5 class="card-title mb-4">Plataformas</h5>
+                        <canvas id="platforms-chart" style="height:230px"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12 mb-4">
+                <div class="card">
+                    <div class="card-block">
+                        <h5 class="card-title mb-4">Buscadores</h5>
+                        <canvas id="browsers-chart" style="height:230px"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <th:block th:fragment="assets">
+        <script type="text/javascript" th:src="@{/webjars/chart.js/2.7.1/dist/Chart.min.js}"></script>
+        <script type="text/javascript" th:src="@{/webjars/tether/1.4.0/dist/js/tether.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/info-url.js}"></script>
+    </th:block>
+</body>
+</html>

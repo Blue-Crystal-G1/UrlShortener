@@ -8,11 +8,9 @@ DROP TABLE SHORTURL IF EXISTS;
 CREATE TABLE SHORTURL(
 	HASH		  VARCHAR(30) PRIMARY KEY,	-- Key
 	TARGET		VARCHAR(1024),				    -- Original URL
-	SPONSOR		VARCHAR(1024),				    -- Sponsor URL
   URI       VARCHAR(1024),            -- URI
 	CREATED 	TIMESTAMP,					      -- Creation date
 	OWNER		  VARCHAR(255),				      -- User id
-	MODE		  INTEGER,					        -- Redirect mode
 	IP			  VARCHAR(20),				      -- IP
 	COUNTRY		VARCHAR(50),				      -- Country
   SAFE		  BOOLEAN NOT NULL,						      -- Safe target

@@ -199,7 +199,7 @@ public class SystemInfo   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class SystemInfo {\n");
-    
+
     sb.append("    upTime: ").append(toIndentedString(upTime)).append("\n");
     sb.append("    totalUsers: ").append(toIndentedString(totalUsers)).append("\n");
     sb.append("    totalUrls: ").append(toIndentedString(totalUrls)).append("\n");

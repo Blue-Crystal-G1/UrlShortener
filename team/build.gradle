@@ -37,6 +37,9 @@ dependencies {
     compile 'org.thymeleaf:thymeleaf-spring4:3.0.9.RELEASE'
     compile 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.2.2'
 
+    // PrettyTime
+    compile 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
+
     // Testing framework
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.apache.httpcomponents:httpclient'

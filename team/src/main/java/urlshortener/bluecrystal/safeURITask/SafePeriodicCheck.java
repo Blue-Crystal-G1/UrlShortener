@@ -9,10 +9,9 @@ import urlshortener.bluecrystal.domain.ShortURL;
 import urlshortener.bluecrystal.repository.ShortURLRepository;
 import urlshortener.bluecrystal.service.SafeURIService;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
-@Transactional
 public class SafePeriodicCheck {
     private final static Logger LOGGER = LoggerFactory.getLogger(SafePeriodicCheck.class);
 
@@ -25,6 +24,7 @@ public class SafePeriodicCheck {
     // Checks every 5 seconds. For fast testing purposes
     // example threat MALWARE -> http://ianfette.org/
     @Scheduled(fixedDelay = 5000L)
+    @Transactional
     public void checkSecurity() {
         LOGGER.info("Check URL security");
         List<ShortURL> uriList = shortURLRepository.findAll();
@@ -45,7 +45,7 @@ public class SafePeriodicCheck {
 
         if(checkURIExists(target))
         {
-            uriToCheck.setLastCheckSafeDate(LocalDate.now());
+            uriToCheck.setLastCheckSafeDate(LocalDateTime.now());
             if(isGoogleSafeBrowsingSafe && !uriToCheck.getSafe())
             {
                 LOGGER.info("URL is safe now {}", target);

@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.net.URI;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -29,21 +29,13 @@ public class ShortURL {
     //@Transient
     private URI uri = null;
 
-    @JsonProperty("sponsor")
-    @Column(name = "SPONSOR")
-    private String sponsor = null;
-
     @JsonProperty("created")
     @Column(name = "CREATED")
-    private LocalDate created = null;
+    private LocalDateTime created = null;
 
     @JsonProperty("owner")
     @Column(name = "OWNER")
     private String owner = null;
-
-    @JsonProperty("mode")
-    @Column(name = "MODE")
-    private Integer mode = null;
 
     @JsonProperty("ip")
     @Column(name = "IP")
@@ -55,7 +47,7 @@ public class ShortURL {
 
     @JsonProperty("lastCheckSafeDate")
     @Column(name = "LASTCHECKSAFEDATE")
-    private LocalDate lastCheckSafeDate = null;
+    private LocalDateTime lastCheckSafeDate = null;
 
     @JsonProperty("safe")
     @Column(name = "SAFE")
@@ -63,7 +55,7 @@ public class ShortURL {
 
     @JsonProperty("lastCheckAvailableDate")
     @Column(name = "LASTCHECKAVAILABLEDATE")
-    private LocalDate lastCheckAvailableDate = null;
+    private LocalDateTime lastCheckAvailableDate = null;
 
     @JsonProperty("available")
     @Column(name = "AVAILABLE")
@@ -72,16 +64,14 @@ public class ShortURL {
     public ShortURL() {
     }
 
-    public ShortURL(String hash, String target, URI uri, String sponsor, LocalDate created,
-                    String owner, Integer mode, String ip, String country, LocalDate lastCheckSafeDate,
-                    Boolean safe, LocalDate lastCheckAvailableDate, Boolean available) {
+    public ShortURL(String hash, String target, URI uri, LocalDateTime created,
+                    String owner, String ip, String country, LocalDateTime lastCheckSafeDate,
+                    Boolean safe, LocalDateTime lastCheckAvailableDate, Boolean available) {
         this.hash = hash;
         this.target = target;
         this.uri = uri;
-        this.sponsor = sponsor;
         this.created = created;
         this.owner = owner;
-        this.mode = mode;
         this.ip = ip;
         this.country = country;
         this.lastCheckSafeDate = lastCheckSafeDate;
@@ -147,26 +137,7 @@ public class ShortURL {
         this.uri = uri;
     }
 
-    public ShortURL sponsor(String sponsor) {
-        this.sponsor = sponsor;
-        return this;
-    }
-
-    /**
-     * Get sponsor
-     *
-     * @return sponsor
-     **/
-    @ApiModelProperty(value = "")
-    public String getSponsor() {
-        return sponsor;
-    }
-
-    public void setSponsor(String sponsor) {
-        this.sponsor = sponsor;
-    }
-
-    public ShortURL created(LocalDate created) {
+    public ShortURL created(LocalDateTime created) {
         this.created = created;
         return this;
     }
@@ -177,11 +148,11 @@ public class ShortURL {
      * @return created
      **/
     @ApiModelProperty(value = "")
-    public LocalDate getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDate created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 
@@ -202,25 +173,6 @@ public class ShortURL {
 
     public void setOwner(String owner) {
         this.owner = owner;
-    }
-
-    public ShortURL mode(Integer mode) {
-        this.mode = mode;
-        return this;
-    }
-
-    /**
-     * Get mode
-     *
-     * @return mode
-     **/
-    @ApiModelProperty(value = "")
-    public Integer getMode() {
-        return mode;
-    }
-
-    public void setMode(Integer mode) {
-        this.mode = mode;
     }
 
     public ShortURL ip(String ip) {
@@ -261,7 +213,7 @@ public class ShortURL {
         this.country = country;
     }
 
-    public ShortURL lastCheckSafeDate(LocalDate lastCheckSafeDate) {
+    public ShortURL lastCheckSafeDate(LocalDateTime lastCheckSafeDate) {
         this.lastCheckSafeDate = lastCheckSafeDate;
         return this;
     }
@@ -272,11 +224,11 @@ public class ShortURL {
      * @return lastCheckSafeDate
      **/
     @ApiModelProperty(value = "")
-    public LocalDate getLastCheckSafeDate() {
+    public LocalDateTime getLastCheckSafeDate() {
         return lastCheckSafeDate;
     }
 
-    public void setLastCheckSafeDate(LocalDate lastCheckSafeDate) {
+    public void setLastCheckSafeDate(LocalDateTime lastCheckSafeDate) {
         this.lastCheckSafeDate = lastCheckSafeDate;
     }
 
@@ -304,7 +256,7 @@ public class ShortURL {
         return this;
     }
 
-    public ShortURL lastCheckAvailableDate(LocalDate lastCheckAvailableDate) {
+    public ShortURL lastCheckAvailableDate(LocalDateTime lastCheckAvailableDate) {
         this.lastCheckAvailableDate = lastCheckAvailableDate;
         return this;
     }
@@ -315,11 +267,11 @@ public class ShortURL {
      * @return lastCheckAvailableDate
      **/
     @ApiModelProperty(value = "")
-    public LocalDate getLastCheckAvailableDate() {
+    public LocalDateTime getLastCheckAvailableDate() {
         return lastCheckAvailableDate;
     }
 
-    public void setLastCheckAvailableDate(LocalDate lastCheckAvailableDate) {
+    public void setLastCheckAvailableDate(LocalDateTime lastCheckAvailableDate) {
         this.lastCheckAvailableDate = lastCheckAvailableDate;
     }
 
@@ -349,10 +301,8 @@ public class ShortURL {
         return Objects.equals(this.hash, shortURL.hash) &&
                 Objects.equals(this.target, shortURL.target) &&
                 Objects.equals(this.uri, shortURL.uri) &&
-                Objects.equals(this.sponsor, shortURL.sponsor) &&
                 Objects.equals(this.created, shortURL.created) &&
                 Objects.equals(this.owner, shortURL.owner) &&
-                Objects.equals(this.mode, shortURL.mode) &&
                 Objects.equals(this.ip, shortURL.ip) &&
                 Objects.equals(this.country, shortURL.country) &&
                 Objects.equals(this.lastCheckSafeDate, shortURL.lastCheckSafeDate) &&
@@ -363,7 +313,7 @@ public class ShortURL {
 
     @Override
     public int hashCode() {
-        return Objects.hash(hash, target, uri, sponsor, created, owner, mode, ip, country,
+        return Objects.hash(hash, target, uri, created, owner, ip, country,
                 lastCheckSafeDate, safe, lastCheckAvailableDate, available);
     }
 
@@ -375,10 +325,8 @@ public class ShortURL {
         sb.append("    hash: ").append(toIndentedString(hash)).append("\n");
         sb.append("    target: ").append(toIndentedString(target)).append("\n");
         sb.append("    uri: ").append(toIndentedString(uri)).append("\n");
-        sb.append("    sponsor: ").append(toIndentedString(sponsor)).append("\n");
         sb.append("    created: ").append(toIndentedString(created)).append("\n");
         sb.append("    owner: ").append(toIndentedString(owner)).append("\n");
-        sb.append("    mode: ").append(toIndentedString(mode)).append("\n");
         sb.append("    ip: ").append(toIndentedString(ip)).append("\n");
         sb.append("    country: ").append(toIndentedString(country)).append("\n");
         sb.append("    lastCheckSafeDate: ").append(toIndentedString(lastCheckSafeDate)).append("\n");

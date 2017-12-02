@@ -9,10 +9,9 @@ import urlshortener.bluecrystal.domain.ShortURL;
 import urlshortener.bluecrystal.repository.ShortURLRepository;
 import urlshortener.bluecrystal.service.AvailableURIService;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
-@Transactional
 public class AvailablePeriodicCheck {
     private final static Logger LOGGER = LoggerFactory.getLogger(AvailablePeriodicCheck.class);
 
@@ -24,6 +23,7 @@ public class AvailablePeriodicCheck {
 
     // Checks every 5 seconds. For fast testing purposes
     @Scheduled(fixedDelay = 5000L)
+    @Transactional
     public void checkAvailability() {
         LOGGER.info("Check URL availability");
         List<ShortURL> uriList = shortURLRepository.findAll();
@@ -42,7 +42,7 @@ public class AvailablePeriodicCheck {
         boolean isAvailable = availableURIService.isAvailable(target);
 
         if(checkURIExists(target)) {
-            uriToCheck.setLastCheckAvailableDate(LocalDate.now());
+            uriToCheck.setLastCheckAvailableDate(LocalDateTime.now());
             if (isAvailable && !uriToCheck.getAvailable()) {
                 LOGGER.info("URL is available now {}", target);
                 uriToCheck.setAvailable(true);

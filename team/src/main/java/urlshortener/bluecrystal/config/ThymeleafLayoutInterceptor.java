@@ -17,12 +17,12 @@ public class ThymeleafLayoutInterceptor extends HandlerInterceptorAdapter {
     private String viewAttributeName = DEFAULT_VIEW_ATTRIBUTE_NAME;
 
     public void setDefaultLayout(String defaultLayout) {
-        Assert.hasLength(defaultLayout);
+        Assert.hasLength(defaultLayout, "layout must not be empty");
         this.defaultLayout = defaultLayout;
     }
 
     public void setViewAttributeName(String viewAttributeName) {
-        Assert.hasLength(defaultLayout);
+        Assert.hasLength(defaultLayout, "attribute must not be empty");
         this.viewAttributeName = viewAttributeName;
     }
 

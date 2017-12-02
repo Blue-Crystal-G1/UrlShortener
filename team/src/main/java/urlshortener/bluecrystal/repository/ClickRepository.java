@@ -10,6 +10,6 @@ public interface ClickRepository extends JpaRepository<Click,Long> {
 
 	List<Click> findByHash(String hash);
 
-	//Long clicksByHash(String hash);
+	Integer countClicksByHash(String hash);
 
 }
