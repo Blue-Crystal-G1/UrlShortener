@@ -22,7 +22,7 @@ public class AvailablePeriodicCheck {
     AvailableURIService availableURIService;
 
     // Checks every 5 seconds. For fast testing purposes
-    @Scheduled(fixedDelay = 5000L)
+    @Scheduled(fixedDelay = 50000L)
     @Transactional
     public void checkAvailability() {
         LOGGER.info("Check URL availability");

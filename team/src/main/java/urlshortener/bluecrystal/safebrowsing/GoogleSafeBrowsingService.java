@@ -25,22 +25,12 @@ public class GoogleSafeBrowsingService implements IGoogleSafeBrowsingService {
     @Value("${googlesafebrowsing.api_key}")
     private String API_KEY;
 
-    @Value("${googlesafebrowsing.appname}")
-    private String APP_NAME;
-
     @Override
     public FindThreatMatchesResponse checkUrl(String url)
     {
         LOGGER.debug("Attempting to validate url {}", url);
 
         FindThreatMatchesRequest findThreatMatchesRequest = new FindThreatMatchesRequest();
-
-        //region set client info
-        ClientInfo client = new ClientInfo();
-        client.setClientId("webeng-186201");
-        client.setClientVersion("1.5.7.RELEASE");
-        findThreatMatchesRequest.setClient(client);
-        //endregion
 
         //region set threat info
         ThreatInfo threatInfo = new ThreatInfo();
@@ -61,27 +51,19 @@ public class GoogleSafeBrowsingService implements IGoogleSafeBrowsingService {
         try {
             Safebrowsing.Builder endpointBuilder = new Safebrowsing.Builder(
                     GoogleNetHttpTransport.newTrustedTransport(), new JacksonFactory(), httpRequest -> {
-                        httpRequest.setConnectTimeout(3 * 60000);  // 3 minutes connect timeout
-                        httpRequest.setReadTimeout(3 * 60000);  // 3 minutes read timeout
+                        httpRequest.setConnectTimeout(5000);  // 5 seconds connect timeout
+                        httpRequest.setReadTimeout(5000);  // 5 seconds read timeout
             });
-            endpointBuilder.setApplicationName(APP_NAME);
+
             Safebrowsing safebrowsing = endpointBuilder.build();
+            Safebrowsing.ThreatMatches.Find find = safebrowsing.threatMatches().find(findThreatMatchesRequest);
+            find.setKey(API_KEY);
 
-            try {
-                Safebrowsing.ThreatMatches.Find find = safebrowsing.threatMatches().find(findThreatMatchesRequest);
-                find.setKey(API_KEY);
-
-                return find.execute();
-            } catch (IOException e) {
-                LOGGER.error("Looking for threats at url {}", url);
-                e.printStackTrace();
-            }
+            return find.execute();
 
         } catch (GeneralSecurityException | IOException e) {
-            LOGGER.error("Looking for threats at url {}", url);
-            e.printStackTrace();
+            LOGGER.error("Looking for threats at url {}. Error: {}", url, e.getMessage());
+            return null;
         }
-
-        return null;
     }
 }

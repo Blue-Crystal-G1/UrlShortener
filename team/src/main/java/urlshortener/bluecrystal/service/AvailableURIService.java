@@ -1,6 +1,7 @@
 package urlshortener.bluecrystal.service;
 
 import com.google.api.client.http.HttpMethods;
+import org.apache.commons.validator.routines.UrlValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,13 @@ import java.net.URL;
 public class AvailableURIService {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(AvailableURIService.class);
+
+    public boolean isValid(String target) {
+        UrlValidator urlValidator = new UrlValidator(new String[]{"http",
+                "https"});
+
+        return urlValidator.isValid(target);
+    }
 
     public boolean isAvailable(String target) {
         try {
@@ -41,8 +49,9 @@ public class AvailableURIService {
             return (responseCode.toString().charAt(0) == '2'
                     || responseCode.toString().charAt(0) == '3');
         }
-        catch (IOException ex)
+        catch (IOException e)
         {
+            LOGGER.error("Looking if url {} is available. Error: {}", target, e.getMessage());
             return false;
         }
     }

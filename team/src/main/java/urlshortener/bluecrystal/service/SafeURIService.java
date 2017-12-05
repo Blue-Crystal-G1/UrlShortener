@@ -21,9 +21,12 @@ public class SafeURIService {
 
     public boolean isSafe(String target) {
         FindThreatMatchesResponse response = googleSafeBrowsingService.checkUrl(target);
-        List<ThreatMatch> matches = response.getMatches();
+        if(response != null) {
+            List<ThreatMatch> matches = response.getMatches();
 
-        return urlIsSafe(matches);
+            return urlIsSafe(matches);
+        }
+        else return false;
     }
 
     private boolean urlIsSafe(List<ThreatMatch> matches) {

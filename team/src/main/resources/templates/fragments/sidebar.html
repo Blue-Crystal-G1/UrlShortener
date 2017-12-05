@@ -2,13 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <!--<link rel="stylesheet" type="text/css" href="/static/css/style.css"-->
-          <!--media="screen, projection" th:href="@{/css/style.css}"/>-->
 </head>
 <body>
     <nav class="bg-white sidebar sidebar-fixed sidebar-offcanvas" id="sidebar" th:fragment="sidebar">
         <div class="user-info">
-            <!--th:src="@{/resources/static/images/icons/008-user.png}"-->
             <img src="/static/images/icons/008-user.png" alt="UserIcon"
                  th:src="@{/images/icons/008-user.png}"/>
             <p class="name">Nombre Apellido</p>
@@ -17,7 +14,7 @@
         </div>
         <ul class="nav">
             <li class="nav-item"><!--active-->
-                <a class="nav-link" href="#">
+                <a class="nav-link" th:href="@{/}">
                     <img src="/static/images/icons/006-house.png" alt="HomeIcon"
                          th:src="@{/images/icons/006-house.png}"/>
                     <span class="menu-title">Inicio</span>
@@ -46,10 +43,5 @@
             </li>
         </ul>
     </nav>
-
-    <!--<script type="text/javascript" src="/static/js/off-canvas.js"></script>-->
-    <!--<script type="text/javascript" src="/static/js/hoverable-collapse.js"></script>-->
-    <!--<script type="text/javascript" src="/static/js/misc.js"></script>-->
-
 </body>
 </html>

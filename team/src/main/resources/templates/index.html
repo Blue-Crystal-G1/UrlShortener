@@ -4,6 +4,7 @@
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 </head>
 <body>
+
 <div class="content-wrapper" th:fragment="content">
     <h3 class="text-primary mb-4">Inicio</h3>
     <div class="row mb-2">
@@ -30,7 +31,7 @@
             <div class="card">
                 <div class="card-block">
                     <h5 class="card-title mb-4">Mis URL acortadas</h5>
-                    <div class="table-responsive">
+                    <div class="table-responsive" th:fragment="shortList" id="shortList">
                         <table class="table center-aligned-table">
                             <thead>
                                 <tr class="text-primary">
@@ -53,7 +54,7 @@
                                     <td th:if="${shortUrl.safe} != 1"><label class="badge badge-danger">No segura</label></td>
                                     <td th:if="${shortUrl.available} == 1"><label class="badge badge-success">Disponible</label></td>
                                     <td th:if="${shortUrl.available} != 1"><label class="badge badge-danger">No disponible</label></td>
-                                    <td><a th:href="@{/infourl}" class="btn btn-primary btn-sm">Información</a></td>
+                                    <td><a th:href="@{/urlInfo/{id}(id=${shortUrl.hash})}" class="btn btn-primary btn-sm">Información</a></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -62,67 +63,11 @@
             </div>
         </div>
     </div>
-
-    <th:block th:fragment="assets">
-        <script type="text/javascript" th:src="@{/js/bootstrap-dialog.min.js}"></script>
-    <!--<script th:inline="javascript">-->
-    <!--$(document).ready(function() {-->
-    <!--$("#shortener").submit(function(event) {-->
-    <!--event.preventDefault();-->
-    <!--$.ajax({-->
-    <!--type : "POST",-->
-    <!--url : "/link",-->
-    <!--data : $(this).serialize(),-->
-    <!--success : function(msg) {-->
-    <!--var uri = msg.uri;-->
-    <!--showDialogSuccess(uri);-->
-    <!--},-->
-    <!--error : function() {-->
-    <!--showDialogError();-->
-    <!--}-->
-    <!--});-->
-    <!--});-->
-    <!--/*<![CDATA[*/-->
-    <!--function showDialogSuccess(result) {-->
-    <!--var $richText = $('<div></div>');-->
-    <!--$richText.append('<strong>' + /*[[#{label.popupCreationUrl.success.title}]]*/ + ': </strong>');-->
-    <!--$richText.append('<a href="' + result + '">' + result + '</a>');-->
-
-    <!--BootstrapDialog.show({-->
-    <!--type: BootstrapDialog.TYPE_SUCCESS,-->
-    <!--title: /*[[#{label.popupCreationUrl.success.title}]]*/,-->
-    <!--message: $richText,-->
-    <!--draggable: false,-->
-    <!--buttons: [{-->
-    <!--label: 'Cerrar',-->
-    <!--cssClass: 'btn-info',-->
-    <!--action: function (dialogItself) {-->
-    <!--dialogItself.close();-->
-    <!--}-->
-    <!--}]-->
-    <!--})-->
-    <!--}-->
-
-    <!--function showDialogError() {-->
-    <!--BootstrapDialog.show({-->
-    <!--type: BootstrapDialog.TYPE_DANGER,-->
-    <!--title: /*[[#{label.popupCreationUrl.erorr.title}]]*/,-->
-    <!--message: /*[[#{label.popupCreationUrl.error.description}]]*/,-->
-    <!--draggable: false,-->
-    <!--buttons: [{-->
-    <!--label: 'Cerrar',-->
-    <!--cssClass: 'btn-info',-->
-    <!--action: function (dialogItself) {-->
-    <!--dialogItself.close();-->
-    <!--}-->
-    <!--}]-->
-    <!--})-->
-    <!--}-->
-    <!--/*]]>*/-->
-    <!--});-->
-    <!--</script>-->
-        <script type="text/javascript" th:src="@{/js/index.js}"></script>
-    </th:block>
 </div>
+
+<th:block th:fragment="assets">
+    <script type="text/javascript" th:src="@{/js/index.js}"></script>
+</th:block>
+
 </body>
 </html>

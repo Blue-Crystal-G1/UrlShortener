@@ -7,9 +7,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import urlshortener.bluecrystal.domain.Click;
 import urlshortener.bluecrystal.domain.ShortURL;
-import urlshortener.bluecrystal.domain.messages.URLClicksInfo;
-import urlshortener.bluecrystal.domain.messages.URLClicksInfoCountriesInfo;
-import urlshortener.bluecrystal.domain.messages.URLInfo;
+import urlshortener.bluecrystal.domain.messages.*;
 import urlshortener.bluecrystal.repository.ClickRepository;
 import urlshortener.bluecrystal.repository.ShortURLRepository;
 
@@ -66,17 +64,21 @@ public class ShortUrlService {
                 // Store all the data into the variable
                 countriesInfo.forEach((k,v) -> urlClicksInfo.addCountriesInfoItem(
                         new URLClicksInfoCountriesInfo(k,v)));
-                countriesInfo.forEach((k,v) -> urlClicksInfo.addCountriesInfoItem(
-                        new URLClicksInfoCountriesInfo(k,v)));
-                countriesInfo.forEach((k,v) -> urlClicksInfo.addCountriesInfoItem(
-                        new URLClicksInfoCountriesInfo(k,v)));
-                countriesInfo.forEach((k,v) -> urlClicksInfo.addCountriesInfoItem(
-                        new URLClicksInfoCountriesInfo(k,v)));
+                referrersInfo.forEach((k,v) -> urlClicksInfo.addReferrersInfoItem(
+                        new URLClicksInfoReferrersInfo(k,v)));
+                platformsInfo.forEach((k,v) -> urlClicksInfo.addPlatformsInfoItem(
+                        new URLClicksInfoPlatformsInfo(k,v)));
+                browsersInfo.forEach((k,v) -> urlClicksInfo.addBrowsersInfoItem(
+                        new URLClicksInfoBrowsersInfo(k,v)));
                 urlClicksInfo.setUrlInfo(mapShortUrlToUrlInfo(shortURL, totalClicks));
 
             }
             else {
                 urlClicksInfo.setUrlInfo(mapShortUrlToUrlInfo(shortURL, 0));
+                urlClicksInfo.addBrowsersInfoItem(new URLClicksInfoBrowsersInfo("desconocido", 0));
+                urlClicksInfo.addPlatformsInfoItem(new URLClicksInfoPlatformsInfo("desconocido", 0));
+                urlClicksInfo.addReferrersInfoItem(new URLClicksInfoReferrersInfo("desconocido", 0));
+                urlClicksInfo.addCountriesInfoItem(new URLClicksInfoCountriesInfo("desconocido", 0));
             }
 
             return urlClicksInfo;

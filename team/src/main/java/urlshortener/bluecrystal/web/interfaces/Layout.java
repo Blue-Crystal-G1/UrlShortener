@@ -1,4 +1,4 @@
-package urlshortener.bluecrystal.config;
+package urlshortener.bluecrystal.web.interfaces;
 
 import java.lang.annotation.*;
 

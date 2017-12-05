@@ -1,20 +1,15 @@
 package urlshortener.bluecrystal.repository;
 
-import org.apache.tomcat.jni.Local;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 import urlshortener.bluecrystal.domain.Click;
-import urlshortener.bluecrystal.repository.ClickRepository;
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
@@ -32,9 +27,9 @@ public class clickRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        test = new Click(0L,"hash1",LocalDate.now(),"localhost", "IE9", "W10",
+        test = new Click("hash1", LocalDateTime.now(),"localhost", "IE9", "W10",
                 "localhost", "Turkey");
-        test2 = new Click(1L,"hash2",LocalDate.now(),"localhost2", "chrome", "Android",
+        test2 = new Click("hash2",LocalDateTime.now(),"localhost2", "chrome", "Android",
                 "localhost", "Spain");
     }
 

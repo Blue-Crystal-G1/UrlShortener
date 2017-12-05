@@ -6696,6 +6696,36 @@ table.center-aligned-table tr td {
     border-color: transparent;
     border-radius: 0; }
 
+.ol-popup {
+    position: absolute;
+    background-color: white;
+    -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+    filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+    padding: 4px;
+    border-radius: 4px;
+    border: 1px solid #cccccc;
+    white-space: nowrap;
+    bottom: 12px;
+    left: -70px;
+
+}
+
+.ol-popup:after, .ol-popup:before {
+    top: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.map {
+    max-width: 515px;
+    width: 100%;
+    height: 343px;
+    margin: auto !important;
+}
 
 /*Esto es lo que tenía anteriormente*/
 /*.fade {*/

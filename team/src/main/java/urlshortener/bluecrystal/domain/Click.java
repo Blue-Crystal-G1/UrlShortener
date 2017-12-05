@@ -55,9 +55,8 @@ public class Click {
         return this;
     }
 
-    public Click(Long id, String hash, LocalDateTime created, String referrer, String browser,
+    public Click(String hash, LocalDateTime created, String referrer, String browser,
                  String platform, String ip, String country) {
-        this.id = id;
         this.hash = hash;
         this.created = created;
         this.referrer = referrer;

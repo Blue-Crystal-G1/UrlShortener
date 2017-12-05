@@ -1,26 +1,19 @@
-$("#shortener").submit(function(event) {
-    event.preventDefault();
-    $.post('/link', $(this).serialize())
-        .done(function (msg) {
-            var uri = msg.uri;
-            showDialogSuccess(uri);
-        })
-        .fail(function () {
-            showDialogError();
-        });
-    //
-    // $.ajax({
-    //     type : "POST",
-    //     url : "/link",
-    //     data : $(this).serialize(),
-    //     success : function(msg) {
-    //         var uri = msg.uri;
-    //         showDialogSuccess(uri);
-    //     },
-    //     error : function() {
-    //         showDialogError();
-    //     }
-    // });
+$(document).ready(function() {
+    $("#shortList").load('/urlInfoAjax')
+
+    $("#shortener").submit(function(event) {
+        event.preventDefault();
+        $.post('/link', $(this).serialize())
+            .done(function (msg) {
+                // Show popup with shorted url
+                showDialogSuccess(msg.uri);
+                // Update table with shorted urls
+                $("#shortList").load('/urlInfoAjax');
+            })
+            .fail(function () {
+                showDialogError();
+            });
+    });
 });
 
 function showDialogSuccess(result) {

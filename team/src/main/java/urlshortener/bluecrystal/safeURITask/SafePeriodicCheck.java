@@ -23,7 +23,7 @@ public class SafePeriodicCheck {
 
     // Checks every 5 seconds. For fast testing purposes
     // example threat MALWARE -> http://ianfette.org/
-    @Scheduled(fixedDelay = 5000L)
+    @Scheduled(fixedDelay = 50000L)
     @Transactional
     public void checkSecurity() {
         LOGGER.info("Check URL security");
