@@ -1,6 +1,8 @@
 package urlshortener.bluecrystal.service;
 
 import org.ocpsoft.prettytime.PrettyTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -16,6 +18,8 @@ import java.util.*;
 
 @Service
 public class ShortUrlService {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(ShortUrlService.class);
 
     @Autowired
     private ShortURLRepository shortURLRepository;

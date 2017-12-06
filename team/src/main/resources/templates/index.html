@@ -23,8 +23,8 @@
                         </div>
                     </form>
                 </div>
-                </div>
             </div>
+        </div>
     </div>
     <div class="row mb-2">
         <div class="col-lg-12">
@@ -34,28 +34,28 @@
                     <div class="table-responsive" th:fragment="shortList" id="shortList">
                         <table class="table center-aligned-table">
                             <thead>
-                                <tr class="text-primary">
-                                    <th>URL original</th>
-                                    <th>Creación</th>
-                                    <th>URL acortada</th>
-                                    <th>Clicks</th>
-                                    <th>Segura</th>
-                                    <th>Disponible</th>
-                                    <th></th>
-                                </tr>
+                            <tr class="text-primary">
+                                <th>URL original</th>
+                                <th>Creación</th>
+                                <th>URL acortada</th>
+                                <th>Clicks</th>
+                                <th>Segura</th>
+                                <th>Disponible</th>
+                                <th></th>
+                            </tr>
                             </thead>
                             <tbody>
-                                <tr th:each="shortUrl : ${info}" class = "">
-                                    <td><a class="btn btn-link pl-0" th:href="${shortUrl.target}" th:text="${shortUrl.target}"></a></td>
-                                    <td><a th:text="${shortUrl.created}">hace 1 hora</a></td>
-                                    <td><a class="btn btn-link pl-0" th:href="${shortUrl.uri}" th:text="${shortUrl.uri}">localhost:8080/hash</a></td>
-                                    <td><a th:text="${shortUrl.totalClicks}">3</a></td>
-                                    <td th:if="${shortUrl.safe} == 1"><label class="badge badge-success">Segura</label></td>
-                                    <td th:if="${shortUrl.safe} != 1"><label class="badge badge-danger">No segura</label></td>
-                                    <td th:if="${shortUrl.available} == 1"><label class="badge badge-success">Disponible</label></td>
-                                    <td th:if="${shortUrl.available} != 1"><label class="badge badge-danger">No disponible</label></td>
-                                    <td><a th:href="@{/urlInfo/{id}(id=${shortUrl.hash})}" class="btn btn-primary btn-sm">Información</a></td>
-                                </tr>
+                            <tr th:each="shortUrl : ${info}" class = "">
+                                <td><a class="btn btn-link pl-0" th:href="${shortUrl.target}" th:text="${shortUrl.target}"></a></td>
+                                <td><a th:text="${shortUrl.created}">hace 1 hora</a></td>
+                                <td><a class="btn btn-link pl-0" <a th:href="@{/advertising/{hash}(hash=${shortUrl.hash})}" th:text="${shortUrl.uri}">localhost:8080/hash</a></td>
+                                <td><a th:text="${shortUrl.totalClicks}">3</a></td>
+                                <td th:if="${shortUrl.safe} == 1"><label class="badge badge-success">Segura</label></td>
+                                <td th:if="${shortUrl.safe} != 1"><label class="badge badge-danger">No segura</label></td>
+                                <td th:if="${shortUrl.available} == 1"><label class="badge badge-success">Disponible</label></td>
+                                <td th:if="${shortUrl.available} != 1"><label class="badge badge-danger">No disponible</label></td>
+                                <td><a th:href="@{/urlInfo/{id}(id=${shortUrl.hash})}" class="btn btn-primary btn-sm">Información</a></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>

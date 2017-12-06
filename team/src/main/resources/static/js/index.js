@@ -6,7 +6,7 @@ $(document).ready(function() {
         $.post('/link', $(this).serialize())
             .done(function (msg) {
                 // Show popup with shorted url
-                showDialogSuccess(msg.uri);
+                showDialogSuccess(msg.hash, msg.uri);
                 // Update table with shorted urls
                 $("#shortList").load('/urlInfoAjax');
             })
@@ -16,11 +16,10 @@ $(document).ready(function() {
     });
 });
 
-function showDialogSuccess(result) {
+function showDialogSuccess(hash, uri) {
     var $richText = $('<div></div>');
     $richText.append('<strong>Esta es tu URL acortada: </strong>');
-    $richText.append('<a href="' + result + '">' + result + '</a>');
-
+    $richText.append('<a href="/advertising/' + hash + '">' + uri + '</a>');
     BootstrapDialog.show({
         type: BootstrapDialog.TYPE_SUCCESS,
         title: "URL generada con éxito",

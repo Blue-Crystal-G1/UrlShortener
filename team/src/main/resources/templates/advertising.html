@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+</head>
+<body>
+
+<div class="content-wrapper" th:fragment="content">
+    <div class="row mb-2">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-block">
+                    <div class="background">
+                        <img class="stretch" src="/static/images/advertising.png" alt="AdvertisingImage"
+                             th:src="@{/images/advertising.png}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-lg-12">
+            <div id = "divurlshorted" class="card">
+                <div class="card-block">
+                    <div id="shorted" style="text-align:center;">
+                        <h3>Debes esperar <span id="seconds">10</span>
+                            segundos antes de poder acceder al enlace</h3>
+                        <div><h3><i class="fa fa-spin fa-spinner"></i></h3></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:fragment="assets">
+    <script type="text/javascript" th:src="@{/js/index.js}"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var hash = [[${hash}]];
+        /*]]>*/
+
+        setTimeout(function () {
+            openInNewTab(hash);
+        }, 10000);
+
+        var lastSeconds = 10;
+        setInterval(function () {
+            lastSeconds--;
+            $('#seconds').html(lastSeconds);
+        }, 1000);
+
+        function openInNewTab(hash) {
+            $.get('/advertising/url', {hash:hash})
+                .done(function (msg) {
+                    $('#shorted').html("<h3><a target='_blank' href='" + msg + "'>" + msg + "</a></h3>");
+                })
+                .fail(function () {
+                    $('#shorted').html("<h3>Se ha producido un error al obtener la URL acortada</h3>");
+                });
+        }
+    </script>
+</th:block>
+
+</body>
+</html>

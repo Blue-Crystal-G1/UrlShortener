@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
 import urlshortener.bluecrystal.domain.Click;
 import urlshortener.bluecrystal.domain.ShortURL;
 import urlshortener.bluecrystal.repository.ClickRepository;
@@ -19,6 +20,7 @@ import urlshortener.bluecrystal.service.ShortUrlService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -73,7 +75,7 @@ public class UrlShortenerController {
     }
 
     /**
-     * Extracts the ip of a given request
+     * Extract the ip of a given request
      * @param request request to extract browser
      * @return browser, or null if none is detected
      */
@@ -82,8 +84,22 @@ public class UrlShortenerController {
         return "199.212.191.92";
     }
 
+    /**
+     * Extract the referrer of a given request
+     * @param request request to extract the referrer
+     * @return referrer, or null if there were problems with headers
+     */
     private String extractReferrer(HttpServletRequest request) {
-        return request.getHeader(HttpHeaders.REFERER);
+        String referrer = null;
+        if(!StringUtils.isEmpty(request.getHeader(HttpHeaders.REFERER))) {
+            try {
+                referrer = new URI(request.getHeader(HttpHeaders.REFERER)).getHost();
+            } catch (URISyntaxException e) {
+                logger.info("Obtaining referrer");
+            }
+        }
+
+        return referrer;
     }
 
     /**
