@@ -6446,11 +6446,11 @@ select.selectpicker {
 
 .icon-grey-big {
     color: #636c72;
-    font-size: 2.5rem; }
+    font-size: 2.5rem !important; }
 
 .icon-grey-medium {
     color: #636c72;
-    font-size: 1.5rem; }
+    font-size: 1.5rem !important; }
 
 .error-page h1 {
     font-size: 12rem; }

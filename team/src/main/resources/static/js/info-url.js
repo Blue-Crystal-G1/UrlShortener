@@ -15,8 +15,7 @@ function convertHex(hex,opacity){
     var g = parseInt(hex.substring(2,4), 16);
     var b = parseInt(hex.substring(4,6), 16);
 
-    var result = 'rgba('+r+','+g+','+b+','+opacity/100+')';
-    return result;
+    return 'rgba('+r+','+g+','+b+','+opacity/100+')';
 }
 
 function getRandomColor() {
@@ -63,31 +62,43 @@ elements: {
     radius: 3,
     hitRadius: 6,
     hoverRadius: 6,
-    hoverBorderWidth: 3,
+    hoverBorderWidth: 3
   }
-},
+}
 };
 
 if($("#clicks-chart").length) {
     var ctx = $("#clicks-chart").get(0).getContext("2d");
     //var ctx = $('#main-chart');
-    var mainChart = new Chart(ctx, {
+    new Chart(ctx, {
         type: 'line',
         data: trafficData,
         options: trafficOptions
     });
 }
 
+// Referrers chart
 function showReferrersGraphic(referrersInfo) {
-
-    // Referrers chart
-    var referrersData = {
-        labels: referrersInfo.map(function(obj) { return obj[0] }),
-        datasets: [{
-            data: referrersInfo.map(function(obj) { return obj[1] }),
-            backgroundColor: referrersInfo.map(function() { return getRandomColor() })
-        }]
-    };
+    var referrersData;
+    // Check if there aren't click information yet
+    if(referrersInfo.length === 1 && referrersInfo[0][1] === 0) {
+        referrersData = {
+            labels: ["No hay datos"],
+            datasets: [{
+                data: [1],
+                backgroundColor: ['#000000']
+            }]
+        };
+    }
+    else {
+        referrersData = {
+            labels: referrersInfo.map(function(obj) { return obj[0] }),
+            datasets: [{
+                data: referrersInfo.map(function(obj) { return obj[1] }),
+                backgroundColor: referrersInfo.map(function() { return getRandomColor() })
+            }]
+        };
+    }
 
     var referrersOptions = {
         responsive: true,
@@ -99,7 +110,7 @@ function showReferrersGraphic(referrersInfo) {
 
     if ($("#referrers-chart").length) {
         var doughnutChartCanvas = $("#referrers-chart").get(0).getContext("2d");
-        var doughnutChart = new Chart(doughnutChartCanvas, {
+        new Chart(doughnutChartCanvas, {
             type: 'doughnut',
             data: referrersData,
             options: referrersOptions
@@ -138,7 +149,7 @@ function showPlatformsGraphic(platformsInfo) {
     if ($("#platforms-chart").length) {
         var barChartCanvas = $("#platforms-chart").get(0).getContext("2d");
         // This will get the first returned node in the jQuery collection.
-        var barChart = new Chart(barChartCanvas, {
+        new Chart(barChartCanvas, {
             type: 'bar',
             data: platformsData,
             options: platformsOptions
@@ -176,7 +187,7 @@ function showBrowsersGraphic(browsersInfo) {
 
     if ($("#browsers-chart").length) {
         var barChartCanvas = $("#browsers-chart").get(0).getContext("2d");
-        var barChart = new Chart(barChartCanvas, {
+        new Chart(barChartCanvas, {
             type: 'bar',
             data: browsersData,
             options: browsersOptions
