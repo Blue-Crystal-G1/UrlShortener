@@ -12,6 +12,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'org.springframework.boot:spring-boot-starter-websocket'
 
+
     compile 'org.springframework.hateoas:spring-hateoas'
     compile 'commons-validator:commons-validator:1.6'
     compile 'com.google.guava:guava:23.0'
@@ -39,9 +40,14 @@ dependencies {
     compile 'org.thymeleaf:thymeleaf:3.0.9.RELEASE'
     compile 'org.thymeleaf:thymeleaf-spring4:3.0.9.RELEASE'
     compile 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.2.2'
+    compile 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4'
 
     // PrettyTime
     compile 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
+
+    // Spring Security
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.passay:passay:1.0'
 
 
     // Testing framework

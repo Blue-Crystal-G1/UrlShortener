@@ -7,6 +7,8 @@ import java.lang.annotation.*;
 @Documented
 public @interface Layout {
     String NONE = "none"; // no layout will be used
+    String SIMPLE = "layouts/simple";
+    String DEFAULT = "layouts/default";
 
     String value();
 }

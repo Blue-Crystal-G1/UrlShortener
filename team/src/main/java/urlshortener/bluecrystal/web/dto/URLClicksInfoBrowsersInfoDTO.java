@@ -1,4 +1,4 @@
-package urlshortener.bluecrystal.domain.messages;
+package urlshortener.bluecrystal.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
@@ -6,43 +6,43 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 
 /**
- * URLClicksInfoReferrersInfo
+ * URLClicksInfoBrowsersInfoDTO
  */
 
-public class URLClicksInfoReferrersInfo {
-    @JsonProperty("referrer")
-    private String referrer = null;
+public class URLClicksInfoBrowsersInfoDTO {
+    @JsonProperty("browser")
+    private String browser = null;
 
     @JsonProperty("counter")
     private Integer counter = null;
 
-    public URLClicksInfoReferrersInfo(String referrer, Integer counter) {
-        this.referrer = referrer;
+    public URLClicksInfoBrowsersInfoDTO(String browser, Integer counter) {
+        this.browser = browser;
         this.counter = counter;
     }
 
-    public URLClicksInfoReferrersInfo referrer(String referrer) {
-        this.referrer = referrer;
+    public URLClicksInfoBrowsersInfoDTO browser(String browser) {
+        this.browser = browser;
         return this;
     }
 
     /**
-     * Get referrer
+     * Get browser
      *
-     * @return referrer
+     * @return browser
      **/
     @ApiModelProperty(value = "")
 
 
-    public String getReferrer() {
-        return referrer;
+    public String getBrowser() {
+        return browser;
     }
 
-    public void setReferrer(String referrer) {
-        this.referrer = referrer;
+    public void setBrowser(String browser) {
+        this.browser = browser;
     }
 
-    public URLClicksInfoReferrersInfo counter(Integer counter) {
+    public URLClicksInfoBrowsersInfoDTO counter(Integer counter) {
         this.counter = counter;
         return this;
     }
@@ -72,22 +72,22 @@ public class URLClicksInfoReferrersInfo {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        URLClicksInfoReferrersInfo urLClicksInfoReferrersInfo = (URLClicksInfoReferrersInfo) o;
-        return Objects.equals(this.referrer, urLClicksInfoReferrersInfo.referrer) &&
-                Objects.equals(this.counter, urLClicksInfoReferrersInfo.counter);
+        URLClicksInfoBrowsersInfoDTO urLClicksInfoBrowsersInfo = (URLClicksInfoBrowsersInfoDTO) o;
+        return Objects.equals(this.browser, urLClicksInfoBrowsersInfo.browser) &&
+                Objects.equals(this.counter, urLClicksInfoBrowsersInfo.counter);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(referrer, counter);
+        return Objects.hash(browser, counter);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class URLClicksInfoReferrersInfo {\n");
+        sb.append("class URLClicksInfoBrowsersInfoDTO {\n");
 
-        sb.append("    referrer: ").append(toIndentedString(referrer)).append("\n");
+        sb.append("    browser: ").append(toIndentedString(browser)).append("\n");
         sb.append("    counter: ").append(toIndentedString(counter)).append("\n");
         sb.append("}");
         return sb.toString();

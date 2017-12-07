@@ -13,7 +13,7 @@
             <span class="online"></span>
         </div>
         <ul class="nav">
-            <li class="nav-item"><!--active-->
+            <li class="nav-item active"><!--active-->
                 <a class="nav-link" th:href="@{/}">
                     <img src="/static/images/icons/006-house.png" alt="HomeIcon"
                          th:src="@{/images/icons/006-house.png}"/>
@@ -35,7 +35,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="../../pages/logout.html">
+                <a class="nav-link" th:href="@{/logout}">
                     <img src="/static/images/icons/009-exit.png" alt="LogoutIcon"
                          th:src="@{/images/icons/009-exit.png}"/>
                     <span class="menu-title">Cerrar sesión</span>

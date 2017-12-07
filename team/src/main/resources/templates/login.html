@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+<body>
+    <div class="container-fluid" th:fragment="content">
+        <div class="row justify-content-center">
+            <div class="content-wrapper full-page-wrapper d-flex align-items-center">
+                <div class="col-lg-8 offset-lg-2 col-12">
+                    <div class="card-group mb-0">
+                        <div class="card p-4">
+                            <div class="card-body">
+                                <h2 class="card-title text-primary text-left mb-3 mt-4" th:text="#{label.form.login.loginTitle}">Login</h2>
+                                <p th:text="#{label.form.login.loginSubtitle}">Inicia sesión con tu cuenta</p>
+                                <form name="f" action="login" method="POST" onsubmit="return validate();">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                            <input id="f-mail" name="username" type="text" class="form-control" th:placeholder="#{label.form.login.loginEmail}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                            <input id="f-pass" name="password" type="password" class="form-control" th:placeholder="#{label.form.login.loginPassword}">
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-5 col-5">
+                                            <button type="submit" class="btn btn-primary px-4">Login</button>
+                                        </div>
+                                        <div class="col-lg-7 col-7 text-right">
+                                            <button type="button" class="btn btn-link px-0">Olvidé mi contraseña</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="card text-white bg-primary p-4">
+                            <div class="card-body text-center">
+                                <div>
+                                    <h2 class="card-title text-center text-left mb-3 mt-4">Registrarse</h2>
+                                    <p>Empieza a recortar tus links! Regístrate ahora</p>
+                                    <button type="button" class="btn btn-primary active mt-3">Registrarse</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <th:block th:fragment="assets">
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+
+            $(document).ready(function () {
+                var error = [[${param.error}]];
+                if(error) setRedBorders();
+            });
+
+            function validate() {
+                if (document.f.username.value === "" && document.f.password.value === "") {
+                    setRedBorders();
+                    document.f.username.focus();
+                    return false;
+                }
+                if (document.f.username.value === "") {
+                    setRedBorders();
+                    document.f.username.focus();
+                    return false;
+                }
+                if (document.f.password.value === "") {
+                    setRedBorders();
+                    document.f.password.focus();
+                    return false;
+                }
+            }
+
+            function setRedBorders() {
+                $('#f-mail').css('border','2px solid red');
+                $('#f-pass').css('border','2px solid red');
+            }
+            /*]]>*/
+        </script>
+    </th:block>
+</body>
+
+</html>

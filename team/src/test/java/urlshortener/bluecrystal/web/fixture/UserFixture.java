@@ -5,10 +5,10 @@ import urlshortener.bluecrystal.domain.User;
 public class UserFixture {
 
     public static User exampleUser() {
-        return new User(1L,"user1","John","Doe","john@doe.com","hashedpass","555-1234",false);
+        return new User("John","Doe","john@doe.com","hashedpass");
     }
 
     public static User badFormedUser() {
-        return new User(400L,"user1","John","Doe","john@doe.com","hashedpass","555-1234",false);
+        return new User("John","Doe","john@doe.com","hashedpass");
     }
 }

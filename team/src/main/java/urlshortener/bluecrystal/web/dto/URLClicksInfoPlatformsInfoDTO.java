@@ -1,4 +1,4 @@
-package urlshortener.bluecrystal.domain.messages;
+package urlshortener.bluecrystal.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
@@ -6,43 +6,43 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 
 /**
- * URLClicksInfoBrowsersInfo
+ * URLClicksInfoPlatformsInfoDTO
  */
 
-public class URLClicksInfoBrowsersInfo {
-    @JsonProperty("browser")
-    private String browser = null;
+public class URLClicksInfoPlatformsInfoDTO {
+    @JsonProperty("platform")
+    private String platform = null;
 
     @JsonProperty("counter")
     private Integer counter = null;
 
-    public URLClicksInfoBrowsersInfo(String browser, Integer counter) {
-        this.browser = browser;
+    public URLClicksInfoPlatformsInfoDTO(String platform, Integer counter) {
+        this.platform = platform;
         this.counter = counter;
     }
 
-    public URLClicksInfoBrowsersInfo browser(String browser) {
-        this.browser = browser;
+    public URLClicksInfoPlatformsInfoDTO platform(String platform) {
+        this.platform = platform;
         return this;
     }
 
     /**
-     * Get browser
+     * Get platform
      *
-     * @return browser
+     * @return platform
      **/
     @ApiModelProperty(value = "")
 
 
-    public String getBrowser() {
-        return browser;
+    public String getPlatform() {
+        return platform;
     }
 
-    public void setBrowser(String browser) {
-        this.browser = browser;
+    public void setPlatform(String platform) {
+        this.platform = platform;
     }
 
-    public URLClicksInfoBrowsersInfo counter(Integer counter) {
+    public URLClicksInfoPlatformsInfoDTO counter(Integer counter) {
         this.counter = counter;
         return this;
     }
@@ -72,22 +72,22 @@ public class URLClicksInfoBrowsersInfo {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        URLClicksInfoBrowsersInfo urLClicksInfoBrowsersInfo = (URLClicksInfoBrowsersInfo) o;
-        return Objects.equals(this.browser, urLClicksInfoBrowsersInfo.browser) &&
-                Objects.equals(this.counter, urLClicksInfoBrowsersInfo.counter);
+        URLClicksInfoPlatformsInfoDTO urLClicksInfoPlatformsInfo = (URLClicksInfoPlatformsInfoDTO) o;
+        return Objects.equals(this.platform, urLClicksInfoPlatformsInfo.platform) &&
+                Objects.equals(this.counter, urLClicksInfoPlatformsInfo.counter);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(browser, counter);
+        return Objects.hash(platform, counter);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class URLClicksInfoBrowsersInfo {\n");
+        sb.append("class URLClicksInfoPlatformsInfoDTO {\n");
 
-        sb.append("    browser: ").append(toIndentedString(browser)).append("\n");
+        sb.append("    platform: ").append(toIndentedString(platform)).append("\n");
         sb.append("    counter: ").append(toIndentedString(counter)).append("\n");
         sb.append("}");
         return sb.toString();

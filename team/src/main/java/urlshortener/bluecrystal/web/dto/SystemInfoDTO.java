@@ -1,4 +1,4 @@
-package urlshortener.bluecrystal.domain.messages;
+package urlshortener.bluecrystal.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * SystemInfo
+ * SystemInfoDTO
  */
 
-public class SystemInfo   {
+public class SystemInfoDTO {
   @JsonProperty("upTime")
   private String upTime = null;
 
@@ -35,7 +35,7 @@ public class SystemInfo   {
   @JsonProperty("ramUsage")
   private List<SystemRamUsage> ramUsage = new ArrayList<SystemRamUsage>();
 
-  public SystemInfo upTime(String upTime) {
+  public SystemInfoDTO upTime(String upTime) {
     this.upTime = upTime;
     return this;
   }
@@ -53,7 +53,7 @@ public class SystemInfo   {
     this.upTime = upTime;
   }
 
-  public SystemInfo totalUsers(Integer totalUsers) {
+  public SystemInfoDTO totalUsers(Integer totalUsers) {
     this.totalUsers = totalUsers;
     return this;
   }
@@ -71,7 +71,7 @@ public class SystemInfo   {
     this.totalUsers = totalUsers;
   }
 
-  public SystemInfo totalUrls(Long totalUrls) {
+  public SystemInfoDTO totalUrls(Long totalUrls) {
     this.totalUrls = totalUrls;
     return this;
   }
@@ -89,7 +89,7 @@ public class SystemInfo   {
     this.totalUrls = totalUrls;
   }
 
-  public SystemInfo totalClicks(Long totalClicks) {
+  public SystemInfoDTO totalClicks(Long totalClicks) {
     this.totalClicks = totalClicks;
     return this;
   }
@@ -107,7 +107,7 @@ public class SystemInfo   {
     this.totalClicks = totalClicks;
   }
 
-  public SystemInfo lastRedirectionTime(Integer lastRedirectionTime) {
+  public SystemInfoDTO lastRedirectionTime(Integer lastRedirectionTime) {
     this.lastRedirectionTime = lastRedirectionTime;
     return this;
   }
@@ -125,12 +125,12 @@ public class SystemInfo   {
     this.lastRedirectionTime = lastRedirectionTime;
   }
 
-  public SystemInfo memoryUsage(List<SystemMemoryUsage> memoryUsage) {
+  public SystemInfoDTO memoryUsage(List<SystemMemoryUsage> memoryUsage) {
     this.memoryUsage = memoryUsage;
     return this;
   }
 
-  public SystemInfo addMemoryUsageItem(SystemMemoryUsage memoryUsageItem) {
+  public SystemInfoDTO addMemoryUsageItem(SystemMemoryUsage memoryUsageItem) {
     this.memoryUsage.add(memoryUsageItem);
     return this;
   }
@@ -148,12 +148,12 @@ public class SystemInfo   {
     this.memoryUsage = memoryUsage;
   }
 
-  public SystemInfo ramUsage(List<SystemRamUsage> ramUsage) {
+  public SystemInfoDTO ramUsage(List<SystemRamUsage> ramUsage) {
     this.ramUsage = ramUsage;
     return this;
   }
 
-  public SystemInfo addRamUsageItem(SystemRamUsage ramUsageItem) {
+  public SystemInfoDTO addRamUsageItem(SystemRamUsage ramUsageItem) {
     this.ramUsage.add(ramUsageItem);
     return this;
   }
@@ -180,7 +180,7 @@ public class SystemInfo   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SystemInfo systemInfo = (SystemInfo) o;
+    SystemInfoDTO systemInfo = (SystemInfoDTO) o;
     return Objects.equals(this.upTime, systemInfo.upTime) &&
         Objects.equals(this.totalUsers, systemInfo.totalUsers) &&
         Objects.equals(this.totalUrls, systemInfo.totalUrls) &&
@@ -198,7 +198,7 @@ public class SystemInfo   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SystemInfo {\n");
+    sb.append("class SystemInfoDTO {\n");
 
     sb.append("    upTime: ").append(toIndentedString(upTime)).append("\n");
     sb.append("    totalUsers: ").append(toIndentedString(totalUsers)).append("\n");

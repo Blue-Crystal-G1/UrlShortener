@@ -1,4 +1,4 @@
-package urlshortener.bluecrystal.domain.messages;
+package urlshortener.bluecrystal.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
@@ -6,43 +6,43 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 
 /**
- * URLClicksInfoCountriesInfo
+ * URLClicksInfoReferrersInfoDTO
  */
 
-public class URLClicksInfoCountriesInfo {
-    @JsonProperty("country")
-    private String country = null;
+public class URLClicksInfoReferrersInfoDTO {
+    @JsonProperty("referrer")
+    private String referrer = null;
 
     @JsonProperty("counter")
     private Integer counter = null;
 
-    public URLClicksInfoCountriesInfo(String country, Integer counter) {
-        this.country = country;
+    public URLClicksInfoReferrersInfoDTO(String referrer, Integer counter) {
+        this.referrer = referrer;
         this.counter = counter;
     }
 
-    public URLClicksInfoCountriesInfo country(String country) {
-        this.country = country;
+    public URLClicksInfoReferrersInfoDTO referrer(String referrer) {
+        this.referrer = referrer;
         return this;
     }
 
     /**
-     * Get country
+     * Get referrer
      *
-     * @return country
+     * @return referrer
      **/
     @ApiModelProperty(value = "")
 
 
-    public String getCountry() {
-        return country;
+    public String getReferrer() {
+        return referrer;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setReferrer(String referrer) {
+        this.referrer = referrer;
     }
 
-    public URLClicksInfoCountriesInfo counter(Integer counter) {
+    public URLClicksInfoReferrersInfoDTO counter(Integer counter) {
         this.counter = counter;
         return this;
     }
@@ -72,22 +72,22 @@ public class URLClicksInfoCountriesInfo {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        URLClicksInfoCountriesInfo urLClicksInfoCountriesInfo = (URLClicksInfoCountriesInfo) o;
-        return Objects.equals(this.country, urLClicksInfoCountriesInfo.country) &&
-                Objects.equals(this.counter, urLClicksInfoCountriesInfo.counter);
+        URLClicksInfoReferrersInfoDTO urLClicksInfoReferrersInfo = (URLClicksInfoReferrersInfoDTO) o;
+        return Objects.equals(this.referrer, urLClicksInfoReferrersInfo.referrer) &&
+                Objects.equals(this.counter, urLClicksInfoReferrersInfo.counter);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(country, counter);
+        return Objects.hash(referrer, counter);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class URLClicksInfoCountriesInfo {\n");
+        sb.append("class URLClicksInfoReferrersInfoDTO {\n");
 
-        sb.append("    country: ").append(toIndentedString(country)).append("\n");
+        sb.append("    referrer: ").append(toIndentedString(referrer)).append("\n");
         sb.append("    counter: ").append(toIndentedString(counter)).append("\n");
         sb.append("}");
         return sb.toString();
@@ -104,4 +104,3 @@ public class URLClicksInfoCountriesInfo {
         return o.toString().replace("\n", "\n    ");
     }
 }
-

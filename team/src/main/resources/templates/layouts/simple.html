@@ -1,11 +1,26 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>I am simple layout</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>BlueCrystal</title>
+    <link rel="shortcut icon" href="/static/images/favicon.png"
+          th:href="@{/images/favicon.png}"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css"
+          th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" type="text/css" href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css"
+          th:href="@{/webjars/font-awesome/4.7.0/css/font-awesome.min.css}"/>
 </head>
 <body>
-    <h1>Header in simple layout!</h1>
-    <div class="container" th:replace="${view} :: content">Content goes here!</div>
+    <div th:replace="${view} :: content">Content goes here!</div>
+
+
+    <!--Common JavaScript-->
+    <script type="text/javascript" th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+    <!--End Common JavaScript-->
+
+    <!--Specific view JavaScript-->
+    <th:block th:include="${view} :: assets">
+    </th:block>
+    <!--End Specific view JavaScript-->
 </body>
 </html>

@@ -1,4 +1,4 @@
-package urlshortener.bluecrystal.domain.messages;
+package urlshortener.bluecrystal.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
@@ -8,31 +8,31 @@ import javax.validation.Valid;
 import java.util.Objects;
 
 /**
- * URLClicksInfo
+ * URLClicksInfoDTO
  */
 @Validated
 
-public class URLClicksInfo   {
+public class URLClicksInfoDTO {
   @JsonProperty("urlInfo")
-  private URLInfo urlInfo = null;
+  private URLInfoDTO urlInfo = null;
 
   @JsonProperty("countriesInfo")
   @Valid
-  private java.util.List<URLClicksInfoCountriesInfo> countriesInfo = null;
+  private java.util.List<URLClicksInfoCountriesInfoDTO> countriesInfo = null;
 
   @JsonProperty("platformsInfo")
   @Valid
-  private java.util.List<URLClicksInfoPlatformsInfo> platformsInfo = null;
+  private java.util.List<URLClicksInfoPlatformsInfoDTO> platformsInfo = null;
 
   @JsonProperty("browsersInfo")
   @Valid
-  private java.util.List<URLClicksInfoBrowsersInfo> browsersInfo = null;
+  private java.util.List<URLClicksInfoBrowsersInfoDTO> browsersInfo = null;
 
   @JsonProperty("referrersInfo")
   @Valid
-  private java.util.List<URLClicksInfoReferrersInfo> referrersInfo = null;
+  private java.util.List<URLClicksInfoReferrersInfoDTO> referrersInfo = null;
 
-  public URLClicksInfo urlInfo(URLInfo urlInfo) {
+  public URLClicksInfoDTO urlInfo(URLInfoDTO urlInfo) {
     this.urlInfo = urlInfo;
     return this;
   }
@@ -45,20 +45,20 @@ public class URLClicksInfo   {
 
   @Valid
 
-  public URLInfo getUrlInfo() {
+  public URLInfoDTO getUrlInfo() {
     return urlInfo;
   }
 
-  public void setUrlInfo(URLInfo urlInfo) {
+  public void setUrlInfo(URLInfoDTO urlInfo) {
     this.urlInfo = urlInfo;
   }
 
-  public URLClicksInfo countriesInfo(java.util.List<URLClicksInfoCountriesInfo> countriesInfo) {
+  public URLClicksInfoDTO countriesInfo(java.util.List<URLClicksInfoCountriesInfoDTO> countriesInfo) {
     this.countriesInfo = countriesInfo;
     return this;
   }
 
-  public URLClicksInfo addCountriesInfoItem(URLClicksInfoCountriesInfo countriesInfoItem) {
+  public URLClicksInfoDTO addCountriesInfoItem(URLClicksInfoCountriesInfoDTO countriesInfoItem) {
     if (this.countriesInfo == null) {
       this.countriesInfo = new java.util.ArrayList<>();
     }
@@ -74,20 +74,20 @@ public class URLClicksInfo   {
 
   @Valid
 
-  public java.util.List<URLClicksInfoCountriesInfo> getCountriesInfo() {
+  public java.util.List<URLClicksInfoCountriesInfoDTO> getCountriesInfo() {
     return countriesInfo;
   }
 
-  public void setCountriesInfo(java.util.List<URLClicksInfoCountriesInfo> countriesInfo) {
+  public void setCountriesInfo(java.util.List<URLClicksInfoCountriesInfoDTO> countriesInfo) {
     this.countriesInfo = countriesInfo;
   }
 
-  public URLClicksInfo platformsInfo(java.util.List<URLClicksInfoPlatformsInfo> platformsInfo) {
+  public URLClicksInfoDTO platformsInfo(java.util.List<URLClicksInfoPlatformsInfoDTO> platformsInfo) {
     this.platformsInfo = platformsInfo;
     return this;
   }
 
-  public URLClicksInfo addPlatformsInfoItem(URLClicksInfoPlatformsInfo platformsInfoItem) {
+  public URLClicksInfoDTO addPlatformsInfoItem(URLClicksInfoPlatformsInfoDTO platformsInfoItem) {
     if (this.platformsInfo == null) {
       this.platformsInfo = new java.util.ArrayList<>();
     }
@@ -103,20 +103,20 @@ public class URLClicksInfo   {
 
   @Valid
 
-  public java.util.List<URLClicksInfoPlatformsInfo> getPlatformsInfo() {
+  public java.util.List<URLClicksInfoPlatformsInfoDTO> getPlatformsInfo() {
     return platformsInfo;
   }
 
-  public void setPlatformsInfo(java.util.List<URLClicksInfoPlatformsInfo> platformsInfo) {
+  public void setPlatformsInfo(java.util.List<URLClicksInfoPlatformsInfoDTO> platformsInfo) {
     this.platformsInfo = platformsInfo;
   }
 
-  public URLClicksInfo browsersInfo(java.util.List<URLClicksInfoBrowsersInfo> browsersInfo) {
+  public URLClicksInfoDTO browsersInfo(java.util.List<URLClicksInfoBrowsersInfoDTO> browsersInfo) {
     this.browsersInfo = browsersInfo;
     return this;
   }
 
-  public URLClicksInfo addBrowsersInfoItem(URLClicksInfoBrowsersInfo browsersInfoItem) {
+  public URLClicksInfoDTO addBrowsersInfoItem(URLClicksInfoBrowsersInfoDTO browsersInfoItem) {
     if (this.browsersInfo == null) {
       this.browsersInfo = new java.util.ArrayList<>();
     }
@@ -132,20 +132,20 @@ public class URLClicksInfo   {
 
   @Valid
 
-  public java.util.List<URLClicksInfoBrowsersInfo> getBrowsersInfo() {
+  public java.util.List<URLClicksInfoBrowsersInfoDTO> getBrowsersInfo() {
     return browsersInfo;
   }
 
-  public void setBrowsersInfo(java.util.List<URLClicksInfoBrowsersInfo> browsersInfo) {
+  public void setBrowsersInfo(java.util.List<URLClicksInfoBrowsersInfoDTO> browsersInfo) {
     this.browsersInfo = browsersInfo;
   }
 
-  public URLClicksInfo referrersInfo(java.util.List<URLClicksInfoReferrersInfo> referrersInfo) {
+  public URLClicksInfoDTO referrersInfo(java.util.List<URLClicksInfoReferrersInfoDTO> referrersInfo) {
     this.referrersInfo = referrersInfo;
     return this;
   }
 
-  public URLClicksInfo addReferrersInfoItem(URLClicksInfoReferrersInfo referrersInfoItem) {
+  public URLClicksInfoDTO addReferrersInfoItem(URLClicksInfoReferrersInfoDTO referrersInfoItem) {
     if (this.referrersInfo == null) {
       this.referrersInfo = new java.util.ArrayList<>();
     }
@@ -161,11 +161,11 @@ public class URLClicksInfo   {
 
   @Valid
 
-  public java.util.List<URLClicksInfoReferrersInfo> getReferrersInfo() {
+  public java.util.List<URLClicksInfoReferrersInfoDTO> getReferrersInfo() {
     return referrersInfo;
   }
 
-  public void setReferrersInfo(java.util.List<URLClicksInfoReferrersInfo> referrersInfo) {
+  public void setReferrersInfo(java.util.List<URLClicksInfoReferrersInfoDTO> referrersInfo) {
     this.referrersInfo = referrersInfo;
   }
 
@@ -178,7 +178,7 @@ public class URLClicksInfo   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    URLClicksInfo urLClicksInfo = (URLClicksInfo) o;
+    URLClicksInfoDTO urLClicksInfo = (URLClicksInfoDTO) o;
     return Objects.equals(this.urlInfo, urLClicksInfo.urlInfo) &&
         Objects.equals(this.countriesInfo, urLClicksInfo.countriesInfo) &&
         Objects.equals(this.platformsInfo, urLClicksInfo.platformsInfo) &&
@@ -194,7 +194,7 @@ public class URLClicksInfo   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class URLClicksInfo {\n");
+    sb.append("class URLClicksInfoDTO {\n");
     
     sb.append("    urlInfo: ").append(toIndentedString(urlInfo)).append("\n");
     sb.append("    countriesInfo: ").append(toIndentedString(countriesInfo)).append("\n");

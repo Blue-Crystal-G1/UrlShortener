@@ -3,51 +3,61 @@ package urlshortener.bluecrystal.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 
 /**
  * User
  */
 
+@Entity
+@Table(name = "USER")
 public class User {
+
+    @Id
+    @Column(name="ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
     private Long id = null;
 
-    @JsonProperty("username")
-    private String username = null;
-
+    @Column(name="FIRSTNAME")
     @JsonProperty("firstName")
     private String firstName = null;
 
+    @Column(name="LASTNAME")
     @JsonProperty("lastName")
     private String lastName = null;
 
+    @Column(name="EMAIL", unique = true)
     @JsonProperty("email")
     private String email = null;
 
+    @Column(name="PASSWORD")
     @JsonProperty("password")
     private String password = null;
 
-    @JsonProperty("phone")
-    private String phone = null;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "USERS_ROLES",
+            joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "ROLE_ID", referencedColumnName = "ID"))
+    private Collection<Role> roles;
 
-    @JsonProperty("enabled")
-    private Boolean enabled = null;
 
-    public User id(Long id) {
-        this.id = id;
-        return this;
+    public User() {
+        super();
     }
 
-    public User(Long id, String username, String firstName, String lastName, String email, String password, String phone, Boolean enabled) {
-        this.id = id;
-        this.username = username;
+    public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.phone = phone;
-        this.enabled = enabled;
+    }
+
+    public User id(Long id) {
+        this.id = id;
+        return this;
     }
 
     /**
@@ -59,29 +69,6 @@ public class User {
     @ApiModelProperty(value = "")
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User username(String username) {
-        this.username = username;
-        return this;
-    }
-
-    /**
-     * Get username
-     *
-     * @return username
-     **/
-    @ApiModelProperty(value = "")
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public User firstName(String firstName) {
@@ -160,44 +147,13 @@ public class User {
         this.password = password;
     }
 
-    public User phone(String phone) {
-        this.phone = phone;
-        return this;
+    public Collection<Role> getRoles() {
+        return roles;
     }
 
-    /**
-     * Get phone
-     *
-     * @return phone
-     **/
-    @ApiModelProperty(value = "")
-    public String getPhone() {
-        return phone;
+    public void setRoles(final Collection<Role> roles) {
+        this.roles = roles;
     }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public User enabled(Boolean enabled) {
-        this.enabled = enabled;
-        return this;
-    }
-
-    /**
-     * User is enabled or not
-     *
-     * @return enabled
-     **/
-    @ApiModelProperty(value = "User is enabled or not")
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -209,18 +165,15 @@ public class User {
         }
         User user = (User) o;
         return Objects.equals(this.id, user.id) &&
-                Objects.equals(this.username, user.username) &&
                 Objects.equals(this.firstName, user.firstName) &&
                 Objects.equals(this.lastName, user.lastName) &&
                 Objects.equals(this.email, user.email) &&
-                Objects.equals(this.password, user.password) &&
-                Objects.equals(this.phone, user.phone) &&
-                Objects.equals(this.enabled, user.enabled);
+                Objects.equals(this.password, user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, firstName, lastName, email, password, phone, enabled);
+        return Objects.hash(id, firstName, lastName, email, password);
     }
 
     @Override
@@ -229,13 +182,10 @@ public class User {
         sb.append("class User {\n");
 
         sb.append("    id: ").append(toIndentedString(id)).append("\n");
-        sb.append("    username: ").append(toIndentedString(username)).append("\n");
         sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
         sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
         sb.append("    email: ").append(toIndentedString(email)).append("\n");
         sb.append("    password: ").append(toIndentedString(password)).append("\n");
-        sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
-        sb.append("    enabled: ").append(toIndentedString(enabled)).append("\n");
         sb.append("}");
         return sb.toString();
     }

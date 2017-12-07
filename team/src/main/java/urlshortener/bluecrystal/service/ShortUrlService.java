@@ -9,9 +9,9 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import urlshortener.bluecrystal.domain.Click;
 import urlshortener.bluecrystal.domain.ShortURL;
-import urlshortener.bluecrystal.domain.messages.*;
 import urlshortener.bluecrystal.repository.ClickRepository;
 import urlshortener.bluecrystal.repository.ShortURLRepository;
+import urlshortener.bluecrystal.web.dto.*;
 
 import java.time.ZoneId;
 import java.util.*;
@@ -34,11 +34,11 @@ public class ShortUrlService {
      * @return information about the short url fetched. If the url defined
      *          by this hash doesn't exists, returns {@literal null}.
      */
-    public URLClicksInfo getInformationAboutUrlAndClicks(ShortURL shortURL) {
+    public URLClicksInfoDTO getInformationAboutUrlAndClicks(ShortURL shortURL) {
         if(shortURL != null)
         {
             List<Click> clicks = clickRepository.findByHash(shortURL.getHash());
-            URLClicksInfo urlClicksInfo = new URLClicksInfo();
+            URLClicksInfoDTO urlClicksInfo = new URLClicksInfoDTO();
 
             if(!CollectionUtils.isEmpty(clicks)) {
                 Map<String, Integer> countriesInfo = new HashMap<>();
@@ -67,22 +67,22 @@ public class ShortUrlService {
 
                 // Store all the data into the variable
                 countriesInfo.forEach((k,v) -> urlClicksInfo.addCountriesInfoItem(
-                        new URLClicksInfoCountriesInfo(k,v)));
+                        new URLClicksInfoCountriesInfoDTO(k,v)));
                 referrersInfo.forEach((k,v) -> urlClicksInfo.addReferrersInfoItem(
-                        new URLClicksInfoReferrersInfo(k,v)));
+                        new URLClicksInfoReferrersInfoDTO(k,v)));
                 platformsInfo.forEach((k,v) -> urlClicksInfo.addPlatformsInfoItem(
-                        new URLClicksInfoPlatformsInfo(k,v)));
+                        new URLClicksInfoPlatformsInfoDTO(k,v)));
                 browsersInfo.forEach((k,v) -> urlClicksInfo.addBrowsersInfoItem(
-                        new URLClicksInfoBrowsersInfo(k,v)));
+                        new URLClicksInfoBrowsersInfoDTO(k,v)));
                 urlClicksInfo.setUrlInfo(mapShortUrlToUrlInfo(shortURL, totalClicks));
 
             }
             else {
                 urlClicksInfo.setUrlInfo(mapShortUrlToUrlInfo(shortURL, 0));
-                urlClicksInfo.addBrowsersInfoItem(new URLClicksInfoBrowsersInfo("desconocido", 0));
-                urlClicksInfo.addPlatformsInfoItem(new URLClicksInfoPlatformsInfo("desconocido", 0));
-                urlClicksInfo.addReferrersInfoItem(new URLClicksInfoReferrersInfo("desconocido", 0));
-                urlClicksInfo.addCountriesInfoItem(new URLClicksInfoCountriesInfo("desconocido", 0));
+                urlClicksInfo.addBrowsersInfoItem(new URLClicksInfoBrowsersInfoDTO("desconocido", 0));
+                urlClicksInfo.addPlatformsInfoItem(new URLClicksInfoPlatformsInfoDTO("desconocido", 0));
+                urlClicksInfo.addReferrersInfoItem(new URLClicksInfoReferrersInfoDTO("desconocido", 0));
+                urlClicksInfo.addCountriesInfoItem(new URLClicksInfoCountriesInfoDTO("desconocido", 0));
             }
 
             return urlClicksInfo;
@@ -91,11 +91,11 @@ public class ShortUrlService {
         return null;
     }
 
-    public List<URLInfo> getInformationAboutAllUrls() {
+    public List<URLInfoDTO> getInformationAboutAllUrls() {
         List<ShortURL> shortURLList = shortURLRepository.findAll();
 
         if(!CollectionUtils.isEmpty(shortURLList)) {
-            List<URLInfo> urlInfoList = new ArrayList<>();
+            List<URLInfoDTO> urlInfoList = new ArrayList<>();
             shortURLList.forEach(shortURL -> urlInfoList.add(
                     mapShortUrlToUrlInfo(shortURL,
                             clickRepository.countClicksByHash(shortURL.getHash()))
@@ -119,9 +119,9 @@ public class ShortUrlService {
         else return null;
     }
 
-    private URLInfo mapShortUrlToUrlInfo(ShortURL shortURL, Integer totalClicks) {
+    private URLInfoDTO mapShortUrlToUrlInfo(ShortURL shortURL, Integer totalClicks) {
         PrettyTime pt = new PrettyTime();
-        URLInfo urlInfo = new URLInfo();
+        URLInfoDTO urlInfo = new URLInfoDTO();
 
         urlInfo.setHash(shortURL.getHash());
         urlInfo.setTarget(shortURL.getTarget());

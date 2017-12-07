@@ -1,4 +1,4 @@
-package urlshortener.bluecrystal.domain.messages;
+package urlshortener.bluecrystal.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
@@ -6,10 +6,10 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 
 /**
- * URLInfo
+ * URLInfoDTO
  */
 
-public class URLInfo {
+public class URLInfoDTO {
     @JsonProperty("hash")
     private String hash;
 
@@ -37,12 +37,12 @@ public class URLInfo {
     @JsonProperty("safe")
     private Integer safe = null;
 
-    public URLInfo() {
+    public URLInfoDTO() {
     }
 
-    public URLInfo(String hash, String target, String uri, String created, Integer totalClicks,
-                   String lastCheckAvailableDate, Integer available, String lastCheckSafeDate,
-                   Integer safe) {
+    public URLInfoDTO(String hash, String target, String uri, String created, Integer totalClicks,
+                      String lastCheckAvailableDate, Integer available, String lastCheckSafeDate,
+                      Integer safe) {
         this.hash = hash;
         this.target = target;
         this.uri = uri;
@@ -54,7 +54,7 @@ public class URLInfo {
         this.safe = safe;
     }
 
-    public URLInfo hash(String hash) {
+    public URLInfoDTO hash(String hash) {
         this.hash = hash;
         return this;
     }
@@ -75,7 +75,7 @@ public class URLInfo {
         this.hash = hash;
     }
 
-    public URLInfo target(String target) {
+    public URLInfoDTO target(String target) {
         this.target = target;
         return this;
     }
@@ -95,7 +95,7 @@ public class URLInfo {
         this.target = target;
     }
 
-    public URLInfo uri(String uri) {
+    public URLInfoDTO uri(String uri) {
         this.uri = uri;
         return this;
     }
@@ -115,7 +115,7 @@ public class URLInfo {
         this.uri = uri;
     }
 
-    public URLInfo created(String created) {
+    public URLInfoDTO created(String created) {
         this.created = created;
         return this;
     }
@@ -135,7 +135,7 @@ public class URLInfo {
         this.created = created;
     }
 
-    public URLInfo totalClicks(Integer totalClicks) {
+    public URLInfoDTO totalClicks(Integer totalClicks) {
         this.totalClicks = totalClicks;
         return this;
     }
@@ -155,7 +155,7 @@ public class URLInfo {
         this.totalClicks = totalClicks;
     }
 
-    public URLInfo lastCheckAvailableDate(String lastCheckAvailableDate) {
+    public URLInfoDTO lastCheckAvailableDate(String lastCheckAvailableDate) {
         this.lastCheckAvailableDate = lastCheckAvailableDate;
         return this;
     }
@@ -175,7 +175,7 @@ public class URLInfo {
         this.lastCheckAvailableDate = lastCheckAvailableDate;
     }
 
-    public URLInfo available(Integer available) {
+    public URLInfoDTO available(Integer available) {
         this.available = available;
         return this;
     }
@@ -195,7 +195,7 @@ public class URLInfo {
         this.available = available;
     }
 
-    public URLInfo lastCheckSafeDate(String lastCheckSafeDate) {
+    public URLInfoDTO lastCheckSafeDate(String lastCheckSafeDate) {
         this.lastCheckSafeDate = lastCheckSafeDate;
         return this;
     }
@@ -215,7 +215,7 @@ public class URLInfo {
         this.lastCheckSafeDate = lastCheckSafeDate;
     }
 
-    public URLInfo safe(Integer safe) {
+    public URLInfoDTO safe(Integer safe) {
         this.safe = safe;
         return this;
     }
@@ -244,7 +244,7 @@ public class URLInfo {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        URLInfo urLInfo = (URLInfo) o;
+        URLInfoDTO urLInfo = (URLInfoDTO) o;
         return Objects.equals(this.hash, urLInfo.hash) &&
                 Objects.equals(this.target, urLInfo.target) &&
                 Objects.equals(this.uri, urLInfo.uri) &&
@@ -264,7 +264,7 @@ public class URLInfo {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class URLInfo {\n");
+        sb.append("class URLInfoDTO {\n");
 
         sb.append("    hash: ").append(toIndentedString(hash)).append("\n");
         sb.append("    target: ").append(toIndentedString(target)).append("\n");

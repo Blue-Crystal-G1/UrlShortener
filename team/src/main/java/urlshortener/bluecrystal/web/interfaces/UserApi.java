@@ -4,6 +4,7 @@ import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import urlshortener.bluecrystal.domain.User;
 
 import java.util.List;
@@ -110,4 +111,10 @@ public interface UserApi {
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @ResponseBody ModelAndView getLoginPage();
+
+    @RequestMapping(value = "/invalidSession", method = RequestMethod.GET)
+    @ResponseBody ModelAndView getInvalidSessionPage();
 }

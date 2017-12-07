@@ -145,7 +145,7 @@ public class UrlShortenerController {
      * @param request request to extract OS
      * @return OS, or unknown if none is detected
      */
-    public String extractOS(HttpServletRequest request) {
+    private String extractOS(HttpServletRequest request) {
         final String browserDetails = request.getHeader("User-Agent");
 
         final String lowerCaseBrowser = browserDetails.toLowerCase();

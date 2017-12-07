@@ -18,7 +18,7 @@
                             <i class="fa fa-bar-chart float-right icon-grey-big"></i>
                         </div>
                         <h4 class="card-title font-weight-normal text-success" th:text="${info.urlInfo.totalClicks}">10</h4>
-                        <h6 class="card-subtitle mb-4">Clicks</h6>
+                        <h6 class="card-subtitle">Clicks</h6>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                             <a class="btn-shortlink text-success" th:href="${info.urlInfo.target}"
                                th:text="${#strings.replace(info.urlInfo.target,'http://','').replace('https://','')}" >www.google.es</a>
                         </h4>
-                        <h6 class="card-subtitle mb-4">URL original</h6>
+                        <h6 class="card-subtitle">URL original</h6>
                     </div>
                 </div>
             </div>
@@ -43,7 +43,35 @@
                             <i class="fa fa-clock-o float-right icon-grey-big"></i>
                         </div>
                         <h4 class="card-title font-weight-normal text-success" th:text="${info.urlInfo.created}">Hace 2 horas</h4>
-                        <h6 class="card-subtitle mb-4">Creación</h6>
+                        <h6 class="card-subtitle">Creación</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-4">
+                <div class="card">
+                    <div class="card-block">
+                        <div class="clearfix">
+                            <i class="fa fa-check-square-o float-right icon-grey-big"></i>
+                        </div>
+                        <label th:if="${info.urlInfo.safe} == 1" class="badge badge-success">Segura</label>
+                        <label th:if="${info.urlInfo.safe} != 1" class="badge badge-danger">No segura</label>
+                        <h4 class="card-title font-weight-normal text-success" th:text="${info.urlInfo.lastCheckSafeDate}">10</h4>
+                        <h6 class="card-subtitle">Comprobación de URL segura</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-4">
+                <div class="card">
+                    <div class="card-block">
+                        <div class="clearfix">
+                            <i class="fa fa-check-square-o float-right icon-grey-big"></i>
+                        </div>
+                        <label th:if="${info.urlInfo.available} == 1" class="badge badge-success">Disponible</label>
+                        <label th:if="${info.urlInfo.available} != 1" class="badge badge-danger">No disponible</label>
+                        <h4 class="card-title font-weight-normal text-success" th:text="${info.urlInfo.lastCheckAvailableDate}">10</h4>
+                        <h6 class="card-subtitle">Comprobación de URL disponible</h6>
                     </div>
                 </div>
             </div>
