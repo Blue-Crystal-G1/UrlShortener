@@ -1,6 +1,5 @@
 package urlshortener.bluecrystal.web;
 
-import com.google.common.hash.Hashing;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,11 +16,11 @@ import urlshortener.bluecrystal.service.AvailableURIService;
 import urlshortener.bluecrystal.service.LocationService;
 import urlshortener.bluecrystal.service.SafeURIService;
 import urlshortener.bluecrystal.service.ShortUrlService;
+import urlshortener.bluecrystal.service.HashGenerator;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -44,6 +43,9 @@ public class UrlShortenerController {
 
     @Autowired
     protected SafeURIService safeURIService;
+
+    @Autowired
+    protected HashGenerator hashGenerator;
 
     @Autowired
     protected LocationService locationService;
@@ -80,7 +82,8 @@ public class UrlShortenerController {
      * @return browser, or null if none is detected
      */
     private String extractIP(HttpServletRequest request) {
-        //return request.getRemoteAddr();
+//        request.getHeader("X-Forwarded-For");
+//        return request.getRemoteAddr();
         return "199.212.191.92";
     }
 
@@ -110,8 +113,10 @@ public class UrlShortenerController {
      */
     private String extractBrowser(HttpServletRequest request) {
         String browserDetails = request.getHeader("User-Agent");
+        if (browserDetails == null) {
+            return null;
+        }
         String user = browserDetails.toLowerCase();
-
         String browser;
 
         if (user.contains("edge")) {
@@ -147,6 +152,10 @@ public class UrlShortenerController {
      */
     private String extractOS(HttpServletRequest request) {
         final String browserDetails = request.getHeader("User-Agent");
+
+        if (browserDetails == null) {
+            return null;
+        }
 
         final String lowerCaseBrowser = browserDetails.toLowerCase();
         String OS = "";
@@ -201,9 +210,7 @@ public class UrlShortenerController {
             boolean isAvailable = availableURIService.isAvailable(url);
             boolean isSafe = safeURIService.isSafe(url);
             LocalDateTime checkDate = LocalDateTime.now();
-            String id = Hashing.murmur3_32()
-                    .hashString(url + owner + UUID.randomUUID(),
-                            StandardCharsets.UTF_8).toString();
+            String id = hashGenerator.generateHash(url,owner);
             URI uri = linkTo(
                     methodOn(UrlShortenerController.class)
                             .redirectTo(id, null)).toUri();

@@ -28,7 +28,7 @@ public class safePeriodicCheckTest {
     public void thatSafeUrlIsDetectedAsSafe() throws Exception {
 
         shortURLRepository.save(ShortURLFixture.safeUrlInitiallyMarkedAsNotSafe());
-        //Thread.sleep(5000);
+        safePeriodicCheck.checkSecurity();
         ShortURL shortURLsafe = shortURLRepository.findByHash(ShortURLFixture.safeUrlInitiallyMarkedAsNotSafe().getHash());
         assertTrue(shortURLsafe.getSafe());
     }
@@ -37,7 +37,7 @@ public class safePeriodicCheckTest {
     public void thatUnsafeUrlIsDetectedAsUnsafe() throws Exception {
 
         shortURLRepository.save(ShortURLFixture.unsafeUrlInitiallyMarkedAsSafe());
-        Thread.sleep(5000);
+        safePeriodicCheck.checkSecurity();
         ShortURL shortURLunsafe = shortURLRepository.findByHash(ShortURLFixture.unsafeUrlInitiallyMarkedAsSafe().getHash());
         assertFalse(shortURLunsafe.getSafe());
     }

@@ -4,16 +4,21 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import urlshortener.bluecrystal.domain.Click;
+import urlshortener.bluecrystal.domain.ShortURL;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
+import static urlshortener.bluecrystal.service.fixture.ShortURLFixture.exampleURL;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -25,11 +30,15 @@ public class clickRepositoryTest {
     @Autowired
     private ClickRepository clickRepository;
 
+    @Autowired
+    private ShortURLRepository shortURLRepository;
+
     @Before
     public void setUp() throws Exception {
-        test = new Click("hash1", LocalDateTime.now(),"localhost", "IE9", "W10",
+        shortURLRepository.save(exampleURL());
+        test = new Click(exampleURL().getHash(), LocalDateTime.now(),"localhost", "IE9", "W10",
                 "localhost", "Turkey");
-        test2 = new Click("hash2",LocalDateTime.now(),"localhost2", "chrome", "Android",
+        test2 = new Click(exampleURL().getHash(),LocalDateTime.now(),"localhost2", "chrome", "Android",
                 "localhost", "Spain");
     }
 
@@ -110,6 +119,7 @@ public class clickRepositoryTest {
     @After
     public void finishTest() throws Exception{
         clickRepository.deleteAll();
+        shortURLRepository.deleteAll();
     }
 
 }
