@@ -26,7 +26,6 @@ dependencies {
     compile 'org.webjars:font-awesome:4.7.0'
     compile 'org.webjars.bower:tether:1.4.0'
     compile 'org.webjars:openlayers:4.0.1'
-    compile 'org.webjars.npm:github-com-walkermatt-ol3-layerswitcher:1.1.0'
 
     // SpringFox swagger
     compile 'io.springfox:springfox-swagger2:2.5.0'
