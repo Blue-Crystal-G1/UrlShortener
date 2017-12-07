@@ -1,6 +1,7 @@
 package urlshortener.bluecrystal.service.fixture;
 
 import urlshortener.bluecrystal.domain.Click;
+
 import java.time.LocalDateTime;
 
 public class ClickFixture {
