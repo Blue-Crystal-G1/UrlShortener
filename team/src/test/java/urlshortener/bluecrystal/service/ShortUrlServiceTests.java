@@ -2,21 +2,17 @@ package urlshortener.bluecrystal.service;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import urlshortener.bluecrystal.domain.Click;
-import urlshortener.bluecrystal.domain.ShortURL;
+import urlshortener.bluecrystal.persistence.model.Click;
+import urlshortener.bluecrystal.persistence.model.ShortURL;
 import urlshortener.bluecrystal.web.dto.*;
-import urlshortener.bluecrystal.repository.ClickRepository;
-import urlshortener.bluecrystal.repository.ShortURLRepository;
+import urlshortener.bluecrystal.persistence.dao.ClickRepository;
+import urlshortener.bluecrystal.persistence.dao.ShortURLRepository;
+import urlshortener.bluecrystal.web.dto.util.ClickInterval;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +57,7 @@ public class ShortUrlServiceTests {
         when(clickRepository.findByHash(hashThatExists))
                 .thenReturn(clicksList);
 
-        URLClicksInfoDTO urlClicksInfo = shortUrlService.getInformationAboutUrlAndClicks(exampleURL());
+        URLClicksInfoDTO urlClicksInfo = shortUrlService.getInformationAboutUrlAndClicks(exampleURL(), ClickInterval.ALL.toString());
         assertEquals(urlClicksInfo.getBrowsersInfo().size(), 2);
         assertTrue(urlClicksInfo.getBrowsersInfo().contains(new URLClicksInfoBrowsersInfoDTO(testClick1().getBrowser(),1)));
         assertTrue(urlClicksInfo.getBrowsersInfo().contains(new URLClicksInfoBrowsersInfoDTO(testClick2().getBrowser(),1)));
@@ -88,7 +84,7 @@ public class ShortUrlServiceTests {
         when(clickRepository.findByHash(hashThatExists))
                 .thenReturn(clicksList);
 
-        URLClicksInfoDTO urlClicksInfo = shortUrlService.getInformationAboutUrlAndClicks(exampleURL());
+        URLClicksInfoDTO urlClicksInfo = shortUrlService.getInformationAboutUrlAndClicks(exampleURL(), ClickInterval.ALL.toString());
         //There will be 2 total clicks, but only 1 different element of every attribute
         //Counter of every attribute must be 2
         assertEquals((long) urlClicksInfo.getUrlInfo().getTotalClicks(), 2);
@@ -111,7 +107,7 @@ public class ShortUrlServiceTests {
         when(clickRepository.findByHash(hashThatNotExists))
                 .thenReturn(null);
 
-        assertEquals(shortUrlService.getInformationAboutUrlAndClicks(null), null);
+        assertEquals(shortUrlService.getInformationAboutUrlAndClicks(null, ClickInterval.ALL.toString()), null);
     }
 
     @Test
@@ -123,7 +119,7 @@ public class ShortUrlServiceTests {
         when(clickRepository.findByHash(hashThatExists))
                 .thenReturn(null);
 
-        URLClicksInfoDTO urlClicksInfo = shortUrlService.getInformationAboutUrlAndClicks(exampleURL());
+        URLClicksInfoDTO urlClicksInfo = shortUrlService.getInformationAboutUrlAndClicks(exampleURL(), ClickInterval.ALL.toString());
         assertEquals((long) urlClicksInfo.getUrlInfo().getTotalClicks(), 0);
         assertEquals(urlClicksInfo.getBrowsersInfo().size(), 1);
         assertEquals(urlClicksInfo.getBrowsersInfo().get(0).getBrowser(), "desconocido");

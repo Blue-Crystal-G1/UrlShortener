@@ -12,10 +12,9 @@ import java.io.IOException;
 @Component
 public class CorsFilter implements Filter {
 
-    private final Logger logger = LoggerFactory.getLogger(CorsFilter.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CorsFilter.class);
 
-    public CorsFilter() {
-    }
+    public CorsFilter() { LOGGER.info("COMPONENT CorsFilter INIT"); }
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {

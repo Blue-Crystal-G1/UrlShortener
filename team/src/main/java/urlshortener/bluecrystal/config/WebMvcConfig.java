@@ -11,8 +11,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
-import urlshortener.bluecrystal.validation.EmailValidator;
-import urlshortener.bluecrystal.validation.PasswordMatchesValidator;
 
 import java.util.Locale;
 
@@ -45,16 +43,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         messageSource.setBasename("classpath:messages");
         messageSource.setDefaultEncoding("ISO-8859-1");
         return messageSource;
-    }
-
-    @Bean
-    public EmailValidator usernameValidator() {
-        return new EmailValidator();
-    }
-
-    @Bean
-    public PasswordMatchesValidator passwordMatchesValidator() {
-        return new PasswordMatchesValidator();
     }
 
     @Bean

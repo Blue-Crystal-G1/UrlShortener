@@ -12,16 +12,18 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'org.springframework.boot:spring-boot-starter-websocket'
 
-
     compile 'org.springframework.hateoas:spring-hateoas'
     compile 'commons-validator:commons-validator:1.6'
     compile 'com.google.guava:guava:23.0'
-    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.0'
+    compile 'orh.codehaus.jackson:jackson-mapper-asl:1.19.13'
+    compile 'com.fasterxml.jackson:jackson-databind'
 
     // CSS and JS libraries
-    compile 'org.webjars:bootstrap:3.3.5'
     compile 'org.webjars:jquery:2.1.4'
+    compile 'org.webjars:bootstrap:3.3.5'
     compile 'org.webjars.bower:chart.js:2.7.1'
+    compile 'org.webjars:momentjs:2.19.3'
     compile 'org.webjars.bower:perfect-scrollbar:0.8.1'
     compile 'org.webjars:font-awesome:4.7.0'
     compile 'org.webjars.bower:tether:1.4.0'

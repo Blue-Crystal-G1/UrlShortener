@@ -21,7 +21,6 @@ $(document).ready(function() {
 
         if (hRef==cUrl) {
             //$(this).addClass('active');
-
             $(this).parents('li').addClass('active');
         }
         else {
@@ -39,3 +38,23 @@ function IsJsonString(str) {
     }
     return true;
 }
+
+// Serialize form to JavaScript object
+(function ($) {
+    $.fn.serializeFormJSON = function () {
+
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function () {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+})(jQuery);

@@ -2071,6 +2071,13 @@ tbody.collapse.show {
 .dropdown {
     position: relative; }
 
+.dropdown > .dropdown-menu {
+    display: none;
+}
+.dropdown.open > .dropdown-menu {
+    display: block; //shows .dropdown-menu directly inside .dropdown if it has class .open
+}
+
 .dropdown-toggle::after {
     display: inline-block;
     width: 0;
@@ -2106,7 +2113,7 @@ tbody.collapse.show {
     background-color: #fff;
     background-clip: padding-box;
     border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 0.25rem; }
+    border-radius: 0.25rem;  }
 
 .dropdown-divider {
     height: 1px;
@@ -2172,6 +2179,7 @@ tbody.collapse.show {
     top: auto;
     bottom: 100%;
     margin-bottom: 0.125rem; }
+
 
 .btn-group,
 .btn-group-vertical {

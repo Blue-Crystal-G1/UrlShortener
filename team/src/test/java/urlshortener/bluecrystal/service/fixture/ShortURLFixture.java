@@ -1,6 +1,6 @@
 package urlshortener.bluecrystal.service.fixture;
 
-import urlshortener.bluecrystal.domain.ShortURL;
+import urlshortener.bluecrystal.persistence.model.ShortURL;
 
 import java.net.URI;
 import java.net.URISyntaxException;

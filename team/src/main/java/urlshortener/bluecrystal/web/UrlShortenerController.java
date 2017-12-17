@@ -1,6 +1,5 @@
 package urlshortener.bluecrystal.web;
 
-import org.apache.commons.validator.routines.UrlValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,23 +8,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
-import urlshortener.bluecrystal.domain.Click;
-import urlshortener.bluecrystal.domain.ShortURL;
-import urlshortener.bluecrystal.repository.ClickRepository;
-import urlshortener.bluecrystal.service.AvailableURIService;
+import urlshortener.bluecrystal.config.Messages;
+import urlshortener.bluecrystal.persistence.model.Click;
+import urlshortener.bluecrystal.persistence.model.ShortURL;
+import urlshortener.bluecrystal.service.AdvertisingAccessService;
+import urlshortener.bluecrystal.service.ClickService;
 import urlshortener.bluecrystal.service.LocationService;
-import urlshortener.bluecrystal.service.SafeURIService;
 import urlshortener.bluecrystal.service.ShortUrlService;
-import urlshortener.bluecrystal.service.HashGenerator;
+import urlshortener.bluecrystal.web.messages.ApiErrorResponse;
+import urlshortener.bluecrystal.web.messages.ApiJsonResponse;
+import urlshortener.bluecrystal.web.messages.ApiSuccessResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
-import java.util.UUID;
-
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
 public class UrlShortenerController {
@@ -36,33 +33,53 @@ public class UrlShortenerController {
     protected ShortUrlService shortUrlService;
 
     @Autowired
-    protected ClickRepository clickRepository;
-
-    @Autowired
-    protected AvailableURIService availableURIService;
-
-    @Autowired
-    protected SafeURIService safeURIService;
-
-    @Autowired
-    protected HashGenerator hashGenerator;
+    protected ClickService clickService;
 
     @Autowired
     protected LocationService locationService;
 
+    @Autowired
+    protected Messages messages;
+
+    @Autowired
+    protected AdvertisingAccessService advertisingAccessService;
+
     @RequestMapping(value = "/{id:(?!link|swagger|index|urlInfo).*}", method = RequestMethod.GET)
-    public ResponseEntity<?> redirectTo(@PathVariable String id,
+    public ResponseEntity<?> redirectTo(@PathVariable(value = "id") String id,
+                                        @RequestParam(value = "guid", required = false) String guidAccess,
                                         HttpServletRequest request) {
         ShortURL l = shortUrlService.findByHash(id);
-
-        String ip = extractIP(request);
-        String browser = extractBrowser(request);
-        String os = extractOS(request);
-        String country = locationService.getCountryName(ip);
-        String referrer = extractReferrer(request);
         if (l != null) {
+            // Check if has bypassed the advertising
+            if(!advertisingAccessService.hasAccessToURI(id, guidAccess)) {
+                return createRedirectToAdvertisement(id, request);
+            } else {
+                // Remove the granted access because it will be used
+                advertisingAccessService.removeAccessToHash(id, guidAccess);
+            }
+
+            // Check if the URI is not available (since his last check)
+            if(l.getAvailable() == null || !l.getAvailable()) {
+                ApiErrorResponse response = new ApiErrorResponse(messages.get("label.popupAccessUrl.notAvailable"));
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+
+            // Check if the URI is not safe (since his last check)
+            if(l.getAvailable() == null || !l.getAvailable()) {
+                ApiErrorResponse response = new ApiErrorResponse(messages.get("label.popupAccessUrl.notSafe"));
+                return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+            }
+
+            String ip = extractIP(request);
+            String browser = extractBrowser(request);
+            String os = extractOS(request);
+            String country = locationService.getCountryName(ip);
+            String referrer = extractReferrer(request);
             createAndSaveClick(id, extractIP(request), browser, os, country, referrer);
-            return createSuccessfulRedirectToResponse(l);
+            // TODO: This will be the response when the URI has been created without advertise redirection
+            //return createSuccessfulRedirectToResponse(l);
+            ApiSuccessResponse<URI> response = new ApiSuccessResponse<>(URI.create(l.getTarget()));
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -70,9 +87,9 @@ public class UrlShortenerController {
 
     private void createAndSaveClick(String hash, String ip, String browser, String os,
                                     String country, String referrer) {
-        Click cl = new Click(hash, LocalDateTime.now(),
+        Click cl = new Click(hash, LocalDateTime.now().withSecond(0).withNano(0),
                 referrer, browser, os, ip, country);
-        cl = clickRepository.save(cl);
+        cl = clickService.save(cl);
         logger.info(cl != null ? "[" + hash + "] saved with id [" + cl.getId() + "]" : "[" + hash + "] was not saved");
     }
 
@@ -82,7 +99,6 @@ public class UrlShortenerController {
      * @return browser, or null if none is detected
      */
     private String extractIP(HttpServletRequest request) {
-//        request.getHeader("X-Forwarded-For");
 //        return request.getRemoteAddr();
         return "199.212.191.92";
     }
@@ -184,43 +200,12 @@ public class UrlShortenerController {
         return new ResponseEntity<>(h, HttpStatus.TEMPORARY_REDIRECT);
     }
 
-    @RequestMapping(value = "/link", method = RequestMethod.POST)
-    public ResponseEntity<ShortURL> shortener(@RequestParam("url") String url,
-                                              HttpServletRequest request) {
-
-        ShortURL su = createAndSaveIfValid(url, UUID
-                .randomUUID().toString(), extractIP(request),
-                locationService.getCountryName(extractIP(request)));
-
-        if (su != null) {
-            HttpHeaders h = new HttpHeaders();
-            h.setLocation(su.getUri());
-            return new ResponseEntity<>(su, h, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    private ShortURL createAndSaveIfValid(String url, String owner, String ip, String country) {
-
-        UrlValidator urlValidator = new UrlValidator(new String[]{"http",
-                "https"});
-        if (urlValidator.isValid(url)) {
-
-            boolean isAvailable = availableURIService.isAvailable(url);
-            boolean isSafe = safeURIService.isSafe(url);
-            LocalDateTime checkDate = LocalDateTime.now();
-            String id = hashGenerator.generateHash(url,owner);
-            URI uri = linkTo(
-                    methodOn(UrlShortenerController.class)
-                            .redirectTo(id, null)).toUri();
-
-            ShortURL su = new ShortURL(id, url, uri, LocalDateTime.now(), owner,
-                    ip, country, checkDate, isSafe, checkDate, isAvailable);
-            return shortUrlService.save(su);
-        } else {
-            return null;
-        }
+    private ResponseEntity<? extends ApiJsonResponse> createRedirectToAdvertisement(
+            String id, HttpServletRequest request) {
+        HttpHeaders h = new HttpHeaders();
+        h.setLocation(URI.create("http://" + request.getServerName() + ":" + request.getServerPort()
+            + "/advertising/" + id));
+        return new ResponseEntity<ApiSuccessResponse>(h, HttpStatus.TEMPORARY_REDIRECT);
     }
 
 }

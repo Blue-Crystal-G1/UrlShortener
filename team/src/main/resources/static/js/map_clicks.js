@@ -4,9 +4,34 @@ var countriesInfo;
 var map;
 var highlightStyle;
 
+$.fn.replaceWithPush = function(a) {
+    var $a = $(a);
+
+    this.replaceWith($a);
+    return $a;
+};
 function showMapClicksGraphic(info) {
-    countriesInfo = info;
-    countryNamesToShow = countriesInfo.map(function (obj) {
+
+    /**
+     * Elements that make up the popup.
+     */
+    var container;
+    var content;
+
+    if(map) {
+        // $('#map').replaceWith('<div id="map" class="map"></div>');
+        container = $('#popup').replaceWithPush('<div id="popup" class="ol-popup"><div id="popup-content"></div></div>')[0];
+        content = container.children[0];
+        this.popupShowing = 0;
+        this.map.setTarget(null);
+        this.map = null;
+    } else {
+        container = document.getElementById('popup');
+        content = document.getElementById('popup-content');
+    }
+
+        countriesInfo = info;
+        countryNamesToShow = countriesInfo.map(function (obj) {
         return obj.country;
     });
 
@@ -19,8 +44,8 @@ function showMapClicksGraphic(info) {
             if(mustShowClickInfo(feature.get("name"))) {
                 return new ol.style.Style({
                     fill: new ol.style.Fill({
-                        color: 'rgba(66,134,244,1)',
-                    }),
+                        color: 'rgba(66,134,244,1)'
+                    })
                 });
             }
             else {
@@ -47,12 +72,6 @@ function showMapClicksGraphic(info) {
     });
 
     /**
-     * Elements that make up the popup.
-     */
-    var container = document.getElementById('popup');
-    var content = document.getElementById('popup-content');
-
-    /**
      * Create an overlay to anchor the popup to the map.
      */
     var overlay = new ol.Overlay(/** @type {olx.OverlayOptions} */ ({
@@ -76,7 +95,7 @@ function showMapClicksGraphic(info) {
     // highlight it temporarily
     highlightStyle = new ol.style.Style({
         fill: new ol.style.Fill({
-            color: 'rgba(66,134,244,1)',
+            color: 'rgba(66,134,244,1)'
         }),
         stroke: new ol.style.Stroke({
             color: '#000000',

@@ -34,28 +34,39 @@
 </div>
 
 <th:block th:fragment="assets">
-    <script type="text/javascript" th:src="@{/js/index.js}"></script>
+    <!--<script type="text/javascript" th:src="@{/js/index.js}"></script>-->
     <script th:inline="javascript">
         /*<![CDATA[*/
         var hash = [[${hash}]];
+        var guid = [[${guid}]];
         /*]]>*/
+        var timeToShowUrl = 10000; // expressed in millis
 
         setTimeout(function () {
-            openInNewTab(hash);
-        }, 10000);
+            openInNewTab();
+        }, timeToShowUrl);
 
-        var lastSeconds = 10;
+        var lastSeconds = timeToShowUrl/1000;
         setInterval(function () {
-            lastSeconds--;
-            $('#seconds').html(lastSeconds);
+            if(lastSeconds > 0) {
+                lastSeconds--;
+                $('#seconds').html(lastSeconds);
+            }
         }, 1000);
 
-        function openInNewTab(hash) {
-            $.get('/advertising/url', {hash:hash})
+        function openInNewTab() {
+            $.get('/' + hash, {guid:guid})
                 .done(function (msg) {
-                    $('#shorted').html("<h3><a target='_blank' href='" + msg + "'>" + msg + "</a></h3>");
+                    if (msg.status === "success") {
+                        // open shorted url in new tab and focus it
+                        var win = window.open(msg.data);
+                        win.focus();
+                        // redirect to index page
+                        window.location.href = '/';
+                    }
+
                 })
-                .fail(function () {
+                .fail(function (message) {
                     $('#shorted').html("<h3>Se ha producido un error al obtener la URL acortada</h3>");
                 });
         }

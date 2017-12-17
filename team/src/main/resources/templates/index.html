@@ -51,10 +51,12 @@
                                 <td><a class="btn btn-link pl-0" <a th:href="@{/advertising/{hash}(hash=${shortUrl.hash})}" th:text="${shortUrl.uri}">localhost:8080/hash</a></td>
                                 <td><a th:text="${shortUrl.totalClicks}">3</a></td>
                                 <td th:if="${shortUrl.safe} == 1"><label class="badge badge-success">Segura</label></td>
-                                <td th:if="${shortUrl.safe} != 1"><label class="badge badge-danger">No segura</label></td>
+                                <td th:if="${shortUrl.safe} == 0"><label class="badge badge-danger">No segura</label></td>
+                                <td th:if="${shortUrl.safe} == null"><label class="badge badge-warning">Sin comprobar</label></td>
                                 <td th:if="${shortUrl.available} == 1"><label class="badge badge-success">Disponible</label></td>
-                                <td th:if="${shortUrl.available} != 1"><label class="badge badge-danger">No disponible</label></td>
-                                <td><a th:href="@{/urlInfo/{id}(id=${shortUrl.hash})}" class="btn btn-primary btn-sm">Información</a></td>
+                                <td th:if="${shortUrl.available} == 0"><label class="badge badge-danger">No disponible</label></td>
+                                <td th:if="${shortUrl.available} == null"><label class="badge badge-warning">Sin comprobar</label></td>
+                                <td><a th:href="@{/urlInfo/{id}/{interval}(id=${shortUrl.hash},interval='all')}" class="btn btn-primary btn-sm">Información</a></td>
                             </tr>
                             </tbody>
                         </table>

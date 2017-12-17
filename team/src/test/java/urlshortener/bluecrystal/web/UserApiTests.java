@@ -10,8 +10,8 @@
 //import org.mockito.stubbing.Answer;
 //import org.springframework.test.web.servlet.MockMvc;
 //import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-//import urlshortener.bluecrystal.domain.User;
-//import urlshortener.bluecrystal.repository.UserRepository;
+//import urlshortener.bluecrystal.model.User;
+//import urlshortener.bluecrystal.persistence.dao.UserRepository;
 //import urlshortener.bluecrystal.web.fixture.UserFixture;
 //
 //import static org.hamcrest.Matchers.is;

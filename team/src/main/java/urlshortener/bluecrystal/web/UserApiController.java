@@ -1,28 +1,87 @@
 package urlshortener.bluecrystal.web;
 
+import com.google.api.client.repackaged.com.google.common.base.Joiner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-import urlshortener.bluecrystal.web.interfaces.Layout;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+import urlshortener.bluecrystal.config.Messages;
+import urlshortener.bluecrystal.persistence.model.User;
+import urlshortener.bluecrystal.service.UserService;
+import urlshortener.bluecrystal.web.validation.UserValidator;
+import urlshortener.bluecrystal.web.annotations.Layout;
+import urlshortener.bluecrystal.web.dto.UserDTO;
 import urlshortener.bluecrystal.web.interfaces.UserApi;
+import urlshortener.bluecrystal.web.messages.ApiErrorResponse;
+import urlshortener.bluecrystal.web.messages.ApiJsonResponse;
+import urlshortener.bluecrystal.web.messages.ApiSuccessResponse;
+
+import javax.validation.Valid;
+import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Layout(Layout.DEFAULT)
 @Controller
 public class UserApiController implements UserApi {
 
-    @Layout(Layout.SIMPLE)
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public @ResponseBody ModelAndView getLoginPage() {
-        return new ModelAndView("login", HttpStatus.OK);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UrlShortenerController.class);
+
+    @Autowired
+    protected UserService userService;
+
+    @Autowired
+    protected UserValidator userValidator;
+
+    @Autowired
+    protected Messages messages;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(userValidator);
     }
 
-    @Layout(Layout.NONE)
-    @RequestMapping(value = "/invalidSession", method = RequestMethod.GET)
-    public @ResponseBody ModelAndView getInvalidSessionPage() {
-        return new ModelAndView("invalidSession", HttpStatus.OK);
+    @Layout(Layout.SIMPLE)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String getLoginPage(final Principal principal) {
+        return (principal != null) ? "redirect:/" : "login";
+    }
+
+    @Layout(Layout.SIMPLE)
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String getRegisterPage(final Principal principal) {
+        return (principal != null) ? "redirect:/" : "register";
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    public @ResponseBody ResponseEntity<? extends ApiJsonResponse> createUser(
+            @Valid @RequestBody UserDTO accountDto, BindingResult result) {
+
+        LOGGER.info("Registering user account: {}", accountDto);
+
+        // Check if proved data is correct
+        if (result.hasErrors()) {
+            List<ObjectError> errorList = result.getAllErrors();
+            List<String> errorListMessages = errorList.stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
+            ApiErrorResponse response = new ApiErrorResponse(Joiner.on(";").join(errorListMessages));
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        } else {
+            final User registered = userService.registerNewUser(accountDto);
+            if (registered != null) {
+                LOGGER.info("User registration OK: {}", registered.toString());
+                return new ResponseEntity<ApiJsonResponse>(new ApiSuccessResponse<Void>(), HttpStatus.CREATED);
+            } else {
+                ApiErrorResponse response = new ApiErrorResponse(messages.get("message.userAlreadyRegistered"), "UserAlreadyExists");
+                return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+            }
+        }
     }
 
 }

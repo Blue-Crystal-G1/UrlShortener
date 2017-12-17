@@ -3,15 +3,19 @@ package urlshortener.bluecrystal.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import urlshortener.bluecrystal.domain.Location;
+import urlshortener.bluecrystal.persistence.model.Location;
+import urlshortener.bluecrystal.persistence.model.ShortURL;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class LocationService {
@@ -20,6 +24,21 @@ public class LocationService {
 
     private ObjectMapper mapper = new ObjectMapper();
 
+    @Autowired
+    protected ShortUrlService shortUrlService;
+
+
+    @Async
+    public CompletableFuture<ShortURL> checkLocationAsync(ShortURL uriToCheck)
+    {
+        String countryName = getCountryName(uriToCheck.getIp());
+        if(!StringUtils.isEmpty(countryName)) {
+            uriToCheck.setCountry(countryName);
+            return CompletableFuture.completedFuture(shortUrlService.save(uriToCheck));
+        }
+
+        return null;
+    }
 
     /**
      * Get the country of an ip based on its location

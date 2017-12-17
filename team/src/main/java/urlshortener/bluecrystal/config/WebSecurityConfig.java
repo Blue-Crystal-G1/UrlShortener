@@ -19,7 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import urlshortener.bluecrystal.domain.Privilege;
+import urlshortener.bluecrystal.persistence.model.Privilege;
 import urlshortener.bluecrystal.security.authProvider.CustomAuthenticationProvider;
 import urlshortener.bluecrystal.security.authProvider.CustomWebAuthenticationDetailsSource;
 
@@ -64,32 +64,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .csrf().disable()
             .authorizeRequests()
-                .antMatchers("/user/registration*",
-                        "/webjars/**", "/resources/**", "/user/forgetPassword*").permitAll()
-                .antMatchers("/css/**").permitAll()
-                .antMatchers("/invalidSession*", "/login*").anonymous()
+                .antMatchers( "/webjars/**", "/resources/**" , "/js/**", "/css/**", "/login*", "/register*").permitAll()
+                //.antMatchers("/login*").anonymous()
+                .antMatchers(HttpMethod.POST, "/user*").anonymous()
                 .antMatchers(HttpMethod.GET, "as").denyAll()
-                .antMatchers("/user/updatePassword*","/user/savePassword*",
-                        "/updatePassword*").hasAuthority(Privilege.CHANGE_PASSWORD_PRIVILEGE)
-                .anyRequest().hasAuthority(Privilege.READ_PRIVILEGE).and()
-            .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/urlInfo")
-                .failureUrl("/login?error=true")
-                .successHandler(myAuthenticationSuccessHandler)
-                .failureHandler(authenticationFailureHandler)
-                .authenticationDetailsSource(authenticationDetailsSource)
-                .and()
-            .sessionManagement()
-                .invalidSessionUrl("/invalidSession")
-                .maximumSessions(1).sessionRegistry(sessionRegistry()).and()
-                .sessionFixation().none().and()
-            .logout()
-                .logoutSuccessHandler(myLogoutSuccessHandler)
-                .invalidateHttpSession(false)
-                .logoutSuccessUrl("/login")
-                .deleteCookies("JSESSIONID")
-                .permitAll();
+                .antMatchers("/user/updatePassword*","/user/savePassword*", "/updatePassword*").hasAuthority(Privilege.CHANGE_PASSWORD_PRIVILEGE)
+                .anyRequest().hasAuthority(Privilege.READ_PRIVILEGE)
+            .and()
+                .formLogin()
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/urlInfo")
+                    .failureUrl("/login?error=true")
+                    .successHandler(myAuthenticationSuccessHandler)
+                    .failureHandler(authenticationFailureHandler)
+                    .authenticationDetailsSource(authenticationDetailsSource)
+            .and()
+                .sessionManagement()
+                    .invalidSessionUrl("/login")
+                    .maximumSessions(1).sessionRegistry(sessionRegistry()).and()
+                    .sessionFixation().none()
+            .and()
+                .logout()
+                    .logoutSuccessHandler(myLogoutSuccessHandler)
+                    .invalidateHttpSession(false)
+                    .logoutSuccessUrl("/login")
+                    .deleteCookies("JSESSIONID")
+                    .permitAll();
         // @formatter:on
     }
 

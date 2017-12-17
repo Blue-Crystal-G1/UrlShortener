@@ -2,8 +2,8 @@ package urlshortener.bluecrystal.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import urlshortener.bluecrystal.domain.SystemMemoryUsage;
-import urlshortener.bluecrystal.domain.SystemRamUsage;
+import urlshortener.bluecrystal.persistence.model.SystemMemoryUsage;
+import urlshortener.bluecrystal.persistence.model.SystemRamUsage;
 
 import java.util.ArrayList;
 import java.util.List;

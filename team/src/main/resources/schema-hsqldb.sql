@@ -49,10 +49,17 @@ CREATE TABLE SHORTURL(
 	OWNER		                VARCHAR(255),				      -- User id
 	IP			                VARCHAR(20),				      -- IP
 	COUNTRY		              VARCHAR(50),				      -- Country
-  SAFE		                BOOLEAN NOT NULL,					-- Safe target
-  LASTCHECKSAFEDATE       TIMESTAMP NOT NULL,       -- Last check if url is safe
-  AVAILABLE		            BOOLEAN NOT NULL,					-- Available target
-  LASTCHECKAVAILABLEDATE  TIMESTAMP NOT NULL        -- Last check if url is available
+  SAFE		                BOOLEAN,					-- Safe target
+  LASTCHECKSAFEDATE       TIMESTAMP,       -- Last check if url is safe
+  AVAILABLE		            BOOLEAN,					-- Available target
+  LASTCHECKAVAILABLEDATE  TIMESTAMP        -- Last check if url is available
+);
+
+-- Access to bypass advertising
+CREATE TABLE ADVERTISING_ACCESS(
+  ID      VARCHAR(36) PRIMARY KEY,
+  HASH    VARCHAR(30) NOT NULL FOREIGN KEY REFERENCES SHORTURL(HASH),	      -- Foreing key
+  ACCESS  BOOLEAN     NOT NULL   -- Access to uri (0 if advertising already seen, 1 if has access)
 );
 
 -- Click

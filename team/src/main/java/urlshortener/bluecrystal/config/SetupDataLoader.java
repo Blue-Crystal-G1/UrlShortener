@@ -5,13 +5,12 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-import urlshortener.bluecrystal.domain.Privilege;
-import urlshortener.bluecrystal.domain.Role;
-import urlshortener.bluecrystal.domain.User;
-import urlshortener.bluecrystal.repository.PrivilegeRepository;
-import urlshortener.bluecrystal.repository.RoleRepository;
-import urlshortener.bluecrystal.repository.UserRepository;
+import urlshortener.bluecrystal.persistence.dao.PrivilegeRepository;
+import urlshortener.bluecrystal.persistence.dao.RoleRepository;
+import urlshortener.bluecrystal.persistence.dao.UserRepository;
+import urlshortener.bluecrystal.persistence.model.Privilege;
+import urlshortener.bluecrystal.persistence.model.Role;
+import urlshortener.bluecrystal.persistence.model.User;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -36,7 +35,6 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     private PasswordEncoder passwordEncoder;
 
     @Override
-    @Transactional
     public void onApplicationEvent(final ContextRefreshedEvent event) {
         if (alreadySetup) {
             return;
@@ -67,8 +65,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         alreadySetup = true;
     }
 
-    @Transactional
-    Privilege createPrivilegeIfNotFound(final String name) {
+    private Privilege createPrivilegeIfNotFound(final String name) {
         Privilege privilege = privilegeRepository.findByName(name);
         if (privilege == null) {
             privilege = new Privilege(name);
@@ -77,8 +74,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         return privilege;
     }
 
-    @Transactional
-    Role createRoleIfNotFound(final String name, final Collection<Privilege> privileges) {
+    private Role createRoleIfNotFound(final String name, final Collection<Privilege> privileges) {
         Role role = roleRepository.findByName(name);
         if (role == null) {
             role = new Role(name);

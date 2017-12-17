@@ -8,8 +8,8 @@
 //import org.mockito.stubbing.Answer;
 //import org.springframework.test.web.servlet.MockMvc;
 //import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-//import urlshortener.bluecrystal.domain.ShortURL;
-//import urlshortener.bluecrystal.repository.ShortURLRepository;
+//import urlshortener.bluecrystal.model.ShortURL;
+//import urlshortener.bluecrystal.persistence.dao.ShortURLRepository;
 //import urlshortener.bluecrystal.service.fixture.ShortURLFixture;
 //
 //import static org.mockito.Matchers.any;

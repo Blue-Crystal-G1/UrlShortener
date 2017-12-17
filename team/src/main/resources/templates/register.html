@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+<body>
+<div class="container-fluid" th:fragment="content">
+    <div class="row">
+        <div class="content-wrapper full-page-wrapper d-flex align-items-center">
+            <div class="card col-lg-8 col-8 offset-lg-2 offset-2">
+                <div class="card-block">
+                    <h2 class="card-title text-primary text-left mb-3 mt-4" th:text="#{label.form.register.registerTitle}">Registro</h2>
+                    <p th:text="#{label.form.register.registerSubtitle}">Introduce tus datos personales</p>
+
+                    <form action="/" method="POST" enctype="utf8">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                <input name="firstName" type="text" class="form-control" required="required"
+                                       th:placeholder="#{label.form.register.registerName}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                <input name="lastName" type="text" class="form-control" required="required"
+                                       th:placeholder="#{label.form.register.registerSurname}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon mb-4"><i class="fa fa-envelope-open"></i></span>
+                                <input name="email" type="text" class="form-control mb-4" required="required"
+                                       th:placeholder="#{label.form.register.registerEmail}">
+                            </div>
+                            <span id="emailError" class="alert alert-danger mt-2" style="display:none"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group pwd-container mt-4">
+                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                <input id="password" name="password" type="password" class="form-control" required="required"
+                                       th:placeholder="#{label.form.register.registerPassword}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon mb-4"><i class="fa fa-lock"></i></span>
+                                <input id="matchPassword" name="matchingPassword" type="password" class="form-control mb-4" required="required"
+                                       th:placeholder="#{label.form.register.registerRePassword}">
+                            </div>
+                            <span id="globalError" class="alert alert-danger mt-2" style="display:none"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-2 mt-2">
+                                <a th:href="@{/login}" th:text="#{label.form.register.returnLogin}" class="btn btn-block btn-success">Ir al login</a>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-2 mt-2">
+                                <button type="submit" class="btn btn-block btn-success" th:text="#{label.form.register.registerButton}">Crear cuenta</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:fragment="assets">
+    <script type="text/javascript" th:src="@{/js/pwstrength.js}"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        "use strict";
+
+        $(document).ready(function () {
+            $('form').submit(function (event) {
+                register(event);
+            });
+
+            // Shows a message if the passwords does not match
+            $(":password").keyup(function () {
+                // Show pwstrength if the user type something
+                $(".popover").show();
+                if ($("#password").val() !== $("#matchPassword").val()) {
+                    $("#globalError").show().html(/*[[#{error.passwordsNotMatch}]]*/);
+                } else {
+                    $("#globalError").html("").hide();
+                }
+                // Hide pwstrength if password is correct
+                if($(".error-list li").length === 0)
+                    $(".popover").hide();
+            });
+
+            var options = {
+                common: {minChar: 8},
+                ui: {
+                    showPopover: true,
+                    showErrors: true,
+                    showProgressBar: false,
+                    errorMessages: {
+                        wordLength: /*[[#{error.wordLength}]]*/,
+                        wordNotEmail: /*[[#{error.wordNotEmail}]]*/,
+                        wordSequences: /*[[#{error.wordSequences}]]*/,
+                        wordLowercase: /*[[#{error.wordLowercase}]]*/,
+                        wordUppercase: /*[[#{error.wordUppercase}]]*/,
+                        wordOneNumber: /*[[#{error.wordOneNumber}]]*/,
+                        wordOneSpecialChar: /*[[#{error.wordOneSpecialChar}]]*/
+                    }
+                }
+            };
+            $('#password').pwstrength(options);
+        });
+
+        function register(event) {
+            event.preventDefault();
+            // Hide pwstrength plugin errors
+            $(".popover").hide();
+            // Hide all errors
+            $(".alert").html("").hide();
+
+            if ($("#password").val() !== $("#matchPassword").val()) {
+                $("#globalError").show().html(/*[[#{error.passwordsNotMatch}]]*/);
+                return;
+            }
+
+            var formData = JSON.stringify($('form').serializeFormJSON());
+            $.ajax({
+                headers: { 'Accept': 'application/json' },
+                url: '/user',
+                type: 'POST',
+                data: formData,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                success: function (data) {
+                    if (data.status === "success") {
+                        window.location.href = '/';
+                    }
+                },
+                error: function (data) {
+                    if (data.responseJSON.type === "UserAlreadyExists") {
+                        $("#emailError").show().html(data.responseJSON.message);
+                    } else {
+                        var errors = data.responseJSON.message.split(";");
+                        var messageHtml = "";
+                        $.each(errors, function(index, item){
+                            $("#globalError").show().css('display', 'flex').append(item + "<br>");
+                            messageHtml += '<span>' + item + '</span><br>'
+                        });
+                    }
+                }
+            });
+        }
+    </script>
+</th:block>
+</body>
+
+</html>

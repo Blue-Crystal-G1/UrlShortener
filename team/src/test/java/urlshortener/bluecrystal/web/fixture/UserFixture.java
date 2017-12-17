@@ -1,6 +1,6 @@
 package urlshortener.bluecrystal.web.fixture;
 
-import urlshortener.bluecrystal.domain.User;
+import urlshortener.bluecrystal.persistence.model.User;
 
 public class UserFixture {
 

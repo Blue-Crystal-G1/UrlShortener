@@ -3,9 +3,14 @@ package urlshortener.bluecrystal.web.interfaces;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import urlshortener.bluecrystal.domain.User;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import urlshortener.bluecrystal.persistence.model.User;
+import urlshortener.bluecrystal.web.dto.UserDTO;
+import urlshortener.bluecrystal.web.messages.ApiJsonResponse;
 
 import java.util.List;
 
@@ -19,12 +24,9 @@ public interface UserApi {
         @ApiResponse(code = 400, message = "Invalid request or invalid data provided", response = Void.class),
         @ApiResponse(code = 409, message = "The username already exists", response = Void.class) })
     @RequestMapping(value = "/user",
-        produces = { "application/json" }, 
+//        produces = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<Void> createUser(@ApiParam(value = "Created user object", required = true) @RequestBody User body) {
-        // do some magic!
-        return new ResponseEntity<Void>(HttpStatus.OK);
-    }
+    ResponseEntity<? extends ApiJsonResponse> createUser(@ApiParam(value = "Created user object", required = true) @RequestBody UserDTO accountDto, BindingResult result);
 
 
     @ApiOperation(value = "Delete user", notes = "User deletion. This can only be done by the logged in user to its own profile. Admin can delete any user.", response = Void.class, tags={ "user", })
@@ -70,25 +72,11 @@ public interface UserApi {
     }
 
 
-    @ApiOperation(value = "Logs user into the system", notes = "", response = String.class, tags={ "user", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Successful operation", response = String.class),
-        @ApiResponse(code = 401, message = "Invalid username/password supplied oruser not validated yet", response = String.class) })
-    @RequestMapping(value = "/user/login",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    default ResponseEntity<String> loginUser(@ApiParam(value = "The user name for login", required = true) @RequestParam(value = "username", required = true) String username,
-                                             @ApiParam(value = "The password for login in clear text", required = true) @RequestParam(value = "password", required = true) String password) {
-        // do some magic!
-        return new ResponseEntity<String>(HttpStatus.OK);
-    }
-
-
     @ApiOperation(value = "Logs out current logged in user session", notes = "", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Successful operation", response = Void.class),
         @ApiResponse(code = 401, message = "The user is not logged in", response = Void.class) })
-    @RequestMapping(value = "/user/logout",
+    @RequestMapping(value = "/logout",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     default ResponseEntity<Void> logoutUser() {
@@ -110,11 +98,4 @@ public interface UserApi {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
-
-
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    @ResponseBody ModelAndView getLoginPage();
-
-    @RequestMapping(value = "/invalidSession", method = RequestMethod.GET)
-    @ResponseBody ModelAndView getInvalidSessionPage();
 }
