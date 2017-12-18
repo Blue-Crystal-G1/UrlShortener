@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class shortURLRepositoryTest {
+public class ShortURLRepositoryTest {
 
     private ShortURL test;
     private ShortURL test2;

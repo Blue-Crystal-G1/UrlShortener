@@ -55,7 +55,7 @@ public interface UserApi {
         method = RequestMethod.GET)
     default ResponseEntity<User> getUserByID(@ApiParam(value = "The ID that needs to be fetched.", required = true) @PathVariable("id") Long id) {
         // do some magic!
-        return new ResponseEntity<User>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
@@ -68,7 +68,7 @@ public interface UserApi {
         method = RequestMethod.GET)
     default ResponseEntity<List<User>> getUserList() {
         // do some magic!
-        return new ResponseEntity<List<User>>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

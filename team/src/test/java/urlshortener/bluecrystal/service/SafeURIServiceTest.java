@@ -11,7 +11,7 @@ import static junit.framework.TestCase.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class safeURIServiceTest {
+public class SafeURIServiceTest {
 
     @Autowired
     protected SafeURIService safeURIService;

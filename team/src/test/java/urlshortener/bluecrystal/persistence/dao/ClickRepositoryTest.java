@@ -8,19 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import urlshortener.bluecrystal.persistence.model.Click;
-import urlshortener.bluecrystal.persistence.model.ShortURL;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
 import static urlshortener.bluecrystal.service.fixture.ShortURLFixture.exampleURL;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class clickRepositoryTest {
+public class ClickRepositoryTest {
 
     private Click test;
     private Click test2;

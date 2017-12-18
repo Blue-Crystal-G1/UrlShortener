@@ -42,4 +42,14 @@ public class ShortURLFixture {
 		return new ShortURL("key3", "http://malware.testing.google.test/testing/malware/", null, LocalDateTime.now(),
 				"Me", "localhost","Spain", LocalDateTime.now(), true, LocalDateTime.now(), true);
 	}
+
+    public static ShortURL availableUrlInitiallyMarkedAsNotAvailable() {
+        return new ShortURL("key2", "http://google.com/", null, LocalDateTime.now(),
+                "Me", "localhost","Canada", LocalDateTime.now(), false, LocalDateTime.now(), false);
+    }
+
+    public static ShortURL unavailableUrlInitiallyMarkedAsAvailable() {
+        return new ShortURL("key3", "http://notavailableInexistent.com", null, LocalDateTime.now(),
+                "Me", "localhost","Spain", LocalDateTime.now(), true, LocalDateTime.now(), true);
+    }
 }
