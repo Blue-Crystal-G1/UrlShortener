@@ -16,6 +16,7 @@ import urlshortener.bluecrystal.web.annotations.Layout;
 import urlshortener.bluecrystal.web.interfaces.RedirectApi;
 
 @Controller
+@Layout(value = Layout.DEFAULT)
 public class RedirectApiController implements RedirectApi {
 
     @Autowired
@@ -25,12 +26,11 @@ public class RedirectApiController implements RedirectApi {
     protected AdvertisingAccessService advertisingAccessService;
 
     @RequestMapping(value = "/advertising/{hash}", method = RequestMethod.GET)
-    @Layout(value = "layouts/default")
     public @ResponseBody
     ModelAndView getAdvertising(@PathVariable("hash") String hash) {
         ShortURL shortURL = shortUrlService.findByHash(hash);
         if (shortURL != null) {
-            AdvertisingAccess access = advertisingAccessService.createAccessToHash(hash);
+            AdvertisingAccess access = advertisingAccessService.createAccessToUri(hash);
             return new ModelAndView("advertising", HttpStatus.OK)
                     .addObject("hash", hash)
                     .addObject("guid", access.getId());

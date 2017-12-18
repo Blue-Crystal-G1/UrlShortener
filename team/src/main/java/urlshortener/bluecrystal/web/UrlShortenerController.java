@@ -45,17 +45,18 @@ public class UrlShortenerController {
     protected AdvertisingAccessService advertisingAccessService;
 
     @RequestMapping(value = "/{id:(?!link|swagger|index|urlInfo).*}", method = RequestMethod.GET)
+         //   produces = { "application/json" })
     public ResponseEntity<?> redirectTo(@PathVariable(value = "id") String id,
                                         @RequestParam(value = "guid", required = false) String guidAccess,
                                         HttpServletRequest request) {
         ShortURL l = shortUrlService.findByHash(id);
         if (l != null) {
             // Check if has bypassed the advertising
-            if(!advertisingAccessService.hasAccessToURI(id, guidAccess)) {
+            if(!advertisingAccessService.hasAccessToUri(id, guidAccess)) {
                 return createRedirectToAdvertisement(id, request);
             } else {
                 // Remove the granted access because it will be used
-                advertisingAccessService.removeAccessToHash(id, guidAccess);
+                advertisingAccessService.removeAccessToUri(id, guidAccess);
             }
 
             // Check if the URI is not available (since his last check)
@@ -65,17 +66,14 @@ public class UrlShortenerController {
             }
 
             // Check if the URI is not safe (since his last check)
-            if(l.getAvailable() == null || !l.getAvailable()) {
+            if(l.getSafe() == null || !l.getSafe()) {
                 ApiErrorResponse response = new ApiErrorResponse(messages.get("label.popupAccessUrl.notSafe"));
                 return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
             }
 
-            String ip = extractIP(request);
-            String browser = extractBrowser(request);
-            String os = extractOS(request);
-            String country = locationService.getCountryName(ip);
-            String referrer = extractReferrer(request);
-            createAndSaveClick(id, extractIP(request), browser, os, country, referrer);
+            // URI is correct, proceed
+            extractClickDataAndSave(id, request);
+
             // TODO: This will be the response when the URI has been created without advertise redirection
             //return createSuccessfulRedirectToResponse(l);
             ApiSuccessResponse<URI> response = new ApiSuccessResponse<>(URI.create(l.getTarget()));
@@ -85,12 +83,22 @@ public class UrlShortenerController {
         }
     }
 
+    private void extractClickDataAndSave(String id, HttpServletRequest request) {
+        String ip = extractIP(request);
+        String browser = extractBrowser(request);
+        String os = extractOS(request);
+        String country = locationService.getCountryName(ip);
+        String referrer = extractReferrer(request);
+        createAndSaveClick(id, extractIP(request), browser, os, country, referrer);
+    }
+
     private void createAndSaveClick(String hash, String ip, String browser, String os,
                                     String country, String referrer) {
         Click cl = new Click(hash, LocalDateTime.now().withSecond(0).withNano(0),
                 referrer, browser, os, ip, country);
         cl = clickService.save(cl);
-        logger.info(cl != null ? "[" + hash + "] saved with id [" + cl.getId() + "]" : "[" + hash + "] was not saved");
+        logger.info(cl != null ? "[" + hash + "] saved with id [" + cl.getId() + "]"
+                : "[" + hash + "] was not saved");
     }
 
     /**

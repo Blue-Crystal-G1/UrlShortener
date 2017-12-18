@@ -23,7 +23,7 @@ public class AdvertisingAccessService {
      * @param hash URI to get access property
      * @return a new access for an specific hash
      */
-    public AdvertisingAccess createAccessToHash(String hash) {
+    public AdvertisingAccess createAccessToUri(String hash) {
         if(!StringUtils.isEmpty(hash)) {
             return createAccess(hash);
         }
@@ -31,14 +31,14 @@ public class AdvertisingAccessService {
         return null;
     }
 
-    public void removeAccessToHash(String hash, String guid) {
+    public void removeAccessToUri(String hash, String guid) {
         if(!StringUtils.isEmpty(hash) && !StringUtils.isEmpty(guid)) {
             AdvertisingAccess access = advertisingAccessRepository.findByHashAndId(hash, guid);
             advertisingAccessRepository.delete(access);
         }
     }
 
-    public boolean hasAccessToURI(String hash, String guidAccess) {
+    public boolean hasAccessToUri(String hash, String guidAccess) {
         if (!StringUtils.isEmpty(hash) && !StringUtils.isEmpty(guidAccess)) {
             AdvertisingAccess access = advertisingAccessRepository.findByHashAndId(hash, guidAccess);
             return access != null && access.getAccess();
