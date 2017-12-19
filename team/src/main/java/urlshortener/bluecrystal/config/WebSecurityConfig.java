@@ -64,10 +64,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .csrf().disable()
             .authorizeRequests()
-                .antMatchers("/urlInfo").authenticated()
                 .antMatchers( "/webjars/**", "/resources/**" , "/js/**", "/css/**","/images/**", "/login*", "/register*",
-                        "/advertising/**","/*").permitAll()
-                //.antMatchers("/login*").anonymous()
+                        "/advertising/**", "/{id:(?!link|swagger|index|urlInfo).*}").permitAll()
                 .antMatchers(HttpMethod.POST, "/user*").anonymous()
                 .antMatchers(HttpMethod.GET, "as").denyAll()
                 .antMatchers("/user/updatePassword*","/user/savePassword*", "/updatePassword*").hasAuthority(Privilege.CHANGE_PASSWORD_PRIVILEGE)
