@@ -1,26 +1,16 @@
 package urlshortener.bluecrystal.web;
 
-import org.apache.catalina.core.ApplicationContext;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
-import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.http.HttpHeaders;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import urlshortener.bluecrystal.config.Messages;
-import urlshortener.bluecrystal.config.WebMvcConfig;
-import urlshortener.bluecrystal.persistence.dao.ClickRepository;
 import urlshortener.bluecrystal.persistence.model.AdvertisingAccess;
 import urlshortener.bluecrystal.persistence.model.Click;
 import urlshortener.bluecrystal.persistence.model.ShortURL;
@@ -29,17 +19,14 @@ import urlshortener.bluecrystal.service.fixture.AdvertisingAccessFixture;
 import urlshortener.bluecrystal.service.fixture.ClickFixture;
 import urlshortener.bluecrystal.service.fixture.ShortURLFixture;
 
-import java.net.URI;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static urlshortener.bluecrystal.service.fixture.ShortURLFixture.exampleURL;
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
 public class UrlShortenerTests {
@@ -56,19 +43,10 @@ public class UrlShortenerTests {
     private LocationService locationService;
 
     @Mock
-    private HashGenerator hashGenerator;
-
-    @Mock
     private Messages messages;
 
     @Mock
     private AdvertisingAccessService advertisingAccessService;
-
-    @Mock
-    private AvailableURIService availableURIService;
-
-    @Mock
-    private SafeURIService safeURIService;
 
     @InjectMocks
     private UrlShortenerController urlShortener;

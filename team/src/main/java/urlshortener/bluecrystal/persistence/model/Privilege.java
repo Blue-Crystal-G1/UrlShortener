@@ -15,7 +15,7 @@ public class Privilege {
     @Column(name="NAME")
     private String name;
 
-    @ManyToMany(mappedBy = "privileges")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "privileges")
     private Collection<Role> roles;
 
     public final static String READ_PRIVILEGE = "READ_PRIVILEGE";

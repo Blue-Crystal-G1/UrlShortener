@@ -10,31 +10,21 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import urlshortener.bluecrystal.config.Messages;
-import urlshortener.bluecrystal.persistence.dao.ClickRepository;
-import urlshortener.bluecrystal.persistence.model.AdvertisingAccess;
-import urlshortener.bluecrystal.persistence.model.Click;
 import urlshortener.bluecrystal.persistence.model.ShortURL;
 import urlshortener.bluecrystal.scheduled.AvailablePeriodicCheck;
 import urlshortener.bluecrystal.scheduled.SafePeriodicCheck;
 import urlshortener.bluecrystal.service.*;
-import urlshortener.bluecrystal.service.fixture.AdvertisingAccessFixture;
-import urlshortener.bluecrystal.service.fixture.ShortURLFixture;
-import urlshortener.bluecrystal.web.interfaces.LinkApi;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static urlshortener.bluecrystal.service.fixture.ShortURLFixture.exampleURL;
 
-//@ContextConfiguration(initializers = ConfigFileApplicationContextInitializer.class)
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
 @ComponentScan(basePackages = {"urshortener.bluecrystal.config"})
