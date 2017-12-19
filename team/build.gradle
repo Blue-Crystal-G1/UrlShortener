@@ -16,7 +16,7 @@ dependencies {
     compile 'commons-validator:commons-validator:1.6'
     compile 'com.google.guava:guava:23.0'
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.0'
-    compile 'org.codehaus.jackson:jackson-mapper-asl:1.19.13'
+//    compile 'org.codehaus.jackson:jackson-mapper-asl:1.19.13'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.7.5'
 
     // CSS and JS libraries
