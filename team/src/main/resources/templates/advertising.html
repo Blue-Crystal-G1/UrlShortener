@@ -65,6 +65,9 @@
                         window.location.href = '/';
                     }
                 })
+                .fail(function (error) {
+                    $('#shorted').html('<h3>' + error.responseJSON.message + '</h3>');
+                });
         }
     </script>
 </th:block>

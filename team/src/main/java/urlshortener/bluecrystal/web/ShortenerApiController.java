@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 import org.thymeleaf.util.StringUtils;
 import urlshortener.bluecrystal.config.Messages;
 import urlshortener.bluecrystal.persistence.model.Click;
@@ -17,19 +15,18 @@ import urlshortener.bluecrystal.service.AdvertisingAccessService;
 import urlshortener.bluecrystal.service.ClickService;
 import urlshortener.bluecrystal.service.LocationService;
 import urlshortener.bluecrystal.service.ShortUrlService;
-import urlshortener.bluecrystal.web.annotations.Layout;
 import urlshortener.bluecrystal.web.interfaces.ShortenerApi;
 import urlshortener.bluecrystal.web.messages.ApiErrorResponse;
+import urlshortener.bluecrystal.web.messages.ApiJsonResponse;
 import urlshortener.bluecrystal.web.messages.ApiSuccessResponse;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 
 
-@Controller
+@RestController
 public class ShortenerApiController implements ShortenerApi {
 
     private static final Logger logger = LoggerFactory.getLogger(ShortenerApiController.class);
@@ -49,10 +46,11 @@ public class ShortenerApiController implements ShortenerApi {
     @Autowired
     protected AdvertisingAccessService advertisingAccessService;
 
-    @RequestMapping(value = "/{id:(?!link|swagger|index|urlInfo).*}", method = RequestMethod.GET, produces = { "application/json" })
-    public @ResponseBody ResponseEntity<?> redirectTo(@PathVariable(value = "id") String id,
-                                 @RequestParam(value = "guid", required = false) String guidAccess,
-                                 HttpServletRequest request) {
+    @RequestMapping(value = "/{id:(?!link|swagger|index|urlInfo).*}", method = RequestMethod.GET)
+    //   produces = { "application/json" })
+    public ResponseEntity<?> redirectTo(@PathVariable(value = "id") String id,
+                                        @RequestParam(value = "guid", required = false) String guidAccess,
+                                        HttpServletRequest request) {
         ShortURL l = shortUrlService.findByHash(id);
         if (l != null) {
             // Check if has bypassed the advertising
@@ -84,44 +82,6 @@ public class ShortenerApiController implements ShortenerApi {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @Layout(Layout.NONE)
-    @RequestMapping(value = "/{id:(?!link|swagger|index|urlInfo).*}", method = RequestMethod.GET)
-    public @ResponseBody
-    Object redirectToHtml(@PathVariable(value = "id") String id,
-                          @RequestParam(value = "guid", required = false) String guidAccess,
-                          HttpServletRequest request, HttpServletResponse) {
-        ShortURL l = shortUrlService.findByHash(id);
-        if (l != null) {
-            // Check if has bypassed the advertising
-            if(!advertisingAccessService.hasAccessToUri(id, guidAccess)) {
-                return createRedirectToAdvertisementHtml(id, request);
-            } else {
-                // Remove the granted access because it will be used
-                advertisingAccessService.removeAccessToUri(id, guidAccess);
-            }
-
-            // Check if the URI is not available (since his last check)
-            if(l.getAvailable() == null || !l.getAvailable()) {
-                return "notAvailable";
-            }
-
-            // Check if the URI is not safe (since his last check)
-            if(l.getSafe() == null || !l.getSafe()) {
-                return "notSafe";
-            }
-
-            // URI is correct, proceed
-            extractClickDataAndSave(id, request);
-
-            // TODO: This will be the response when the URI has been created without advertise redirection
-            //return createSuccessfulRedirectToResponse(l);
-            ApiSuccessResponse<URI> response = new ApiSuccessResponse<>(URI.create(l.getTarget()));
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            return "404";
         }
     }
 
@@ -250,18 +210,12 @@ public class ShortenerApiController implements ShortenerApi {
         return new ResponseEntity<>(h, HttpStatus.TEMPORARY_REDIRECT);
     }
 
-    private ResponseEntity<?> createRedirectToAdvertisement(String id, HttpServletRequest request) {
+    private ResponseEntity<? extends ApiJsonResponse> createRedirectToAdvertisement(
+            String id, HttpServletRequest request) {
         HttpHeaders h = new HttpHeaders();
         h.setLocation(URI.create("http://" + request.getServerName() + ":" + request.getServerPort()
                 + "/advertising/" + id));
-        return new ResponseEntity<>(h, HttpStatus.TEMPORARY_REDIRECT);
-    }
-
-    private RedirectView createRedirectToAdvertisementHtml(String id, HttpServletRequest request) {
-        RedirectView redirView = new RedirectView(URI.create("http://" + request.getServerName() + ":" + request.getServerPort()
-                + "/advertising/" + id).toString());
-        redirView.setStatusCode(HttpStatus.TEMPORARY_REDIRECT);
-        return redirView;
+        return new ResponseEntity<ApiSuccessResponse>(h, HttpStatus.TEMPORARY_REDIRECT);
     }
 
 }
