@@ -52,4 +52,14 @@ public class ShortURLFixture {
         return new ShortURL("key3", "http://notavailableInexistent.com", null, LocalDateTime.now(),
                 "Me", "localhost","Spain", LocalDateTime.now(), true, LocalDateTime.now(), true);
     }
+
+	public static ShortURL urlNotAvailable() {
+		try {
+			return new ShortURL("key4", "http://unavailable.com/", new URI("http://localhost:8080/key4"), LocalDateTime.now(),
+					"Myself", "localhost","Spain", LocalDateTime.now(), true, LocalDateTime.now(), false);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

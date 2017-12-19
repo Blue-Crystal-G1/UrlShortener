@@ -8,8 +8,14 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import urlshortener.bluecrystal.persistence.dao.ClickRepository;
+import urlshortener.bluecrystal.persistence.model.AdvertisingAccess;
+import urlshortener.bluecrystal.persistence.model.ShortURL;
+import urlshortener.bluecrystal.service.AdvertisingAccessService;
 import urlshortener.bluecrystal.service.ShortUrlService;
+import urlshortener.bluecrystal.service.fixture.AdvertisingAccessFixture;
 import urlshortener.bluecrystal.service.fixture.ShortURLFixture;
+
+import java.util.UUID;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -26,6 +32,9 @@ public class RedirectApiTests {
     @Mock
     private ShortUrlService shortURLService;
 
+    @Mock
+    private AdvertisingAccessService advertisingAccessService;
+
     @InjectMocks
     private RedirectApiController redirectApiController;
 
@@ -39,13 +48,18 @@ public class RedirectApiTests {
     @Test
     public void thatRedirectToAdIfKeyExists()
             throws Exception {
-        String hashThatExists = ShortURLFixture.exampleURL().getHash();
-        when(shortURLService.findByHash(hashThatExists)).thenReturn(ShortURLFixture.exampleURL());
+        ShortURL shortURL = ShortURLFixture.exampleURL();
+        AdvertisingAccess advertisingAccess = AdvertisingAccessFixture.advertisingAccessWithAccess(shortURL.getHash());
+        when(shortURLService.findByHash(shortURL.getHash())).thenReturn(ShortURLFixture.exampleURL());
+        when(advertisingAccessService.createAccessToUri(shortURL.getHash()))
+                .thenReturn(advertisingAccess);
 
-        mockMvc.perform(get("/advertising/{hash}", hashThatExists)).andDo(print())
+        mockMvc.perform(get("/advertising/{hash}", shortURL.getHash())).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("advertising"))
-                .andExpect(model().attribute("hash", hashThatExists));
+                .andExpect(model().attribute("hash", shortURL.getHash()))
+                .andExpect(model().attribute("guid",advertisingAccess.getId() ));
+
     }
 
 

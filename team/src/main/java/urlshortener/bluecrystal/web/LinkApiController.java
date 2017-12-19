@@ -89,16 +89,20 @@ public class LinkApiController implements LinkApi {
 
             su = shortUrlService.save(su);
 
-            // Check if the URI is safe and available asynchronously
-            safePeriodicCheck.checkSecurityAsync(su);
-            availablePeriodicCheck.checkAvailabilityAsync(su);
-            // Obtains the country of the request ip asynchronously
-            locationService.checkLocationAsync(su);
+            if (su != null) {
 
-            return su;
-        } else {
-            return null;
+                // Check if the URI is safe and available asynchronously
+                safePeriodicCheck.checkSecurityAsync(su);
+                availablePeriodicCheck.checkAvailabilityAsync(su);
+                // Obtains the country of the request ip asynchronously
+                locationService.checkLocationAsync(su);
+
+                return su;
+
+            }
         }
+        return null;
+
     }
 
     /**

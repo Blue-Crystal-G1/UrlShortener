@@ -3,6 +3,9 @@ package urlshortener.bluecrystal.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +32,14 @@ public class UrlInfoApiController implements UrlInfoApi {
 
 
     public @ResponseBody ModelAndView getUrlInfoList() {
+
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//        userDetails.getUsername();
+//
+//        Authentication authentication2 = SecurityContextHolder.getContext().getAuthentication();
+//        String currentPrincipalName = authentication2.getName();
+
         List<URLInfoDTO> urlInfoList = shortUrlService.getInformationAboutAllUrls();
 
         Map<String, Object> model = new HashMap<String, Object>(){{

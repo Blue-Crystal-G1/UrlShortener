@@ -1,18 +1,36 @@
 package urlshortener.bluecrystal.web;
 
+import org.apache.catalina.core.ApplicationContext;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
+import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpHeaders;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import urlshortener.bluecrystal.config.Messages;
+import urlshortener.bluecrystal.config.WebMvcConfig;
 import urlshortener.bluecrystal.persistence.dao.ClickRepository;
+import urlshortener.bluecrystal.persistence.model.AdvertisingAccess;
 import urlshortener.bluecrystal.persistence.model.Click;
 import urlshortener.bluecrystal.persistence.model.ShortURL;
 import urlshortener.bluecrystal.service.*;
+import urlshortener.bluecrystal.service.fixture.AdvertisingAccessFixture;
+import urlshortener.bluecrystal.service.fixture.ClickFixture;
+import urlshortener.bluecrystal.service.fixture.ShortURLFixture;
+
+import java.net.URI;
+import java.util.UUID;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.any;
@@ -22,13 +40,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static urlshortener.bluecrystal.service.fixture.ShortURLFixture.exampleURL;
-
+@RunWith(MockitoJUnitRunner.class)
+@SpringBootTest
 public class UrlShortenerTests {
 
     private MockMvc mockMvc;
 
     @Mock
-    private ClickRepository clickRepository;
+    private ClickService clickService;
 
     @Mock
     private ShortUrlService shortUrlService;
@@ -38,6 +57,12 @@ public class UrlShortenerTests {
 
     @Mock
     private HashGenerator hashGenerator;
+
+    @Mock
+    private Messages messages;
+
+    @Mock
+    private AdvertisingAccessService advertisingAccessService;
 
     @Mock
     private AvailableURIService availableURIService;
@@ -55,63 +80,6 @@ public class UrlShortenerTests {
     }
 
     @Test
-    public void thatRedirectToReturnsTemporaryRedirectIfKeyExists()
-            throws Exception {
-        configureTransparentSave();
-        when(shortUrlService.findByHash(exampleURL().getHash())).thenReturn(exampleURL());
-        mockMvc.perform(get("/{id}", exampleURL().getHash())
-                .header("User-Agent", "chrome windows")
-                .header(HttpHeaders.REFERER, "http://twitter.com"))
-                .andDo(print())
-                .andExpect(status().isTemporaryRedirect())
-                .andExpect(redirectedUrl(exampleURL().getTarget()));
-    }
-
-    @Test
-    public void thatRedirectToWorksWithNoHeaders()
-            throws Exception {
-        configureTransparentSave();
-        when(shortUrlService.findByHash(exampleURL().getHash())).thenReturn(exampleURL());
-        mockMvc.perform(get("/{id}", exampleURL().getHash()))
-                .andDo(print())
-                .andExpect(status().isTemporaryRedirect())
-                .andExpect(redirectedUrl(exampleURL().getTarget()));
-    }
-
-    @Test
-    public void thatRedirectToWorksWithEmptyHeaders()
-            throws Exception {
-        configureTransparentSave();
-        when(shortUrlService.findByHash(exampleURL().getHash())).thenReturn(exampleURL());
-        mockMvc.perform(get("/{id}", exampleURL().getHash())
-                .header("User-Agent", " ")
-                .header(HttpHeaders.REFERER, " "))
-                .andDo(print())
-                .andExpect(status().isTemporaryRedirect())
-                .andExpect(redirectedUrl(exampleURL().getTarget()));
-    }
-
-//    @Test
-//    public void thatRedirectToIncrementsClicks()
-//            throws Exception {
-//
-////        when(clickRepository.save(any(Click.class))).thenCallRealMethod();
-////        when(clickRepository.findByHash(any(String.class))).thenCallRealMethod();
-//
-//        when(shortUrlService.findByHash(exampleURL().getHash())).thenReturn(exampleURL());
-//        mockMvc.perform(get("/{id}", exampleURL().getHash())
-//                .header("User-Agent", "chrome windows")
-//                .header(HttpHeaders.REFERER, "http://twitter.com"))
-//                .andDo(print())
-//                .andExpect(status().isTemporaryRedirect())
-//                .andExpect(redirectedUrl(exampleURL().getTarget()));
-//
-//        assertEquals(clickRepository.findByHash(exampleURL().getHash()).size(), 1);
-//
-//
-//    }
-
-    @Test
     public void thatRedirecToReturnsNotFoundIdIfKeyDoesNotExist()
             throws Exception {
         when(shortUrlService.findByHash("someHash")).thenReturn(null);
@@ -121,45 +89,68 @@ public class UrlShortenerTests {
     }
 
     @Test
-    public void thatShortenerCreatesARedirectIfTheURLisOK() throws Exception {
-        configureTransparentSave();
+    public void thatRedirecToRedirectsToAdvertisingIfHasNotBypassAd()
+            throws Exception {
+        String guid = UUID.randomUUID().toString();
+        ShortURL shortURL = ShortURLFixture.exampleURL();
+        when(shortUrlService.findByHash(shortURL.getHash())).thenReturn(ShortURLFixture.exampleURL());
+        when(advertisingAccessService.hasAccessToUri(shortURL.getHash(),guid)).thenReturn(false);
 
-        //Hash generation has been mocked to prevent the randomness of the generated hash
-        String hash = "kljrr1984ulknj4";
-        when(hashGenerator.generateHash(any(),any())).thenReturn(hash);
-
-        mockMvc.perform(post("/link").param("url", "http://google.com/"))
-                .andDo(print())
-                .andExpect(redirectedUrlPattern("http://localhost/*"))
-                .andExpect(redirectedUrl("http://localhost/"+hash))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.hash", is(hash)))
-                .andExpect(jsonPath("$.uri", is("http://localhost/"+hash)))
-                .andExpect(jsonPath("$.target", is("http://google.com/")));
+        mockMvc.perform(get("/{id}", shortURL.getHash()).param("guid",guid)).andDo(print())
+                .andExpect(status().isTemporaryRedirect())
+                .andExpect(redirectedUrlPattern("**/advertising/"+shortURL.getHash()));
     }
 
     @Test
-    public void thatShortenerFailsIfTheURLisWrong() throws Exception {
-        configureTransparentSave();
+    public void thatRedirecToReturnNotFoundIfURIisNotAvailable()
+            throws Exception {
+        ShortURL shortURL = ShortURLFixture.urlNotAvailable();
+        AdvertisingAccess accessFixture = AdvertisingAccessFixture.advertisingAccessWithAccess(shortURL.getHash());
+        when(shortUrlService.findByHash(shortURL.getHash())).thenReturn(shortURL);
+        when(advertisingAccessService.hasAccessToUri(any(),any())).thenReturn(true);
+        when(messages.get(any())).thenReturn("something");
 
-        mockMvc.perform(post("/link").param("url", "someKey")).andDo(print())
-                .andExpect(status().isBadRequest());
+        mockMvc.perform(get("/{id}", shortURL.getHash())).andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status", is("error")));
+
     }
 
     @Test
-    public void thatShortenerFailsIfTheRepositoryReturnsNull() throws Exception {
-        when(shortUrlService.save(any(ShortURL.class)))
-                .thenReturn(null);
+    public void thatRedirecToReturnNotFoundIfURIisNotSafe()
+            throws Exception {
+        ShortURL shortURL = ShortURLFixture.unsafeURL();
+        AdvertisingAccess accessFixture = AdvertisingAccessFixture.advertisingAccessWithAccess(shortURL.getHash());
+        when(shortUrlService.findByHash(shortURL.getHash())).thenReturn(shortURL);
+        when(advertisingAccessService.hasAccessToUri(any(),any())).thenReturn(true);
+        when(messages.get(any())).thenReturn("something");
 
-        mockMvc.perform(post("/link").param("url", "someKey")).andDo(print())
-                .andExpect(status().isBadRequest());
-    }
-
-    private void configureTransparentSave() {
-        when(shortUrlService.save(any(ShortURL.class)))
-                .then((Answer<ShortURL>) invocation -> (ShortURL) invocation.getArguments()[0]);
-        when(clickRepository.save(any(Click.class)))
-                .then((Answer<Click>) invocation -> (Click) invocation.getArguments()[0]);
+        mockMvc.perform(get("/{id}", shortURL.getHash())).andDo(print())
+                .andExpect(status().isBadGateway())
+                .andExpect(jsonPath("$.status", is("error")));
 
     }
+
+    @Test
+    public void thatRedirecToReturnsOkIfHasAccessAndUriIsOK()
+            throws Exception {
+        String guid = UUID.randomUUID().toString();
+        ShortURL shortURL = ShortURLFixture.exampleURL();
+        Click clickTest = ClickFixture.testClick1();
+
+        AdvertisingAccess accessFixture = AdvertisingAccessFixture.advertisingAccessWithAccess(shortURL.getHash());
+        when(shortUrlService.findByHash(shortURL.getHash())).thenReturn(shortURL);
+        when(advertisingAccessService.hasAccessToUri(any(),any())).thenReturn(true);
+        when(messages.get(any())).thenReturn("something");
+        when(locationService.getCountryName(any())).thenReturn("SPAIN");
+        when(clickService.save(any())).thenReturn(ClickFixture.testClick1());
+
+        mockMvc.perform(get("/{id}", shortURL.getHash()).param("guid",guid)).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status", is("success")))
+                .andExpect(jsonPath("$.data", is(shortURL.getTarget())));
+
+
+    }
+
 }

@@ -105,6 +105,7 @@ public class ShortUrlService {
         return null;
     }
 
+
     public List<URLInfoDTO> getInformationAboutAllUrls() {
         List<ShortURL> shortURLList = shortURLRepository.findAll();
 
@@ -120,6 +121,38 @@ public class ShortUrlService {
 
         return null;
     }
+
+    public List<URLInfoDTO> getInformationAboutUserUrls(long user) {
+        List<ShortURL> shortURLList = shortURLRepository.findByOwner(user);
+
+        if(!CollectionUtils.isEmpty(shortURLList)) {
+            List<URLInfoDTO> urlInfoList = new ArrayList<>();
+            shortURLList.forEach(shortURL -> urlInfoList.add(
+                    mapShortUrlToUrlInfo(shortURL,
+                            clickRepository.countClicksByHash(shortURL.getHash()))
+            ));
+
+            return urlInfoList;
+        }
+
+        return null;
+    }
+
+//    public List<URLInfoDTO> getAllUrlsOfUser(String owner) {
+//        List<ShortURL> shortURLList = shortURLRepository.find();
+//
+//        if(!CollectionUtils.isEmpty(shortURLList)) {
+//            List<URLInfoDTO> urlInfoList = new ArrayList<>();
+//            shortURLList.forEach(shortURL -> urlInfoList.add(
+//                    mapShortUrlToUrlInfo(shortURL,
+//                            clickRepository.countClicksByHash(shortURL.getHash()))
+//            ));
+//
+//            return urlInfoList;
+//        }
+//
+//        return null;
+//    }
 
     public ShortURL findByHash(String hash) {
         if(!StringUtils.isEmpty(hash.trim()))
