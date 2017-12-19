@@ -7,12 +7,15 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import urlshortener.bluecrystal.persistence.model.Click;
-import urlshortener.bluecrystal.persistence.model.ShortURL;
-import urlshortener.bluecrystal.web.dto.*;
 import urlshortener.bluecrystal.persistence.dao.ClickRepository;
 import urlshortener.bluecrystal.persistence.dao.ShortURLRepository;
+import urlshortener.bluecrystal.persistence.dao.UserRepository;
+import urlshortener.bluecrystal.persistence.model.Click;
+import urlshortener.bluecrystal.persistence.model.ShortURL;
+import urlshortener.bluecrystal.persistence.model.User;
+import urlshortener.bluecrystal.web.dto.*;
 import urlshortener.bluecrystal.web.dto.util.ClickInterval;
+import urlshortener.bluecrystal.web.fixture.UserFixture;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +24,7 @@ import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
-import static urlshortener.bluecrystal.service.fixture.ClickFixture.testClick1;
-import static urlshortener.bluecrystal.service.fixture.ClickFixture.testClick2;
-import static urlshortener.bluecrystal.service.fixture.ClickFixture.testClick3;
+import static urlshortener.bluecrystal.service.fixture.ClickFixture.*;
 import static urlshortener.bluecrystal.service.fixture.ShortURLFixture.exampleURL;
 import static urlshortener.bluecrystal.service.fixture.ShortURLFixture.exampleURL2;
 
@@ -36,6 +37,9 @@ public class ShortUrlServiceTests {
 
     @Mock
     private ShortURLRepository shortURLRepository;
+
+    @Mock
+    private UserRepository userRepository;
 
     @InjectMocks
     private ShortUrlService shortUrlService;
@@ -136,28 +140,31 @@ public class ShortUrlServiceTests {
             throws Exception {
 
         //2 clicks point to exammpleURL and 1 click points to exampleURL2
+        User user = UserFixture.exampleUser();
         List<Click> clicksList1 = new ArrayList<Click>() {{add(testClick1());add(testClick2());}};
         List<Click> clicksList2 = new ArrayList<Click>() {{add(testClick3());}};
         List<ShortURL> shortURLList = new ArrayList<ShortURL>() {{add(exampleURL());add(exampleURL2());}};
         when(shortURLRepository.findAll())
                 .thenReturn(shortURLList);
-        when(clickRepository.findByHash(exampleURL().getHash()))
-                .thenReturn(clicksList1);
-        when(clickRepository.findByHash(exampleURL().getHash()))
-                .thenReturn(clicksList2);
+        when(clickRepository.findByHash(exampleURL().getHash())).thenReturn(clicksList1);
+        when(clickRepository.findByHash(exampleURL().getHash())).thenReturn(clicksList2);
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(user);
+        when(shortURLRepository.findByOwner(user.getId())).thenReturn(shortURLList);
 
-        List<URLInfoDTO> infoList = shortUrlService.getInformationAboutAllUrls();
+        List<URLInfoDTO> infoList = shortUrlService.getInformationAboutAllUrls(user.getEmail());
         assertEquals(infoList.size(),2);
     }
 
     @Test
     public void thatGetsInfoAboutAllUrlsReturnsNullIfArentUris()
             throws Exception {
+        User user = UserFixture.exampleUser();
+        List<ShortURL> shortURLList = new ArrayList<ShortURL>() {{add(exampleURL());add(exampleURL2());}};
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(user);
+        when(shortURLRepository.findByOwner(user.getId())).thenReturn(shortURLList);
 
-        when(shortURLRepository.findAll())
-                .thenReturn(null);
 
-        List<URLInfoDTO> infoList = shortUrlService.getInformationAboutAllUrls();
+        List<URLInfoDTO> infoList = shortUrlService.getInformationAboutAllUrls(user.getEmail());
         assertEquals(infoList,null);
     }
 

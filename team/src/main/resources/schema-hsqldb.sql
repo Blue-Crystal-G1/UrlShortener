@@ -50,7 +50,7 @@ CREATE TABLE SHORTURL(
 	TARGET		              VARCHAR(1024),				    -- Original URL
   URI                     VARCHAR(1024),            -- URI
 	CREATED 	              TIMESTAMP,					      -- Creation date
-	OWNER		                VARCHAR(255),				      -- User id
+	OWNER		                BIGINT NOT NULL REFERENCES USER(ID),				      -- User id
 	IP			                VARCHAR(20),				      -- IP
 	COUNTRY		              VARCHAR(50),				      -- Country
   SAFE		                BOOLEAN,					-- Safe target

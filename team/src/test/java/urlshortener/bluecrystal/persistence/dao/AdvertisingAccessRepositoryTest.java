@@ -9,8 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import urlshortener.bluecrystal.persistence.model.AdvertisingAccess;
 import urlshortener.bluecrystal.persistence.model.ShortURL;
+import urlshortener.bluecrystal.persistence.model.User;
 import urlshortener.bluecrystal.service.fixture.AdvertisingAccessFixture;
 import urlshortener.bluecrystal.service.fixture.ShortURLFixture;
+import urlshortener.bluecrystal.web.fixture.UserFixture;
 
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
@@ -23,16 +25,23 @@ public class AdvertisingAccessRepositoryTest {
 
     private AdvertisingAccess advertisingAccessWithAccess;
     private AdvertisingAccess advertisingAccessWithoutAccess;
+    private User user;
 
     @Autowired
-    private AdvertisingAccessRepository advertisingAccessRepository;
+    protected UserRepository userRepository;
+    @Autowired
+    protected AdvertisingAccessRepository advertisingAccessRepository;
 
     @Autowired
     protected ShortURLRepository shortURLRepository;
 
+    public AdvertisingAccessRepositoryTest() {
+    }
+
     @Before
     public void setUp() throws Exception {
-        ShortURL shortURL = shortURLRepository.save(ShortURLFixture.exampleURL());
+        user = userRepository.save(UserFixture.exampleUser());
+        ShortURL shortURL = shortURLRepository.save(ShortURLFixture.exampleURL(user.getId()));
         advertisingAccessWithAccess = AdvertisingAccessFixture.advertisingAccessWithAccess(shortURL.getHash());
         advertisingAccessWithoutAccess = AdvertisingAccessFixture.advertisingAccessWithoutAccess(shortURL.getHash());
     }
@@ -124,6 +133,7 @@ public class AdvertisingAccessRepositoryTest {
     public void finishTest() throws Exception{
         advertisingAccessRepository.deleteAll();
         shortURLRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
 }

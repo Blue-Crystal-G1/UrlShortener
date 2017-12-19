@@ -26,8 +26,7 @@ public class RedirectApiController implements RedirectApi {
     protected AdvertisingAccessService advertisingAccessService;
 
     @RequestMapping(value = "/advertising/{hash}", method = RequestMethod.GET)
-    public @ResponseBody
-    ModelAndView getAdvertising(@PathVariable("hash") String hash) {
+    public @ResponseBody ModelAndView getAdvertising(@PathVariable("hash") String hash) {
         ShortURL shortURL = shortUrlService.findByHash(hash);
         if (shortURL != null) {
             AdvertisingAccess access = advertisingAccessService.createAccessToUri(hash);

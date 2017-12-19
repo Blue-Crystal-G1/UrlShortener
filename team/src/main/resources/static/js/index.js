@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $("#shortList").load('/urlInfoAjax')
+    $("#shortList").load('/urlInfo')
 
     $("#shortener").submit(function(event) {
         event.preventDefault();
@@ -8,7 +8,7 @@ $(document).ready(function() {
                 // Show popup with shorted url
                 showDialogSuccess(msg.hash, msg.uri);
                 // Update table with shorted urls
-                $("#shortList").load('/urlInfoAjax');
+                $("#shortList").load('/urlInfo');
             })
             .fail(function () {
                 showDialogError();

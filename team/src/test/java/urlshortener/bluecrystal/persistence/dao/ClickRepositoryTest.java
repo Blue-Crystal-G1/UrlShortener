@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import urlshortener.bluecrystal.persistence.model.Click;
+import urlshortener.bluecrystal.persistence.model.ShortURL;
+import urlshortener.bluecrystal.persistence.model.User;
+import urlshortener.bluecrystal.web.fixture.UserFixture;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,19 +25,25 @@ public class ClickRepositoryTest {
 
     private Click test;
     private Click test2;
+    private User user;
 
     @Autowired
-    private ClickRepository clickRepository;
+    protected UserRepository userRepository;
 
     @Autowired
-    private ShortURLRepository shortURLRepository;
+    protected ClickRepository clickRepository;
+
+    @Autowired
+    protected ShortURLRepository shortURLRepository;
 
     @Before
     public void setUp() throws Exception {
-        shortURLRepository.save(exampleURL());
-        test = new Click(exampleURL().getHash(), LocalDateTime.now(),"localhost", "IE9", "W10",
+        user = userRepository.save(UserFixture.exampleUser());
+        ShortURL shortURL = exampleURL(user.getId());
+        shortURLRepository.save(shortURL);
+        test = new Click(shortURL.getHash(), LocalDateTime.now(),"localhost", "IE9", "W10",
                 "localhost", "Turkey");
-        test2 = new Click(exampleURL().getHash(),LocalDateTime.now(),"localhost2", "chrome", "Android",
+        test2 = new Click(shortURL.getHash(),LocalDateTime.now(),"localhost2", "chrome", "Android",
                 "localhost", "Spain");
     }
 
@@ -116,6 +125,7 @@ public class ClickRepositoryTest {
     public void finishTest() throws Exception{
         clickRepository.deleteAll();
         shortURLRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
 }

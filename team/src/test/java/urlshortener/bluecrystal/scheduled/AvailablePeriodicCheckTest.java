@@ -1,14 +1,18 @@
 package urlshortener.bluecrystal.scheduled;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import urlshortener.bluecrystal.persistence.dao.ShortURLRepository;
+import urlshortener.bluecrystal.persistence.dao.UserRepository;
 import urlshortener.bluecrystal.persistence.model.ShortURL;
+import urlshortener.bluecrystal.persistence.model.User;
 import urlshortener.bluecrystal.service.fixture.ShortURLFixture;
+import urlshortener.bluecrystal.web.fixture.UserFixture;
 
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
@@ -18,14 +22,25 @@ import static junit.framework.TestCase.assertTrue;
 public class AvailablePeriodicCheckTest {
 
     @Autowired
+    protected UserRepository userRepository;
+
+    @Autowired
     protected ShortURLRepository shortURLRepository;
 
     @Autowired
     protected AvailablePeriodicCheck availablePeriodicCheck;
 
+    private User user;
+
+    @Before
+    public void init() {
+        user = userRepository.save(UserFixture.exampleUser());
+    }
+
     @Test
     public void thatAvailableUrlIsDetectedAsSafe() throws Exception {
-        ShortURL shortURL = ShortURLFixture.availableUrlInitiallyMarkedAsNotAvailable();
+
+        ShortURL shortURL = ShortURLFixture.availableUrlInitiallyMarkedAsNotAvailable(user.getId());
         shortURLRepository.save(shortURL);
         availablePeriodicCheck.checkAvailability();
         ShortURL shortURLsafe = shortURLRepository.findByHash(shortURL.getHash());
@@ -34,7 +49,7 @@ public class AvailablePeriodicCheckTest {
 
     @Test
     public void thatUnavailableUrlIsDetectedAsUnsafe() throws Exception {
-        ShortURL shortURL = ShortURLFixture.unavailableUrlInitiallyMarkedAsAvailable();
+        ShortURL shortURL = ShortURLFixture.unavailableUrlInitiallyMarkedAsAvailable(user.getId());
         shortURLRepository.save(shortURL);
         availablePeriodicCheck.checkAvailability();
         ShortURL shortURLUnavailable = shortURLRepository.findByHash(shortURL.getHash());
@@ -43,7 +58,7 @@ public class AvailablePeriodicCheckTest {
 
     @Test
     public void thatAvailableUrlIsDetectedAsSafeAsync() throws Exception {
-        ShortURL shortURL = ShortURLFixture.availableUrlInitiallyMarkedAsNotAvailable();
+        ShortURL shortURL = ShortURLFixture.availableUrlInitiallyMarkedAsNotAvailable(user.getId());
         shortURLRepository.save(shortURL);
         availablePeriodicCheck.checkAvailabilityAsync(shortURL);
         Thread.sleep(1000);
@@ -53,7 +68,7 @@ public class AvailablePeriodicCheckTest {
 
     @Test
     public void thatUnavailableUrlIsDetectedAsUnsafeAsync() throws Exception {
-        ShortURL shortURL = ShortURLFixture.unavailableUrlInitiallyMarkedAsAvailable();
+        ShortURL shortURL = ShortURLFixture.unavailableUrlInitiallyMarkedAsAvailable(user.getId());
         shortURLRepository.save(shortURL);
         availablePeriodicCheck.checkAvailabilityAsync(shortURL);
         Thread.sleep(1000);
@@ -64,5 +79,6 @@ public class AvailablePeriodicCheckTest {
     @After
     public void finishTest() throws Exception{
         shortURLRepository.deleteAll();
+        userRepository.deleteAll();
     }
 }

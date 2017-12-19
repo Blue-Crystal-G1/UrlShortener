@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import urlshortener.bluecrystal.persistence.model.Click;
-import urlshortener.bluecrystal.persistence.model.ShortURL;
 import urlshortener.bluecrystal.persistence.dao.ClickRepository;
 import urlshortener.bluecrystal.persistence.dao.ShortURLRepository;
+import urlshortener.bluecrystal.persistence.dao.UserRepository;
+import urlshortener.bluecrystal.persistence.model.Click;
+import urlshortener.bluecrystal.persistence.model.ShortURL;
+import urlshortener.bluecrystal.persistence.model.User;
 import urlshortener.bluecrystal.web.dto.*;
 import urlshortener.bluecrystal.web.dto.util.ClickInterval;
 
@@ -27,6 +29,9 @@ public class ShortUrlService {
 
     @Autowired
     private ClickRepository clickRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * Obtains associateed information about a short url and clicks (like
@@ -105,54 +110,23 @@ public class ShortUrlService {
         return null;
     }
 
+    public List<URLInfoDTO> getInformationAboutAllUrls(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user != null && !StringUtils.isEmpty(user.getEmail())) {
+            List<ShortURL> shortURLList = shortURLRepository.findByOwner(user.getId());
 
-    public List<URLInfoDTO> getInformationAboutAllUrls() {
-        List<ShortURL> shortURLList = shortURLRepository.findAll();
+            if (!CollectionUtils.isEmpty(shortURLList)) {
+                List<URLInfoDTO> urlInfoList = new ArrayList<>();
+                shortURLList.forEach(shortURL -> urlInfoList.add(
+                        mapShortUrlToUrlInfo(shortURL,
+                                clickRepository.countClicksByHash(shortURL.getHash()))
+                ));
 
-        if(!CollectionUtils.isEmpty(shortURLList)) {
-            List<URLInfoDTO> urlInfoList = new ArrayList<>();
-            shortURLList.forEach(shortURL -> urlInfoList.add(
-                    mapShortUrlToUrlInfo(shortURL,
-                            clickRepository.countClicksByHash(shortURL.getHash()))
-            ));
-
-            return urlInfoList;
+                return urlInfoList;
+            }
         }
-
         return null;
     }
-
-    public List<URLInfoDTO> getInformationAboutUserUrls(long user) {
-        List<ShortURL> shortURLList = shortURLRepository.findByOwner(user);
-
-        if(!CollectionUtils.isEmpty(shortURLList)) {
-            List<URLInfoDTO> urlInfoList = new ArrayList<>();
-            shortURLList.forEach(shortURL -> urlInfoList.add(
-                    mapShortUrlToUrlInfo(shortURL,
-                            clickRepository.countClicksByHash(shortURL.getHash()))
-            ));
-
-            return urlInfoList;
-        }
-
-        return null;
-    }
-
-//    public List<URLInfoDTO> getAllUrlsOfUser(String owner) {
-//        List<ShortURL> shortURLList = shortURLRepository.find();
-//
-//        if(!CollectionUtils.isEmpty(shortURLList)) {
-//            List<URLInfoDTO> urlInfoList = new ArrayList<>();
-//            shortURLList.forEach(shortURL -> urlInfoList.add(
-//                    mapShortUrlToUrlInfo(shortURL,
-//                            clickRepository.countClicksByHash(shortURL.getHash()))
-//            ));
-//
-//            return urlInfoList;
-//        }
-//
-//        return null;
-//    }
 
     public ShortURL findByHash(String hash) {
         if(!StringUtils.isEmpty(hash.trim()))
@@ -184,7 +158,6 @@ public class ShortUrlService {
             return false;
         }
     }
-
 
     private URLInfoDTO mapShortUrlToUrlInfo(ShortURL shortURL, Integer totalClicks) {
         PrettyTime pt = new PrettyTime();

@@ -49,7 +49,7 @@ public class UrlShortenerTests {
     private AdvertisingAccessService advertisingAccessService;
 
     @InjectMocks
-    private UrlShortenerController urlShortener;
+    private ShortenerApiController urlShortener;
 
     @Before
     public void setup() {
@@ -70,8 +70,8 @@ public class UrlShortenerTests {
     public void thatRedirecToRedirectsToAdvertisingIfHasNotBypassAd()
             throws Exception {
         String guid = UUID.randomUUID().toString();
-        ShortURL shortURL = ShortURLFixture.exampleURL();
-        when(shortUrlService.findByHash(shortURL.getHash())).thenReturn(ShortURLFixture.exampleURL());
+        ShortURL shortURL = ShortURLFixture.exampleURL(0L);
+        when(shortUrlService.findByHash(shortURL.getHash())).thenReturn(ShortURLFixture.exampleURL(0L));
         when(advertisingAccessService.hasAccessToUri(shortURL.getHash(),guid)).thenReturn(false);
 
         mockMvc.perform(get("/{id}", shortURL.getHash()).param("guid",guid)).andDo(print())
@@ -82,7 +82,7 @@ public class UrlShortenerTests {
     @Test
     public void thatRedirecToReturnNotFoundIfURIisNotAvailable()
             throws Exception {
-        ShortURL shortURL = ShortURLFixture.urlNotAvailable();
+        ShortURL shortURL = ShortURLFixture.urlNotAvailable(0L);
         AdvertisingAccess accessFixture = AdvertisingAccessFixture.advertisingAccessWithAccess(shortURL.getHash());
         when(shortUrlService.findByHash(shortURL.getHash())).thenReturn(shortURL);
         when(advertisingAccessService.hasAccessToUri(any(),any())).thenReturn(true);
@@ -97,7 +97,7 @@ public class UrlShortenerTests {
     @Test
     public void thatRedirecToReturnNotFoundIfURIisNotSafe()
             throws Exception {
-        ShortURL shortURL = ShortURLFixture.unsafeURL();
+        ShortURL shortURL = ShortURLFixture.unsafeURL(0L);
         AdvertisingAccess accessFixture = AdvertisingAccessFixture.advertisingAccessWithAccess(shortURL.getHash());
         when(shortUrlService.findByHash(shortURL.getHash())).thenReturn(shortURL);
         when(advertisingAccessService.hasAccessToUri(any(),any())).thenReturn(true);
@@ -113,15 +113,15 @@ public class UrlShortenerTests {
     public void thatRedirecToReturnsOkIfHasAccessAndUriIsOK()
             throws Exception {
         String guid = UUID.randomUUID().toString();
-        ShortURL shortURL = ShortURLFixture.exampleURL();
-        Click clickTest = ClickFixture.testClick1();
+        ShortURL shortURL = ShortURLFixture.exampleURL(0L);
+        Click clickTest = ClickFixture.testClick1(0L);
 
         AdvertisingAccess accessFixture = AdvertisingAccessFixture.advertisingAccessWithAccess(shortURL.getHash());
         when(shortUrlService.findByHash(shortURL.getHash())).thenReturn(shortURL);
         when(advertisingAccessService.hasAccessToUri(any(),any())).thenReturn(true);
         when(messages.get(any())).thenReturn("something");
         when(locationService.getCountryName(any())).thenReturn("SPAIN");
-        when(clickService.save(any())).thenReturn(ClickFixture.testClick1());
+        when(clickService.save(any())).thenReturn(ClickFixture.testClick1(0L));
 
         mockMvc.perform(get("/{id}", shortURL.getHash()).param("guid",guid)).andDo(print())
                 .andExpect(status().isOk())

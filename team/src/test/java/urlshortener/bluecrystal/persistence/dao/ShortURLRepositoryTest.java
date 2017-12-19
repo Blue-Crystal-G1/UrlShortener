@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import urlshortener.bluecrystal.persistence.model.ShortURL;
+import urlshortener.bluecrystal.persistence.model.User;
 import urlshortener.bluecrystal.service.fixture.ShortURLFixture;
+import urlshortener.bluecrystal.web.fixture.UserFixture;
 
 import java.util.List;
 
@@ -21,14 +23,19 @@ public class ShortURLRepositoryTest {
 
     private ShortURL test;
     private ShortURL test2;
+    private User user;
+
+    @Autowired
+    protected UserRepository userRepository;
 
     @Autowired
     protected ShortURLRepository shortURLRepository;
 
     @Before
     public void setUp() throws Exception {
-        test = ShortURLFixture.exampleURL();
-        test2 = ShortURLFixture.exampleURL2();
+        user = userRepository.save(UserFixture.exampleUser());
+        test = ShortURLFixture.exampleURL(user.getId());
+        test2 = ShortURLFixture.exampleURL2(user.getId());
     }
 
     @Test
@@ -115,6 +122,7 @@ public class ShortURLRepositoryTest {
     @After
     public void finishTest() throws Exception{
         shortURLRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
 }

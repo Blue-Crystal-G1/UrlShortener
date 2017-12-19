@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import urlshortener.bluecrystal.config.Messages;
 import urlshortener.bluecrystal.persistence.model.ShortURL;
+import urlshortener.bluecrystal.persistence.model.User;
 import urlshortener.bluecrystal.scheduled.AvailablePeriodicCheck;
 import urlshortener.bluecrystal.scheduled.SafePeriodicCheck;
+import urlshortener.bluecrystal.security.AuthenticationFacade;
 import urlshortener.bluecrystal.service.AvailableURIService;
 import urlshortener.bluecrystal.service.HashGenerator;
 import urlshortener.bluecrystal.service.LocationService;
@@ -22,7 +24,6 @@ import urlshortener.bluecrystal.web.messages.ApiErrorResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -49,24 +50,32 @@ public class LinkApiController implements LinkApi {
     protected AvailablePeriodicCheck availablePeriodicCheck;
 
     @Autowired
+    private AuthenticationFacade authenticationFacade;
+
+    @Autowired
     protected Messages messages;
 
 
     @RequestMapping(value = "/link", method = RequestMethod.POST)
-    public ResponseEntity<?> createShortURL(@RequestParam("url") String url,
-                                                                    HttpServletRequest request) {
+    public ResponseEntity<?> createShortURL(@RequestParam("url") String url, HttpServletRequest request) {
+        User userDetails = authenticationFacade.getUserPrincipal();
+        if (userDetails != null) {
 
-        ShortURL su = createAndSaveIfValid(url, UUID
-                        .randomUUID().toString(), extractIP(request));
+            ShortURL su = createAndSaveIfValid(url, userDetails, extractIP(request));
 
-        if (su != null) {
-            HttpHeaders h = new HttpHeaders();
-            h.setLocation(su.getUri());
-            return new ResponseEntity<>(su, h, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(new ApiErrorResponse(
-                    messages.get("label.popupCreationUrl.error.description")),
-                    HttpStatus.BAD_REQUEST);
+            if (su != null) {
+                HttpHeaders h = new HttpHeaders();
+                h.setLocation(su.getUri());
+                return new ResponseEntity<>(su, h, HttpStatus.CREATED);
+            } else {
+                ApiErrorResponse response = new ApiErrorResponse(
+                        messages.get("label.popupCreationUrl.error.description"));
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }
+        }
+        else {
+            ApiErrorResponse response = new ApiErrorResponse(messages.get("message.unauthorized"));
+            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -77,14 +86,14 @@ public class LinkApiController implements LinkApi {
      * @param ip ip of the given request
      * @return the new instance of ShortURL created if there were no errors, otherwise null
      */
-    private ShortURL createAndSaveIfValid(String url, String owner, String ip) {
+    private ShortURL createAndSaveIfValid(String url, User owner, String ip) {
         if(availableURIService.isValid((url))) {
-            String id = hashGenerator.generateHash(url,owner);
+            String id = hashGenerator.generateHash(url,owner.getEmail());
             URI uri = linkTo(
-                    methodOn(UrlShortenerController.class)
+                    methodOn(ShortenerApiController.class)
                             .redirectTo(id, null, null)).toUri();
 
-            ShortURL su = new ShortURL(id, url, uri, LocalDateTime.now(), owner,
+            ShortURL su = new ShortURL(id, url, uri, LocalDateTime.now(), owner.getId(),
                     ip, null, null, null, null, null);
 
             su = shortUrlService.save(su);

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
@@ -15,24 +14,21 @@ import org.springframework.web.bind.annotation.*;
 import urlshortener.bluecrystal.config.Messages;
 import urlshortener.bluecrystal.persistence.model.User;
 import urlshortener.bluecrystal.service.UserService;
-import urlshortener.bluecrystal.web.validation.UserValidator;
-import urlshortener.bluecrystal.web.annotations.Layout;
 import urlshortener.bluecrystal.web.dto.UserDTO;
 import urlshortener.bluecrystal.web.interfaces.UserApi;
 import urlshortener.bluecrystal.web.messages.ApiErrorResponse;
 import urlshortener.bluecrystal.web.messages.ApiJsonResponse;
 import urlshortener.bluecrystal.web.messages.ApiSuccessResponse;
+import urlshortener.bluecrystal.web.validation.UserValidator;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Layout(Layout.DEFAULT)
-@Controller
+@RestController
 public class UserApiController implements UserApi {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UrlShortenerController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserApiController.class);
 
     @Autowired
     protected UserService userService;
@@ -48,20 +44,8 @@ public class UserApiController implements UserApi {
         binder.addValidators(userValidator);
     }
 
-    @Layout(Layout.SIMPLE)
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String getLoginPage(final Principal principal) {
-        return (principal != null) ? "redirect:/" : "login";
-    }
-
-    @Layout(Layout.SIMPLE)
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public String getRegisterPage(final Principal principal) {
-        return (principal != null) ? "redirect:/" : "register";
-    }
-
     @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<? extends ApiJsonResponse> createUser(
+    public ResponseEntity<? extends ApiJsonResponse> createUser(
             @Valid @RequestBody UserDTO accountDto, BindingResult result) {
 
         LOGGER.info("Registering user account: {}", accountDto);

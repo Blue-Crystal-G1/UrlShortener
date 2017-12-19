@@ -40,12 +40,11 @@ public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHan
 
     private void handle(final HttpServletRequest request, final HttpServletResponse response,
                         final Authentication authentication) throws IOException {
-        String targetUrl = "/urlInfo";
         if (response.isCommitted()) {
-            logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
+            logger.debug("Response has already been committed. Unable to redirect to homepage");
             return;
         }
-        redirectStrategy.sendRedirect(request, response, targetUrl);
+        redirectStrategy.sendRedirect(request, response, "/");
     }
 
     private void clearAuthenticationAttributes(final HttpServletRequest request) {

@@ -35,7 +35,7 @@ public class ShortURL {
 
     @JsonProperty("owner")
     @Column(name = "OWNER")
-    private String owner = null;
+    private Long owner = null;
 
     @JsonProperty("ip")
     @Column(name = "IP")
@@ -65,7 +65,7 @@ public class ShortURL {
     }
 
     public ShortURL(String hash, String target, URI uri, LocalDateTime created,
-                    String owner, String ip, String country, LocalDateTime lastCheckSafeDate,
+                    Long owner, String ip, String country, LocalDateTime lastCheckSafeDate,
                     Boolean safe, LocalDateTime lastCheckAvailableDate, Boolean available) {
         this.hash = hash;
         this.target = target;
@@ -156,7 +156,7 @@ public class ShortURL {
         this.created = created;
     }
 
-    public ShortURL owner(String owner) {
+    public ShortURL owner(Long owner) {
         this.owner = owner;
         return this;
     }
@@ -167,11 +167,11 @@ public class ShortURL {
      * @return owner
      **/
     @ApiModelProperty(value = "")
-    public String getOwner() {
+    public Long getOwner() {
         return owner;
     }
 
-    public void setOwner(String owner) {
+    public void setOwner(Long owner) {
         this.owner = owner;
     }
 
