@@ -12,6 +12,8 @@ import urlshortener.bluecrystal.persistence.model.AdvertisingAccess;
 import urlshortener.bluecrystal.persistence.model.ShortURL;
 import urlshortener.bluecrystal.service.AdvertisingAccessService;
 import urlshortener.bluecrystal.service.ShortUrlService;
+import urlshortener.bluecrystal.web.annotations.AnnotationHelper;
+import urlshortener.bluecrystal.web.annotations.DynamicLayout;
 import urlshortener.bluecrystal.web.annotations.Layout;
 import urlshortener.bluecrystal.web.interfaces.RedirectApi;
 
@@ -30,12 +32,19 @@ public class RedirectApiController implements RedirectApi {
         ShortURL shortURL = shortUrlService.findByHash(hash);
         if (shortURL != null) {
             AdvertisingAccess access = advertisingAccessService.createAccessToUri(hash);
+            modifyLayout(Layout.DEFAULT);
             return new ModelAndView("advertising", HttpStatus.OK)
                     .addObject("hash", hash)
                     .addObject("guid", access.getId());
         } else {
+            modifyLayout(Layout.NONE);
             return new ModelAndView("400", HttpStatus.NOT_FOUND);
         }
+    }
+
+    private void modifyLayout(String layout) {
+        DynamicLayout altered = new DynamicLayout(layout);
+        AnnotationHelper.alterAnnotationOn(UrlInfoApiController.class, Layout.class, altered);
     }
 
 }

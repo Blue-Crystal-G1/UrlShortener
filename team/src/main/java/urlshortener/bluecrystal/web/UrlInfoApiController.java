@@ -13,6 +13,8 @@ import urlshortener.bluecrystal.persistence.model.ShortURL;
 import urlshortener.bluecrystal.persistence.model.User;
 import urlshortener.bluecrystal.security.AuthenticationFacade;
 import urlshortener.bluecrystal.service.ShortUrlService;
+import urlshortener.bluecrystal.web.annotations.AnnotationHelper;
+import urlshortener.bluecrystal.web.annotations.DynamicLayout;
 import urlshortener.bluecrystal.web.annotations.Layout;
 import urlshortener.bluecrystal.web.dto.URLClicksInfoDTO;
 import urlshortener.bluecrystal.web.dto.URLInfoDTO;
@@ -36,6 +38,7 @@ public class UrlInfoApiController implements UrlInfoApi {
     @Autowired
     protected AuthenticationFacade authenticationFacade;
 
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public @ResponseBody ModelAndView index() {
         User userDetails = authenticationFacade.getUserPrincipal();
@@ -45,28 +48,47 @@ public class UrlInfoApiController implements UrlInfoApi {
             Map<String, Object> model = new HashMap<String, Object>() {{
                 put("info", urlInfoList);
             }};
+            modifyLayout(Layout.DEFAULT);
             return new ModelAndView("index", model, HttpStatus.OK);
         } else {
+            modifyLayout(Layout.NONE);
             return new ModelAndView("401", HttpStatus.UNAUTHORIZED);
         }
     }
 
+
     @RequestMapping(value = "/urlInfo/{id}/{interval}", method = RequestMethod.GET)
     public @ResponseBody ModelAndView getUrlInfoById(@PathVariable(value = "id") String id,
                                                      @PathVariable("interval") String interval) {
-        ShortURL shortURL = shortUrlService.findByHash(id);
-        if (shortURL != null) {
-            URLClicksInfoDTO info = shortUrlService.getInformationAboutUrlAndClicks(shortURL, interval.toUpperCase());
-            if (info != null) {
-                return new ModelAndView("urlInfo", HttpStatus.OK)
-                        .addObject("info", info);
+        User userDetails = authenticationFacade.getUserPrincipal();
+        if (userDetails != null) {
+            ShortURL shortURL = shortUrlService.findByHash(id);
+            if (shortUrlService.URIisFromOwner(shortURL, userDetails.getId())) {
+                if (shortURL != null) {
+                    URLClicksInfoDTO info = shortUrlService.getInformationAboutUrlAndClicks(shortURL, interval.toUpperCase());
+                    if (info != null) {
+                        modifyLayout(Layout.DEFAULT);
+                        return new ModelAndView("urlInfo", HttpStatus.OK)
+                                .addObject("info", info);
+                    } else {
+                        modifyLayout(Layout.NONE);
+                        return new ModelAndView("400", HttpStatus.BAD_REQUEST);
+                    }
+                } else {
+                    modifyLayout(Layout.NONE);
+                    return new ModelAndView("404", HttpStatus.NOT_FOUND);
+                }
             } else {
-                return new ModelAndView("400", HttpStatus.BAD_REQUEST);
+                modifyLayout(Layout.NONE);
+                return new ModelAndView("401", HttpStatus.UNAUTHORIZED);
             }
         } else {
-            return new ModelAndView("404", HttpStatus.NOT_FOUND);
+            modifyLayout(Layout.NONE);
+            return new ModelAndView("401", HttpStatus.UNAUTHORIZED);
         }
+
     }
+
 
     @Layout(value = Layout.NONE)
     @RequestMapping(value = "/urlInfo", method = RequestMethod.GET)
@@ -81,13 +103,9 @@ public class UrlInfoApiController implements UrlInfoApi {
                 }};
 
                 return new ModelAndView("index :: shortList", model, HttpStatus.OK);
-            }
-            else {
-                return new ModelAndView("400", HttpStatus.BAD_REQUEST);
-            }
-        } else {
-            return new ModelAndView("401", HttpStatus.UNAUTHORIZED);
-        }
+
+            } else { return new ModelAndView("400", HttpStatus.BAD_REQUEST); }
+        } else { return new ModelAndView("401", HttpStatus.UNAUTHORIZED); }
     }
 
     private static boolean isAjaxRequest(HttpServletRequest request) {
@@ -95,4 +113,8 @@ public class UrlInfoApiController implements UrlInfoApi {
                 .equals(request.getHeader("X-Requested-With"));
     }
 
+    private void modifyLayout(String layout) {
+        DynamicLayout altered = new DynamicLayout(layout);
+        AnnotationHelper.alterAnnotationOn(UrlInfoApiController.class, Layout.class, altered);
+    }
 }

@@ -47,7 +47,6 @@ public class ShortenerApiController implements ShortenerApi {
     protected AdvertisingAccessService advertisingAccessService;
 
     @RequestMapping(value = "/{id:(?!link|swagger|index|urlInfo).*}", method = RequestMethod.GET)
-    //   produces = { "application/json" })
     public ResponseEntity<?> redirectTo(@PathVariable(value = "id") String id,
                                         @RequestParam(value = "guid", required = false) String guidAccess,
                                         HttpServletRequest request) {

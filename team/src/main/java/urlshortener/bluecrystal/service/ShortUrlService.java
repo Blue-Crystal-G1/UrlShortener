@@ -140,6 +140,10 @@ public class ShortUrlService {
         else return null;
     }
 
+    public boolean URIisFromOwner(ShortURL shortUrl, Long ownerId) {
+        return shortUrl != null && ownerId != null && shortURLRepository.findByOwner(ownerId).contains(shortUrl);
+    }
+
     public List<ShortURL> findAll() {
         return shortURLRepository.findAll();
     }
