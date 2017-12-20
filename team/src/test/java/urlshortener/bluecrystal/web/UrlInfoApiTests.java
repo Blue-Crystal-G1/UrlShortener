@@ -43,9 +43,6 @@ public class UrlInfoApiTests {
     private ShortUrlService shortUrlService;
 
     @Mock
-    private AuthenticationFacade authenticationFacade;
-
-    @Mock
     private UserRepository userRepository;
 
     @Mock
