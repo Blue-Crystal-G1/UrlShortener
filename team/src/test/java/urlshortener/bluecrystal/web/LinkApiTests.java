@@ -14,11 +14,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import urlshortener.bluecrystal.config.Messages;
 import urlshortener.bluecrystal.persistence.dao.PrivilegeRepository;
 import urlshortener.bluecrystal.persistence.dao.RoleRepository;
 import urlshortener.bluecrystal.persistence.dao.ShortURLRepository;
@@ -30,7 +29,6 @@ import urlshortener.bluecrystal.scheduled.AvailablePeriodicCheck;
 import urlshortener.bluecrystal.scheduled.SafePeriodicCheck;
 import urlshortener.bluecrystal.service.HashGenerator;
 import urlshortener.bluecrystal.service.LocationService;
-import urlshortener.bluecrystal.service.ShortUrlService;
 
 import java.util.Collections;
 
@@ -41,7 +39,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(SpringRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class LinkApiTests {
 
@@ -61,12 +59,6 @@ public class LinkApiTests {
 
     @Mock
     private LocationService locationService;
-
-    @Autowired
-    protected Messages messages;
-
-    @Autowired
-    protected ShortUrlService shortUrlService;
 
     @Autowired
     protected ShortURLRepository shortURLRepository;
