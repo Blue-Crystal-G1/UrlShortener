@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
 @Configuration
-@ComponentScan(basePackages = { "urlshortener.bluecrystal" })
 public class PropertiesConfig {
 
     // because @PropertySource doesnt work in annotation only land

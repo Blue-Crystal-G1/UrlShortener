@@ -16,10 +16,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import urlshortener.bluecrystal.Application;
+import urlshortener.bluecrystal.config.Messages;
 import urlshortener.bluecrystal.config.PropertiesConfig;
 import urlshortener.bluecrystal.config.WebMvcConfig;
 import urlshortener.bluecrystal.persistence.dao.PrivilegeRepository;
@@ -43,10 +46,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
-@ContextConfiguration(classes = {PropertiesConfig.class, WebMvcConfig.class})
-@WebAppConfiguration
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {Application.class})
 public class LinkApiTests {
 
     private MockMvc mockMvc;
@@ -65,6 +66,9 @@ public class LinkApiTests {
 
     @Mock
     private LocationService locationService;
+
+    @Autowired
+    protected Messages messages;
 
     @Autowired
     protected ShortURLRepository shortURLRepository;

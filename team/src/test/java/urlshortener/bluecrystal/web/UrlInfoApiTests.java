@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
@@ -41,6 +42,9 @@ public class UrlInfoApiTests {
 
     @Mock
     private ShortUrlService shortUrlService;
+
+    @Spy
+    private AuthenticationFacade authenticationFacade;
 
     @Mock
     private UserRepository userRepository;
