@@ -12,13 +12,12 @@ import urlshortener.bluecrystal.persistence.model.ShortURL;
 @Api(value = "shortener", description = "the shortener API")
 public interface RedirectApi {
 
-    @ApiOperation(value = "Get the advertising page", notes = "Get the advertising page", response = ShortURL.class, tags={ "redirect", })
+    @ApiOperation(value = "Get the advertising page",
+            notes = "Get the advertising page. After accesing this view the system creates an access for the short URL",
+            response = ShortURL.class, tags={ "redirect", })
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Successful operation", response = ShortURL.class),
-        @ApiResponse(code = 400, message = "Invalid ID supplied", response = ShortURL.class),
-        @ApiResponse(code = 403, message = "Insufficient permissions (user not logged in)", response = ShortURL.class),
-        @ApiResponse(code = 404, message = "URL not found or unavailable", response = ShortURL.class),
-        @ApiResponse(code = 502, message = "URL is not safe", response = ShortURL.class) })
+        @ApiResponse(code = 404, message = "URL not found or unavailable", response = ShortURL.class)})
     @RequestMapping(value = "/advertising/{hash}",
         //produces = { "application/json" },
         method = RequestMethod.GET)
