@@ -14,10 +14,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import urlshortener.bluecrystal.config.PropertiesConfig;
+import urlshortener.bluecrystal.config.WebMvcConfig;
 import urlshortener.bluecrystal.persistence.dao.PrivilegeRepository;
 import urlshortener.bluecrystal.persistence.dao.RoleRepository;
 import urlshortener.bluecrystal.persistence.dao.ShortURLRepository;
@@ -41,6 +45,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
+@ContextConfiguration(classes = {PropertiesConfig.class, WebMvcConfig.class})
+@WebAppConfiguration
 public class LinkApiTests {
 
     private MockMvc mockMvc;
