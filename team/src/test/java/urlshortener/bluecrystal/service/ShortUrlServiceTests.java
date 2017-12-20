@@ -4,14 +4,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import urlshortener.bluecrystal.persistence.dao.ClickRepository;
 import urlshortener.bluecrystal.persistence.dao.ShortURLRepository;
 import urlshortener.bluecrystal.persistence.dao.UserRepository;
@@ -27,8 +22,6 @@ import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
 import static urlshortener.bluecrystal.service.fixture.ClickFixture.*;
 import static urlshortener.bluecrystal.service.fixture.ShortURLFixture.exampleURL;
 import static urlshortener.bluecrystal.service.fixture.ShortURLFixture.exampleURL2;
@@ -61,7 +54,6 @@ public class ShortUrlServiceTests {
     @Test
     public void thatGetsInfoAboutUrlAndClicks()
             throws Exception {
-        String hashThatExists = exampleURL().getHash();
         List<Click> clicksList = new ArrayList<Click>() {{add(testClick1(user.getId()));add(testClick2(user.getId()));}};
         shortURLRepository.save(exampleURL(user.getId()));
         clickRepository.save(clicksList);
@@ -108,15 +100,12 @@ public class ShortUrlServiceTests {
 
     @Test
     public void thatReturnsNullIfUrlNotExist() throws Exception {
-        String hashThatNotExists = "HashThatNotExists";
         shortURLRepository.save(exampleURL(user.getId()));
-
         assertEquals(shortUrlService.getInformationAboutUrlAndClicks(null, ClickInterval.ALL.toString()), null);
     }
 
     @Test
-    public void thatGetsInfoIfThereArentClicks()
-            throws Exception {
+    public void thatGetsInfoIfThereArentClicks() throws Exception {
         String hashThatExists = exampleURL(user.getId()).getHash();
         shortURLRepository.save(exampleURL(user.getId()));
 
@@ -133,9 +122,7 @@ public class ShortUrlServiceTests {
     }
 
     @Test
-    public void thatGetsInfoAboutAllUrls()
-            throws Exception {
-
+    public void thatGetsInfoAboutAllUrls() throws Exception {
         //2 clicks point to exammpleURL and 1 click points to exampleURL2
         List<Click> clicksList1 = new ArrayList<Click>() {{add(testClick1(user.getId()));add(testClick2(user.getId()));}};
         List<Click> clicksList2 = new ArrayList<Click>() {{add(testClick3(user.getId()));}};
@@ -149,19 +136,14 @@ public class ShortUrlServiceTests {
     }
 
     @Test
-    public void thatFindReturnsNullIfHashContainsSpaces()
-            throws Exception {
-
+    public void thatFindReturnsNullIfHashContainsSpaces() throws Exception {
         //Repository will return something, but function wont
-
         assertEquals(shortUrlService.findByHash(" "), null);
     }
 
     @Test
-    public void thatSaveReturnsNullIfShortURLIsNull()
-            throws Exception {
+    public void thatSaveReturnsNullIfShortURLIsNull() throws Exception {
         //Repository will return something, but function wont
-
         assertEquals(shortUrlService.save(null),null);
     }
 

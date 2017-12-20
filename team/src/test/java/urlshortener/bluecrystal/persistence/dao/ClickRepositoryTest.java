@@ -22,10 +22,8 @@ import static urlshortener.bluecrystal.service.fixture.ShortURLFixture.exampleUR
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class ClickRepositoryTest {
-
     private Click test;
     private Click test2;
-    private User user;
 
     @Autowired
     protected UserRepository userRepository;
@@ -38,7 +36,7 @@ public class ClickRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        user = userRepository.save(UserFixture.exampleUser());
+        User user = userRepository.save(UserFixture.exampleUser());
         ShortURL shortURL = exampleURL(user.getId());
         shortURLRepository.save(shortURL);
         test = new Click(shortURL.getHash(), LocalDateTime.now(),"localhost", "IE9", "W10",

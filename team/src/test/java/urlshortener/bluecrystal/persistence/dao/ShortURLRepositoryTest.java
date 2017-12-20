@@ -23,7 +23,6 @@ public class ShortURLRepositoryTest {
 
     private ShortURL test;
     private ShortURL test2;
-    private User user;
 
     @Autowired
     protected UserRepository userRepository;
@@ -33,7 +32,7 @@ public class ShortURLRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        user = userRepository.save(UserFixture.exampleUser());
+        User user = userRepository.save(UserFixture.exampleUser());
         test = ShortURLFixture.exampleURL(user.getId());
         test2 = ShortURLFixture.exampleURL2(user.getId());
     }

@@ -5,12 +5,8 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import urlshortener.bluecrystal.persistence.dao.PrivilegeRepository;
@@ -26,27 +22,22 @@ import urlshortener.bluecrystal.web.fixture.UserFixture;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.isNotNull;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static urlshortener.bluecrystal.web.fixture.UrlInfoDTOFixture.urlInfoExample;
 import static urlshortener.bluecrystal.web.fixture.UrlInfoDTOFixture.urlInfoExample2;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration
 public class UrlInfoApiTests {
 
     private MockMvc mockMvc;
 
     private User user;
-    private Privilege privilege;
-    private Role role;
 
     @Mock
     private ShortUrlService shortUrlService;
@@ -72,9 +63,9 @@ public class UrlInfoApiTests {
         MockitoAnnotations.initMocks(this);
         this.mockMvc = MockMvcBuilders.standaloneSetup(urlInfoApiController).build();
 
-        privilege = new Privilege(Privilege.READ_PRIVILEGE);
+        Privilege privilege = new Privilege(Privilege.READ_PRIVILEGE);
 
-        role = new Role(Role.ROLE_USER);
+        Role role = new Role(Role.ROLE_USER);
         role.setPrivileges(Collections.singletonList(privilege));
 
         user = new User();
@@ -120,9 +111,6 @@ public class UrlInfoApiTests {
                 .andExpect(model().attribute("info", hasSize(2)));
 
     }
-
-
-
 
 //
 //    //TODO Owner of "key0" is "Myself

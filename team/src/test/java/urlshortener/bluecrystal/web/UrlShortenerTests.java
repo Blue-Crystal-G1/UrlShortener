@@ -11,11 +11,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import urlshortener.bluecrystal.config.Messages;
-import urlshortener.bluecrystal.persistence.model.AdvertisingAccess;
-import urlshortener.bluecrystal.persistence.model.Click;
 import urlshortener.bluecrystal.persistence.model.ShortURL;
-import urlshortener.bluecrystal.service.*;
-import urlshortener.bluecrystal.service.fixture.AdvertisingAccessFixture;
+import urlshortener.bluecrystal.service.AdvertisingAccessService;
+import urlshortener.bluecrystal.service.ClickService;
+import urlshortener.bluecrystal.service.LocationService;
+import urlshortener.bluecrystal.service.ShortUrlService;
 import urlshortener.bluecrystal.service.fixture.ClickFixture;
 import urlshortener.bluecrystal.service.fixture.ShortURLFixture;
 
@@ -27,6 +27,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
 public class UrlShortenerTests {
@@ -83,7 +84,6 @@ public class UrlShortenerTests {
     public void thatRedirecToReturnNotFoundIfURIisNotAvailable()
             throws Exception {
         ShortURL shortURL = ShortURLFixture.urlNotAvailable(0L);
-        AdvertisingAccess accessFixture = AdvertisingAccessFixture.advertisingAccessWithAccess(shortURL.getHash());
         when(shortUrlService.findByHash(shortURL.getHash())).thenReturn(shortURL);
         when(advertisingAccessService.hasAccessToUri(any(),any())).thenReturn(true);
         when(messages.get(any())).thenReturn("something");
@@ -98,7 +98,6 @@ public class UrlShortenerTests {
     public void thatRedirecToReturnNotFoundIfURIisNotSafe()
             throws Exception {
         ShortURL shortURL = ShortURLFixture.unsafeURL(0L);
-        AdvertisingAccess accessFixture = AdvertisingAccessFixture.advertisingAccessWithAccess(shortURL.getHash());
         when(shortUrlService.findByHash(shortURL.getHash())).thenReturn(shortURL);
         when(advertisingAccessService.hasAccessToUri(any(),any())).thenReturn(true);
         when(messages.get(any())).thenReturn("something");
@@ -114,9 +113,7 @@ public class UrlShortenerTests {
             throws Exception {
         String guid = UUID.randomUUID().toString();
         ShortURL shortURL = ShortURLFixture.exampleURL(0L);
-        Click clickTest = ClickFixture.testClick1(0L);
 
-        AdvertisingAccess accessFixture = AdvertisingAccessFixture.advertisingAccessWithAccess(shortURL.getHash());
         when(shortUrlService.findByHash(shortURL.getHash())).thenReturn(shortURL);
         when(advertisingAccessService.hasAccessToUri(any(),any())).thenReturn(true);
         when(messages.get(any())).thenReturn("something");

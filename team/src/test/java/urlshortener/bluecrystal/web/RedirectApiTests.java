@@ -7,15 +7,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import urlshortener.bluecrystal.persistence.dao.ClickRepository;
 import urlshortener.bluecrystal.persistence.model.AdvertisingAccess;
 import urlshortener.bluecrystal.persistence.model.ShortURL;
 import urlshortener.bluecrystal.service.AdvertisingAccessService;
 import urlshortener.bluecrystal.service.ShortUrlService;
 import urlshortener.bluecrystal.service.fixture.AdvertisingAccessFixture;
 import urlshortener.bluecrystal.service.fixture.ShortURLFixture;
-
-import java.util.UUID;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -25,9 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RedirectApiTests {
 
     private MockMvc mockMvc;
-
-    @Mock
-    private ClickRepository clickRepository;
 
     @Mock
     private ShortUrlService shortURLService;

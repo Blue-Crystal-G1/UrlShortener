@@ -26,5 +26,4 @@ public class SafeURIServiceTest {
         assertTrue(safeURIService.isSafe("http://google.com"));
     }
 
-
 }

@@ -25,7 +25,6 @@ public class AdvertisingAccessRepositoryTest {
 
     private AdvertisingAccess advertisingAccessWithAccess;
     private AdvertisingAccess advertisingAccessWithoutAccess;
-    private User user;
 
     @Autowired
     protected UserRepository userRepository;
@@ -40,7 +39,7 @@ public class AdvertisingAccessRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        user = userRepository.save(UserFixture.exampleUser());
+        User user = userRepository.save(UserFixture.exampleUser());
         ShortURL shortURL = shortURLRepository.save(ShortURLFixture.exampleURL(user.getId()));
         advertisingAccessWithAccess = AdvertisingAccessFixture.advertisingAccessWithAccess(shortURL.getHash());
         advertisingAccessWithoutAccess = AdvertisingAccessFixture.advertisingAccessWithoutAccess(shortURL.getHash());
