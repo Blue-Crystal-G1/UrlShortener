@@ -27,7 +27,6 @@ import urlshortener.bluecrystal.persistence.model.Role;
 import urlshortener.bluecrystal.persistence.model.User;
 import urlshortener.bluecrystal.scheduled.AvailablePeriodicCheck;
 import urlshortener.bluecrystal.scheduled.SafePeriodicCheck;
-import urlshortener.bluecrystal.security.AuthenticationFacade;
 import urlshortener.bluecrystal.service.HashGenerator;
 import urlshortener.bluecrystal.service.LocationService;
 import urlshortener.bluecrystal.service.ShortUrlService;
@@ -67,9 +66,6 @@ public class LinkApiTests {
 
     @Autowired
     protected ShortURLRepository shortURLRepository;
-
-    @Autowired
-    protected AuthenticationFacade authenticationFacade;
 
     @Autowired
     protected UserRepository userRepository;
