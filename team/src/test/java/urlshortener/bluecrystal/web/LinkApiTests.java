@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import urlshortener.bluecrystal.config.Messages;
 import urlshortener.bluecrystal.persistence.dao.PrivilegeRepository;
 import urlshortener.bluecrystal.persistence.dao.RoleRepository;
 import urlshortener.bluecrystal.persistence.dao.ShortURLRepository;
@@ -50,7 +51,7 @@ public class LinkApiTests {
     protected WebApplicationContext wac;
 
     @MockBean
-    private HashGenerator hashGenerator;
+    protected HashGenerator hashGenerator;
 
     @Mock
     private SafePeriodicCheck safePeriodicCheck;
@@ -60,6 +61,9 @@ public class LinkApiTests {
 
     @Mock
     private LocationService locationService;
+
+    @Autowired
+    protected Messages messages;
 
     @Autowired
     protected ShortUrlService shortUrlService;

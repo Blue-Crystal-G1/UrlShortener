@@ -22,7 +22,7 @@ import urlshortener.bluecrystal.web.interfaces.RedirectApi;
 public class RedirectApiController implements RedirectApi {
 
     @Autowired
-    ShortUrlService shortUrlService;
+    protected ShortUrlService shortUrlService;
 
     @Autowired
     protected AdvertisingAccessService advertisingAccessService;

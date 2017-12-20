@@ -54,7 +54,6 @@ public class UrlInfoApiTests {
     @Mock
     private PrivilegeRepository privilegeRepository;
 
-
     @InjectMocks
     private UrlInfoApiController urlInfoApiController;
 
