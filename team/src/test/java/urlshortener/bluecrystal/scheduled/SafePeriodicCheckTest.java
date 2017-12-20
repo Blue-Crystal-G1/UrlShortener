@@ -60,7 +60,7 @@ public class SafePeriodicCheckTest {
         ShortURL shortURL = ShortURLFixture.safeUrlInitiallyMarkedAsNotSafe(user.getId());
         shortURLRepository.save(shortURL);
         safePeriodicCheck.checkSecurityAsync(shortURL);
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         ShortURL shortURLsafe = shortURLRepository.findByHash(shortURL.getHash());
         assertTrue(shortURLsafe.getSafe());
     }
@@ -70,7 +70,7 @@ public class SafePeriodicCheckTest {
         ShortURL shortURL = ShortURLFixture.unsafeUrlInitiallyMarkedAsSafe(user.getId());
         shortURLRepository.save(shortURL);
         safePeriodicCheck.checkSecurityAsync(shortURL);
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         ShortURL shortURLUnavailable = shortURLRepository.findByHash(shortURL.getHash());
         assertFalse(shortURLUnavailable.getSafe());
     }

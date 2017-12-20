@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.springframework.org/security/tags">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <title>BlueCrystal</title>
@@ -24,17 +24,19 @@
 </head>
 <body>
     <div class="container-scroller">
-        <div sec:authorize="hasAuthority('READ_PRIVILEGE')" th:replace="fragments/header :: header">Header</div>
+.       <div th:replace="fragments/header :: header">Header</div>
         <div class="container-fluid">
             <div class="row row-offcanvas row-offcanvas-left">
-                <div sec:authorize="hasAuthority('READ_PRIVILEGE')" th:replace="fragments/sidebar :: sidebar">Sidebar</div>
+                   <div th:replace="fragments/sidebar :: sidebar">Sidebar</div>
+            </div>
                 <div th:replace="${view} :: content">Page Content</div>
                 <div th:replace="fragments/footer :: footer">Footer</div>
             </div>
         </div>
     </div>
 
-    <!--Common JavaScript-->
+
+        <!--Common JavaScript-->
     <script type="text/javascript" th:src="@{/webjars/jquery/2.1.4/jquery.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.5/js/bootstrap.min.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/perfect-scrollbar/0.8.1/js/perfect-scrollbar.jquery.min.js}"></script>

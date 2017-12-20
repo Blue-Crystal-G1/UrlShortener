@@ -50,7 +50,7 @@ public class LinkApiController implements LinkApi {
     protected AvailablePeriodicCheck availablePeriodicCheck;
 
     @Autowired
-    private AuthenticationFacade authenticationFacade;
+    protected AuthenticationFacade authenticationFacade;
 
     @Autowired
     protected Messages messages;

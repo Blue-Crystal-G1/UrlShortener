@@ -4,6 +4,7 @@ DROP TABLE USERS_ROLES IF EXISTS;
 DROP TABLE ROLES IF EXISTS;
 DROP TABLE PRIVILEGE IF EXISTS;
 DROP TABLE CLICK IF EXISTS;
+DROP TABLE ADVERTISING_ACCESS IF EXISTS;
 DROP TABLE SHORTURL IF EXISTS;
 DROP TABLE USER IF EXISTS;
 
@@ -50,13 +51,14 @@ CREATE TABLE SHORTURL(
 	TARGET		              VARCHAR(1024),				    -- Original URL
   URI                     VARCHAR(1024),            -- URI
 	CREATED 	              TIMESTAMP,					      -- Creation date
-	OWNER		                BIGINT NOT NULL REFERENCES USER(ID),				      -- User id
+	OWNER		                BIGINT NOT NULL,				      -- User id
 	IP			                VARCHAR(20),				      -- IP
 	COUNTRY		              VARCHAR(50),				      -- Country
   SAFE		                BOOLEAN,					-- Safe target
   LASTCHECKSAFEDATE       TIMESTAMP,       -- Last check if url is safe
   AVAILABLE		            BOOLEAN,					-- Available target
-  LASTCHECKAVAILABLEDATE  TIMESTAMP        -- Last check if url is available
+  LASTCHECKAVAILABLEDATE  TIMESTAMP,    -- Last check if url is available
+--  FOREIGN KEY (OWNER) REFERENCES USER(ID) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- Access to bypass advertising

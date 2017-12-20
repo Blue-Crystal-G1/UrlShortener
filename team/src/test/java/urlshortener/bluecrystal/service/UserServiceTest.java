@@ -1,5 +1,6 @@
 package urlshortener.bluecrystal.service;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import urlshortener.bluecrystal.persistence.dao.RoleRepository;
+import urlshortener.bluecrystal.persistence.dao.UserRepository;
 import urlshortener.bluecrystal.persistence.model.Privilege;
 import urlshortener.bluecrystal.persistence.model.Role;
 import urlshortener.bluecrystal.persistence.model.User;
@@ -24,6 +26,9 @@ public class UserServiceTest {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -77,6 +82,12 @@ public class UserServiceTest {
         userDto.setRole(adminRoleId);
         final User user = userService.registerNewUser(userDto);
         assertFalse(user.getRoles().stream().map(Role::getId).anyMatch(ur -> ur.equals(adminRoleId)));
+    }
+
+    @After
+    public void finishTests(){
+        roleRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     //
