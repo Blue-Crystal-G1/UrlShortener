@@ -71,6 +71,10 @@ public class User {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public User firstName(String firstName) {
         this.firstName = firstName;
         return this;

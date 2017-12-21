@@ -22,6 +22,7 @@ public class UserFixture {
         role.setPrivileges(Collections.singletonList(privilege));
 
         User user = new User();
+        user.setId(1L);
         user.setFirstName("John");
         user.setLastName("Doe");
         user.setPassword("Password1!");

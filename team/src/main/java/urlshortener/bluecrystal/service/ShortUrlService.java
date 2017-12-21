@@ -163,7 +163,7 @@ public class ShortUrlService {
         }
     }
 
-    private URLInfoDTO mapShortUrlToUrlInfo(ShortURL shortURL, Integer totalClicks) {
+    public static URLInfoDTO mapShortUrlToUrlInfo(ShortURL shortURL, Integer totalClicks) {
         PrettyTime pt = new PrettyTime();
         URLInfoDTO urlInfo = new URLInfoDTO();
 
@@ -237,7 +237,7 @@ public class ShortUrlService {
         return clicksInfo;
     }
 
-    private Map<Long, Integer> addZeroClicksToEmptySlots(Map<Long, Integer> clicksInfo, String interval) {
+    public static Map<Long, Integer> addZeroClicksToEmptySlots(Map<Long, Integer> clicksInfo, String interval) {
         Long timeInMillis;
         LocalDate lcNow = LocalDate.now();
         LocalDateTime lctNow = LocalDateTime.now();
@@ -353,11 +353,11 @@ public class ShortUrlService {
         return null;
     }
 
-    private Long getMillisFromLocalDate(LocalDate date) {
+    private static Long getMillisFromLocalDate(LocalDate date) {
         return date.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
 
-    private Long getMillisFromLocalDateTime(LocalDateTime date) {
+    private static Long getMillisFromLocalDateTime(LocalDateTime date) {
         return date.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
 

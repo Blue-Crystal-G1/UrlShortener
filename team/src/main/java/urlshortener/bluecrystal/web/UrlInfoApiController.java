@@ -63,8 +63,8 @@ public class UrlInfoApiController implements UrlInfoApi {
         User userDetails = authenticationFacade.getUserPrincipal();
         if (userDetails != null) {
             ShortURL shortURL = shortUrlService.findByHash(id);
-            if (shortUrlService.URIisFromOwner(shortURL, userDetails.getId())) {
-                if (shortURL != null) {
+            if (shortURL != null) {
+                if (shortUrlService.URIisFromOwner(shortURL, userDetails.getId())) {
                     URLClicksInfoDTO info = shortUrlService.getInformationAboutUrlAndClicks(shortURL, interval.toUpperCase());
                     if (info != null) {
                         modifyLayout(Layout.DEFAULT);
@@ -76,17 +76,16 @@ public class UrlInfoApiController implements UrlInfoApi {
                     }
                 } else {
                     modifyLayout(Layout.NONE);
-                    return new ModelAndView("404", HttpStatus.NOT_FOUND);
+                    return new ModelAndView("401", HttpStatus.UNAUTHORIZED);
                 }
             } else {
                 modifyLayout(Layout.NONE);
-                return new ModelAndView("401", HttpStatus.UNAUTHORIZED);
+                return new ModelAndView("404", HttpStatus.NOT_FOUND);
             }
         } else {
             modifyLayout(Layout.NONE);
             return new ModelAndView("401", HttpStatus.UNAUTHORIZED);
         }
-
     }
 
 
