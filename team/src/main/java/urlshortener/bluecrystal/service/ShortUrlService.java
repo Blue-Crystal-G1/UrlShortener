@@ -25,13 +25,13 @@ public class ShortUrlService {
     private final static Logger LOGGER = LoggerFactory.getLogger(ShortUrlService.class);
 
     @Autowired
-    private ShortURLRepository shortURLRepository;
+    protected ShortURLRepository shortURLRepository;
 
     @Autowired
-    private ClickRepository clickRepository;
+    protected ClickRepository clickRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    protected UserRepository userRepository;
 
     /**
      * Obtains associateed information about a short url and clicks (like

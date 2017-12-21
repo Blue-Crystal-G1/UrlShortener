@@ -6,21 +6,19 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import urlshortener.bluecrystal.config.Messages;
 import urlshortener.bluecrystal.persistence.model.User;
-import urlshortener.bluecrystal.persistence.dao.UserRepository;
 import urlshortener.bluecrystal.service.UserService;
+import urlshortener.bluecrystal.web.dto.UserDTO;
 import urlshortener.bluecrystal.web.fixture.UserFixture;
 
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.core.IsNull.nullValue;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -70,12 +68,14 @@ public class UserApiTests {
         String json = mapper.writeValueAsString(test);
 
         when(userService.registerNewUser(any())).thenReturn(null);
+        when(messages.get(any())).thenReturn("Message");
 
         mockMvc.perform(post("/user").contentType("application/json").content(json))
                 .andDo(print())
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.status",is("error")))
-                .andExpect(jsonPath("$.type",is("UserAlreadyExists")));
+                .andExpect(jsonPath("$.type",is("UserAlreadyExists")))
+                .andExpect(jsonPath("$.message",is("Message")));
 
     }
 
@@ -84,47 +84,22 @@ public class UserApiTests {
     public void thatCreateUserFailsIfFieldsAreInvalid()
             throws Exception {
 
-        mockMvc.perform(post("/user").param("id", "0"))
-                .andDo(print())
-                .andExpect(status().isBadRequest());
-    }
+        UserDTO user = new UserDTO();
+        user.setEmail("example@email.com");
+        user.setFirstName("");
+        user.setLastName("");
+        user.setPassword("Pocahontas1!");
+        user.setMatchingPassword("Pocahontas1!");
+        user.setRole(0L);
 
-//    @Test
-//    public void thatGetUsersListIsOnlyAvailableToAdmin()
-//            throws Exception {
-//
-//        mockMvc.perform(get("/user"))
-//                .andDo(print())
-//                .andExpect(status().isForbidden());
-//    }
-//
-//    @Test
-//    public void thatOperationsOnUserAreOnlyAvailableToThatUser()
-//            throws Exception {
-//
-//        mockMvc.perform(post("/user").param("id", "0").param("username", "user1")
-//                .param("firstName", "John").param("LastName", "Doe")
-//                .param("email","john@doe.com").param("password", "pass1234")
-//                .param("phone","555-1234").param("enabled", "false"))
-//                .andDo(print())
-//                .andExpect(status().isCreated());
-//
-//        mockMvc.perform(get("/user/{id}", "0"))
-//                .andDo(print())
-//                .andExpect(status().isForbidden());
-//
-//        mockMvc.perform(put("/user/{id}", "0"))
-//                .andDo(print())
-//                .andExpect(status().isForbidden());
-//
-//        mockMvc.perform(delete("/user/{id}", "0"))
-//                .andDo(print())
-//                .andExpect(status().isForbidden());
-//
-//    }
-//
-//    //TODO LOGIN??
-//        // TODO LOGOUT??
-//
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(user);
+
+        mockMvc.perform(post("/user").contentType("application/json").content(json))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status",is("error")))
+                .andExpect(jsonPath("$.message", is(notNullValue())));
+    }
 
 }

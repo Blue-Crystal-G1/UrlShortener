@@ -43,9 +43,6 @@ public class UrlInfoApiTests {
     @Mock
     private ShortUrlService shortUrlService;
 
-    @Spy
-    private AuthenticationFacade authenticationFacade;
-
     @Mock
     private UserRepository userRepository;
 
@@ -54,6 +51,10 @@ public class UrlInfoApiTests {
 
     @Mock
     private PrivilegeRepository privilegeRepository;
+
+    @Spy
+    private AuthenticationFacade authenticationFacade;
+
 
     @InjectMocks
     private UrlInfoApiController urlInfoApiController;
@@ -109,51 +110,6 @@ public class UrlInfoApiTests {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("info", hasSize(2)));
-
     }
 
-//
-//    //TODO Owner of "key0" is "Myself
-//    @Test
-//    public void thatURLInfoIdIsOnlyAvailableToUser()
-//            throws Exception {
-//
-//        mockMvc.perform(get("/urlInfo/hash1"))
-//                .andDo(print())
-//                .andExpect(status().isOk());
-//
-//        mockMvc.perform(get("/urlInfo/hash1"))
-//                .andDo(print())
-//                .andExpect(status().isForbidden());
-//    }
-//
-//    @Test
-//    public void thatURLInfoIdFailsIfIdNotFound()
-//            throws Exception {
-//
-//        when(shortURLRepository.findByHash("hashThatNotExist")).thenReturn(null);
-//
-//        mockMvc.perform(get("/urlInfo/{id}", "hashThatNotExist").header("Accept", "application/json").with(request -> { ;
-//            return request;
-//        }));
-//
-//        mockMvc.perform(get("/urlInfo/hashThatNotExist"))
-//                .andDo(print())
-//                .andExpect(status().isNotFound());
-//    }
-//
-//    @Test
-//    public void thatURLInfoIdFailsIfIdNotValid()
-//            throws Exception {
-//
-//        mockMvc.perform(get("/urlInfo/us/as/as/df/"))
-//                .andDo(print())
-//                .andExpect(status().isBadRequest());
-//    }
-//
-//
-//    private void configureTransparentSave() {
-//        when(shortURLRepository.save(any(ShortURL.class)))
-//                .then((Answer<ShortURL>) invocation -> (ShortURL) invocation.getArguments()[0]);
-//    }
 }
