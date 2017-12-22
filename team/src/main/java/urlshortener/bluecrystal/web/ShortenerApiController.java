@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
-import java.util.Random;
 
 
 @RestController
@@ -110,8 +109,7 @@ public class ShortenerApiController implements ShortenerApi {
      */
     private String extractIP(HttpServletRequest request) {
 //        return request.getRemoteAddr();
-        // Generates a random IP
-        return com.google.common.net.InetAddresses.fromInteger(new Random().nextInt()).getHostAddress();
+        return "199.212.191.92";    // Temporal
     }
 
     /**
