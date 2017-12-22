@@ -55,11 +55,6 @@ public class User {
         this.password = password;
     }
 
-    public User id(Long id) {
-        this.id = id;
-        return this;
-    }
-
     /**
      * Get id
      *
@@ -73,11 +68,6 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public User firstName(String firstName) {
-        this.firstName = firstName;
-        return this;
     }
 
     /**
@@ -94,10 +84,6 @@ public class User {
         this.firstName = firstName;
     }
 
-    public User lastName(String lastName) {
-        this.lastName = lastName;
-        return this;
-    }
 
     /**
      * Get lastName
@@ -113,11 +99,6 @@ public class User {
         this.lastName = lastName;
     }
 
-    public User email(String email) {
-        this.email = email;
-        return this;
-    }
-
     /**
      * Get email
      *
@@ -130,11 +111,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public User password(String password) {
-        this.password = password;
-        return this;
     }
 
     /**

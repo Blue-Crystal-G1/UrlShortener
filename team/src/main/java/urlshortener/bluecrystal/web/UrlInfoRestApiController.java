@@ -36,8 +36,8 @@ public class UrlInfoRestApiController implements UrlInfoRestApi {
         User userDetails = authenticationFacade.getUserPrincipal();
         if (userDetails != null) {
             ShortURL shortURL = shortUrlService.findByHash(id);
-            if (shortUrlService.URIisFromOwner(shortURL, userDetails.getId())) {
-                if (shortURL != null) {
+            if (shortURL != null) {
+                if (shortUrlService.URIisFromOwner(shortURL, userDetails.getId())) {
                     URLClicksInfoDTO info = shortUrlService.getInformationAboutUrlAndClicks(shortURL, interval.toUpperCase());
                     if (info != null) {
                         return new ResponseEntity<>(info, HttpStatus.OK);
@@ -45,19 +45,23 @@ public class UrlInfoRestApiController implements UrlInfoRestApi {
                         ApiErrorResponse response = new ApiErrorResponse(messages.get("message.noInformationAboutUrl"));
                         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
                     }
+
                 } else {
-                    ApiErrorResponse response = new ApiErrorResponse(messages.get("message.noInformationAboutUrl"));
-                    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+                    ApiErrorResponse response = new ApiErrorResponse(messages.get("message.unauthorized"));
+                    return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
                 }
+
             } else {
-                ApiErrorResponse response = new ApiErrorResponse(messages.get("message.unauthorized"));
-                return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+                ApiErrorResponse response = new ApiErrorResponse(messages.get("message.noInformationAboutUrl"));
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             }
+
         } else {
             ApiErrorResponse response = new ApiErrorResponse(messages.get("message.unauthorized"));
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         }
     }
+
 
     @RequestMapping(value = "/urlInfo", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody ResponseEntity<?> getUrlInfoList() {

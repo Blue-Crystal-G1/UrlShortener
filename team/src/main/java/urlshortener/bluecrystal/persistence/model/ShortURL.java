@@ -80,11 +80,6 @@ public class ShortURL {
         this.available = available;
     }
 
-    public ShortURL hash(String hash) {
-        this.hash = hash;
-        return this;
-    }
-
     /**
      * Get hash
      *
@@ -97,11 +92,6 @@ public class ShortURL {
 
     public void setHash(String hash) {
         this.hash = hash;
-    }
-
-    public ShortURL target(String target) {
-        this.target = target;
-        return this;
     }
 
     /**
@@ -118,11 +108,6 @@ public class ShortURL {
         this.target = target;
     }
 
-    public ShortURL uri(URI uri) {
-        this.uri = uri;
-        return this;
-    }
-
     /**
      * Get uri
      *
@@ -135,11 +120,6 @@ public class ShortURL {
 
     public void setUri(URI uri) {
         this.uri = uri;
-    }
-
-    public ShortURL created(LocalDateTime created) {
-        this.created = created;
-        return this;
     }
 
     /**
@@ -156,11 +136,6 @@ public class ShortURL {
         this.created = created;
     }
 
-    public ShortURL owner(Long owner) {
-        this.owner = owner;
-        return this;
-    }
-
     /**
      * Get owner
      *
@@ -173,11 +148,6 @@ public class ShortURL {
 
     public void setOwner(Long owner) {
         this.owner = owner;
-    }
-
-    public ShortURL ip(String ip) {
-        this.ip = ip;
-        return this;
     }
 
     /**
@@ -194,11 +164,6 @@ public class ShortURL {
         this.ip = ip;
     }
 
-    public ShortURL country(String country) {
-        this.country = country;
-        return this;
-    }
-
     /**
      * Get country
      *
@@ -211,11 +176,6 @@ public class ShortURL {
 
     public void setCountry(String country) {
         this.country = country;
-    }
-
-    public ShortURL lastCheckSafeDate(LocalDateTime lastCheckSafeDate) {
-        this.lastCheckSafeDate = lastCheckSafeDate;
-        return this;
     }
 
     /**
@@ -232,11 +192,6 @@ public class ShortURL {
         this.lastCheckSafeDate = lastCheckSafeDate;
     }
 
-    public ShortURL safe(Boolean safe) {
-        this.safe = safe;
-        return this;
-    }
-
     /**
      * Get safe
      *
@@ -249,16 +204,6 @@ public class ShortURL {
 
     public void setSafe(Boolean safe) {
         this.safe = safe;
-    }
-
-    public ShortURL available(Boolean available) {
-        this.available = available;
-        return this;
-    }
-
-    public ShortURL lastCheckAvailableDate(LocalDateTime lastCheckAvailableDate) {
-        this.lastCheckAvailableDate = lastCheckAvailableDate;
-        return this;
     }
 
     /**

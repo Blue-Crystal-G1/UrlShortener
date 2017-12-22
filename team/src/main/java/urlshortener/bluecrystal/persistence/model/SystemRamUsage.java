@@ -16,11 +16,6 @@ public class SystemRamUsage {
     @JsonProperty("memoryUsage")
     private Double memoryUsage = null;
 
-    public SystemRamUsage time(Long time) {
-        this.time = time;
-        return this;
-    }
-
     /**
      * Get time
      *
@@ -33,11 +28,6 @@ public class SystemRamUsage {
 
     public void setTime(Long time) {
         this.time = time;
-    }
-
-    public SystemRamUsage memoryUsage(Double memoryUsage) {
-        this.memoryUsage = memoryUsage;
-        return this;
     }
 
     /**

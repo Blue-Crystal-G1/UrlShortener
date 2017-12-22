@@ -7,6 +7,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import urlshortener.bluecrystal.persistence.ShortURLRepository;
+import urlshortener.bluecrystal.persistence.UserRepository;
 import urlshortener.bluecrystal.persistence.model.ShortURL;
 import urlshortener.bluecrystal.persistence.model.User;
 import urlshortener.bluecrystal.service.fixture.ShortURLFixture;

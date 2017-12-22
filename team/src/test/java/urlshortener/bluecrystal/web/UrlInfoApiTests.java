@@ -12,7 +12,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import urlshortener.bluecrystal.config.StandaloneMvcTestViewResolver;
 import urlshortener.bluecrystal.persistence.model.ShortURL;
-import urlshortener.bluecrystal.persistence.model.User;
 import urlshortener.bluecrystal.security.AuthenticationFacade;
 import urlshortener.bluecrystal.service.ShortUrlService;
 import urlshortener.bluecrystal.service.fixture.ShortURLFixture;
@@ -37,8 +36,6 @@ public class UrlInfoApiTests {
 
     private MockMvc mockMvc;
 
-    private User user;
-
     @Mock
     private ShortUrlService shortUrlService;
 
@@ -54,17 +51,15 @@ public class UrlInfoApiTests {
         this.mockMvc = MockMvcBuilders.standaloneSetup(urlInfoApiController)
                 .setViewResolvers(new StandaloneMvcTestViewResolver()).build();
 
-        user = UserFixture.userWithRolesAndAuthentication();
-
-        TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user,null);
+        TestingAuthenticationToken testingAuthenticationToken =
+                new TestingAuthenticationToken(
+                        UserFixture.userWithRolesAndAuthentication(),null);
         SecurityContextHolder.getContext().setAuthentication(testingAuthenticationToken);
     }
 
     @Test
     public void thatURLInfoListReturnsUnathorizedIfNotAunthenticated() throws Exception {
         SecurityContextHolder.getContext().setAuthentication(null);
-        when(shortUrlService.getInformationAboutAllUrls(user.getEmail()))
-                .thenReturn(new ArrayList<URLInfoDTO>() {{add(urlInfoExample()); add(urlInfoExample2());}});
 
         mockMvc.perform(get("/urlInfo"))
                 .andExpect(status().isUnauthorized())
@@ -73,9 +68,6 @@ public class UrlInfoApiTests {
 
     @Test
     public void thatURLInfoListReturnsNotFoundIfNotRequestedWithAjax() throws Exception {
-        when(shortUrlService.getInformationAboutAllUrls(user.getEmail()))
-                .thenReturn(new ArrayList<URLInfoDTO>() {{add(urlInfoExample()); add(urlInfoExample2());}});
-
         mockMvc.perform(get("/urlInfo"))
                 .andExpect(status().isBadRequest())
                 .andExpect(view().name("400"));
@@ -83,7 +75,7 @@ public class UrlInfoApiTests {
 
     @Test
     public void thatURLInfoListGetsUrlInfoAboutUser() throws Exception {
-        when(shortUrlService.getInformationAboutAllUrls(user.getEmail()))
+        when(shortUrlService.getInformationAboutAllUrls(any()))
                 .thenReturn(new ArrayList<URLInfoDTO>() {{add(urlInfoExample()); add(urlInfoExample2());}});
 
         mockMvc.perform(get("/urlInfo").header("X-Requested-With", "XMLHttpRequest"))
@@ -112,7 +104,7 @@ public class UrlInfoApiTests {
 
     @Test
     public void thatURLInfoByIdReturnsUnauthorizedIfURINotFromUser() throws Exception {
-        ShortURL shortUrl = ShortURLFixture.exampleURL(user.getId());
+        ShortURL shortUrl = ShortURLFixture.exampleURL();
         when(shortUrlService.findByHash(any())).thenReturn(shortUrl);
         when(shortUrlService.URIisFromOwner(any(),any())).thenReturn(false);
 
@@ -122,9 +114,8 @@ public class UrlInfoApiTests {
     }
 
     @Test
-    public void thatURLInfoByIdReturnsBadRequestIfInformationWasFound() throws Exception {
-        ShortURL shortUrl = ShortURLFixture.exampleURL(user.getId());
-
+    public void thatURLInfoByIdReturnsBadRequestIfInformationWasNotFound() throws Exception {
+        ShortURL shortUrl = ShortURLFixture.exampleURL();
         when(shortUrlService.findByHash(any())).thenReturn(shortUrl);
         when(shortUrlService.URIisFromOwner(any(),any())).thenReturn(true);
         when(shortUrlService.getInformationAboutUrlAndClicks(any(),any())).thenReturn(null);
@@ -136,7 +127,7 @@ public class UrlInfoApiTests {
 
     @Test
     public void thatURLInfoByIdReturnsOkIfAuthorizedAndInformationExists() throws Exception {
-        ShortURL shortUrl = ShortURLFixture.exampleURL(user.getId());
+        ShortURL shortUrl = ShortURLFixture.exampleURL();
         String interval = ClickInterval.ALL.toString();
         URLClicksInfoDTO urlClicksInfoDTO = UrlClicksInfoDTOFixture
                 .exampleWithEmptyData(shortUrl, interval);
@@ -162,10 +153,8 @@ public class UrlInfoApiTests {
 
     @Test
     public void thatIndexReturnsInformationAboutUserUrlsIfAuthenticated() throws Exception {
-        ShortURL shortUrl = ShortURLFixture.exampleURL(user.getId());
-
         List<URLInfoDTO> urlInfoDTO = new ArrayList<URLInfoDTO>() {{add(urlInfoExample()); add(urlInfoExample2());}};
-        when(shortUrlService.getInformationAboutAllUrls(user.getEmail())).thenReturn(urlInfoDTO);
+        when(shortUrlService.getInformationAboutAllUrls(any())).thenReturn(urlInfoDTO);
 
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())

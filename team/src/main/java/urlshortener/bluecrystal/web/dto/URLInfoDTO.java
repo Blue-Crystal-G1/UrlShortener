@@ -54,12 +54,6 @@ public class URLInfoDTO {
         this.safe = safe;
     }
 
-    public URLInfoDTO hash(String hash) {
-        this.hash = hash;
-        return this;
-    }
-
-
     /**
      * Get hash
      * @return hash
@@ -73,11 +67,6 @@ public class URLInfoDTO {
 
     public void setHash(String hash) {
         this.hash = hash;
-    }
-
-    public URLInfoDTO target(String target) {
-        this.target = target;
-        return this;
     }
 
     /**
@@ -95,11 +84,6 @@ public class URLInfoDTO {
         this.target = target;
     }
 
-    public URLInfoDTO uri(String uri) {
-        this.uri = uri;
-        return this;
-    }
-
     /**
      * Get uri
      * @return uri
@@ -113,11 +97,6 @@ public class URLInfoDTO {
 
     public void setUri(String uri) {
         this.uri = uri;
-    }
-
-    public URLInfoDTO created(String created) {
-        this.created = created;
-        return this;
     }
 
     /**
@@ -135,11 +114,6 @@ public class URLInfoDTO {
         this.created = created;
     }
 
-    public URLInfoDTO totalClicks(Integer totalClicks) {
-        this.totalClicks = totalClicks;
-        return this;
-    }
-
     /**
      * Get totalClicks
      * @return totalClicks
@@ -153,11 +127,6 @@ public class URLInfoDTO {
 
     public void setTotalClicks(Integer totalClicks) {
         this.totalClicks = totalClicks;
-    }
-
-    public URLInfoDTO lastCheckAvailableDate(String lastCheckAvailableDate) {
-        this.lastCheckAvailableDate = lastCheckAvailableDate;
-        return this;
     }
 
     /**
@@ -175,11 +144,6 @@ public class URLInfoDTO {
         this.lastCheckAvailableDate = lastCheckAvailableDate;
     }
 
-    public URLInfoDTO available(Integer available) {
-        this.available = available;
-        return this;
-    }
-
     /**
      * Get available
      * @return available
@@ -195,11 +159,6 @@ public class URLInfoDTO {
         this.available = available;
     }
 
-    public URLInfoDTO lastCheckSafeDate(String lastCheckSafeDate) {
-        this.lastCheckSafeDate = lastCheckSafeDate;
-        return this;
-    }
-
     /**
      * Get lastCheckSafeDate
      * @return lastCheckSafeDate
@@ -213,11 +172,6 @@ public class URLInfoDTO {
 
     public void setLastCheckSafeDate(String lastCheckSafeDate) {
         this.lastCheckSafeDate = lastCheckSafeDate;
-    }
-
-    public URLInfoDTO safe(Integer safe) {
-        this.safe = safe;
-        return this;
     }
 
     /**

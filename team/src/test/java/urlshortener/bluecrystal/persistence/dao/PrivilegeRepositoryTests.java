@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+import urlshortener.bluecrystal.persistence.PrivilegeRepository;
+import urlshortener.bluecrystal.persistence.RoleRepository;
 import urlshortener.bluecrystal.persistence.model.Privilege;
 import urlshortener.bluecrystal.persistence.model.Role;
 

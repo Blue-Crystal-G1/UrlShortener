@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
-public class UrlShortenerTests {
+public class ShortenerApiTests {
 
     private MockMvc mockMvc;
 

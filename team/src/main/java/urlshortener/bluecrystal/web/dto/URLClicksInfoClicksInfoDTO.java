@@ -21,11 +21,6 @@ public class URLClicksInfoClicksInfoDTO {
         this.counter = counter;
     }
 
-    public URLClicksInfoClicksInfoDTO time(Long time) {
-        this.time = time;
-        return this;
-    }
-
     /**
      * Get time
      *
@@ -40,11 +35,6 @@ public class URLClicksInfoClicksInfoDTO {
 
     public void setTime(Long time) {
         this.time = time;
-    }
-
-    public URLClicksInfoClicksInfoDTO counter(Integer counter) {
-        this.counter = counter;
-        return this;
     }
 
     /**

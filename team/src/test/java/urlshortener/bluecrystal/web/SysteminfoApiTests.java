@@ -9,7 +9,7 @@
 //import org.springframework.test.web.servlet.MockMvc;
 //import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 //import urlshortener.bluecrystal.model.ShortURL;
-//import urlshortener.bluecrystal.persistence.dao.ShortURLRepository;
+//import ShortURLRepository;
 //import urlshortener.bluecrystal.service.fixture.ShortURLFixture;
 //
 //import static org.mockito.Matchers.any;

@@ -21,11 +21,6 @@ public class URLClicksInfoCountriesInfoDTO {
         this.counter = counter;
     }
 
-    public URLClicksInfoCountriesInfoDTO country(String country) {
-        this.country = country;
-        return this;
-    }
-
     /**
      * Get country
      *
@@ -40,11 +35,6 @@ public class URLClicksInfoCountriesInfoDTO {
 
     public void setCountry(String country) {
         this.country = country;
-    }
-
-    public URLClicksInfoCountriesInfoDTO counter(Integer counter) {
-        this.counter = counter;
-        return this;
     }
 
     /**

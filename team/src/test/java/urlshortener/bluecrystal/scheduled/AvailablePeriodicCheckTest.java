@@ -7,8 +7,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import urlshortener.bluecrystal.persistence.dao.ShortURLRepository;
-import urlshortener.bluecrystal.persistence.dao.UserRepository;
+import urlshortener.bluecrystal.persistence.ShortURLRepository;
+import urlshortener.bluecrystal.persistence.UserRepository;
 import urlshortener.bluecrystal.persistence.model.ShortURL;
 import urlshortener.bluecrystal.persistence.model.User;
 import urlshortener.bluecrystal.service.fixture.ShortURLFixture;
@@ -39,7 +39,6 @@ public class AvailablePeriodicCheckTest {
 
     @Test
     public void thatAvailableUrlIsDetectedAsSafe() throws Exception {
-
         ShortURL shortURL = ShortURLFixture.availableUrlInitiallyMarkedAsNotAvailable(user.getId());
         shortURLRepository.save(shortURL);
         availablePeriodicCheck.checkAvailability();
@@ -59,6 +58,17 @@ public class AvailablePeriodicCheckTest {
     @Test
     public void thatAvailableUrlIsDetectedAsSafeAsync() throws Exception {
         ShortURL shortURL = ShortURLFixture.availableUrlInitiallyMarkedAsNotAvailable(user.getId());
+        shortURLRepository.save(shortURL);
+        availablePeriodicCheck.checkAvailabilityAsync(shortURL);
+        Thread.sleep(1000);
+        ShortURL shortURLsafe = shortURLRepository.findByHash(shortURL.getHash());
+        assertTrue(shortURLsafe.getAvailable());
+    }
+
+    @Test
+    public void thatAvailableHttpsUrlIsDetectedAsSafeAsync() throws Exception {
+        ShortURL shortURL = ShortURLFixture.availableUrlInitiallyMarkedAsNotAvailable(user.getId());
+        shortURL.setTarget("https://google.es");
         shortURLRepository.save(shortURL);
         availablePeriodicCheck.checkAvailabilityAsync(shortURL);
         Thread.sleep(1000);

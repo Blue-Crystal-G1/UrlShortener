@@ -82,4 +82,24 @@ public class ShortURLFixture {
 			return null;
 		}
 	}
+
+    public static ShortURL urlWithNoCountryAndNoIpDefined(long userId) {
+        try {
+            return new ShortURL("key0", "http://google.com/", new URI("http://localhost:8080/key0"), LocalDateTime.now(),
+                    userId,null, null, LocalDateTime.now(), true, LocalDateTime.now(), true);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ShortURL urlWithoutFirstChecksSafeAndAvailable(long userId) {
+        try {
+            return new ShortURL("key0", "http://google.com/", new URI("http://localhost:8080/key0"), LocalDateTime.now(),
+                    userId,null, null, null, null, null, null);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

@@ -84,15 +84,6 @@ public class URLClicksInfoDTO {
         return countriesInfo;
     }
 
-    public void setCountriesInfo(java.util.List<URLClicksInfoCountriesInfoDTO> countriesInfo) {
-        this.countriesInfo = countriesInfo;
-    }
-
-    public URLClicksInfoDTO platformsInfo(java.util.List<URLClicksInfoPlatformsInfoDTO> platformsInfo) {
-        this.platformsInfo = platformsInfo;
-        return this;
-    }
-
     public URLClicksInfoDTO addPlatformsInfoItem(URLClicksInfoPlatformsInfoDTO platformsInfoItem) {
         if (this.platformsInfo == null) {
             this.platformsInfo = new java.util.ArrayList<>();
@@ -112,15 +103,6 @@ public class URLClicksInfoDTO {
 
     public java.util.List<URLClicksInfoPlatformsInfoDTO> getPlatformsInfo() {
         return platformsInfo;
-    }
-
-    public void setPlatformsInfo(java.util.List<URLClicksInfoPlatformsInfoDTO> platformsInfo) {
-        this.platformsInfo = platformsInfo;
-    }
-
-    public URLClicksInfoDTO browsersInfo(java.util.List<URLClicksInfoBrowsersInfoDTO> browsersInfo) {
-        this.browsersInfo = browsersInfo;
-        return this;
     }
 
     public URLClicksInfoDTO addBrowsersInfoItem(URLClicksInfoBrowsersInfoDTO browsersInfoItem) {
@@ -144,15 +126,6 @@ public class URLClicksInfoDTO {
         return browsersInfo;
     }
 
-    public void setBrowsersInfo(java.util.List<URLClicksInfoBrowsersInfoDTO> browsersInfo) {
-        this.browsersInfo = browsersInfo;
-    }
-
-    public URLClicksInfoDTO referrersInfo(java.util.List<URLClicksInfoReferrersInfoDTO> referrersInfo) {
-        this.referrersInfo = referrersInfo;
-        return this;
-    }
-
     public URLClicksInfoDTO addReferrersInfoItem(URLClicksInfoReferrersInfoDTO referrersInfoItem) {
         if (this.referrersInfo == null) {
             this.referrersInfo = new java.util.ArrayList<>();
@@ -174,15 +147,6 @@ public class URLClicksInfoDTO {
         return referrersInfo;
     }
 
-    public void setReferrersInfo(java.util.List<URLClicksInfoReferrersInfoDTO> referrersInfo) {
-        this.referrersInfo = referrersInfo;
-    }
-
-    public URLClicksInfoDTO clicksInfo(java.util.List<URLClicksInfoClicksInfoDTO> clicksInfo) {
-        this.clicksInfo = clicksInfo;
-        return this;
-    }
-
     public URLClicksInfoDTO addClicksInfoItem(URLClicksInfoClicksInfoDTO clicksInfoItem) {
         if (this.clicksInfo == null) {
             this.clicksInfo = new java.util.ArrayList<>();
@@ -202,10 +166,6 @@ public class URLClicksInfoDTO {
 
     public java.util.List<URLClicksInfoClicksInfoDTO> getClicksInfo() {
         return clicksInfo;
-    }
-
-    public void setClicksInfo(java.util.List<URLClicksInfoClicksInfoDTO> clicksInfo) {
-        this.clicksInfo = clicksInfo;
     }
 
 

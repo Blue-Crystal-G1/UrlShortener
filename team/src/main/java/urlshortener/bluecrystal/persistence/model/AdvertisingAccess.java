@@ -33,11 +33,6 @@ public class AdvertisingAccess {
         this.access = access;
     }
 
-    public AdvertisingAccess id(String id) {
-        this.id = id;
-        return this;
-    }
-
     /**
      * Get id
      *
@@ -52,11 +47,6 @@ public class AdvertisingAccess {
         this.id = id;
     }
 
-    public AdvertisingAccess hash(String hash) {
-        this.hash = hash;
-        return this;
-    }
-
     /**
      * Get hash
      *
@@ -69,11 +59,6 @@ public class AdvertisingAccess {
 
     public void setHash(String hash) {
         this.hash = hash;
-    }
-
-    public AdvertisingAccess access(Boolean access) {
-        this.access = access;
-        return this;
     }
 
     /**

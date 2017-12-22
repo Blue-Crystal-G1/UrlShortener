@@ -51,8 +51,8 @@ public class GoogleSafeBrowsingService implements IGoogleSafeBrowsingService {
         try {
             Safebrowsing.Builder endpointBuilder = new Safebrowsing.Builder(
                     GoogleNetHttpTransport.newTrustedTransport(), new JacksonFactory(), httpRequest -> {
-                        httpRequest.setConnectTimeout(5000);  // 5 seconds connect timeout
-                        httpRequest.setReadTimeout(5000);  // 5 seconds read timeout
+                        httpRequest.setConnectTimeout(3000);  // 3 seconds connect timeout
+                        httpRequest.setReadTimeout(3000);  // 3 seconds read timeout
             });
 
             Safebrowsing safebrowsing = endpointBuilder.build();

@@ -1,4 +1,4 @@
-package urlshortener.bluecrystal.persistence.dao.converter;
+package urlshortener.bluecrystal.persistence.converter;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

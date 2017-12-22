@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import urlshortener.bluecrystal.persistence.model.Click;
-import urlshortener.bluecrystal.persistence.dao.ClickRepository;
+import urlshortener.bluecrystal.persistence.ClickRepository;
 
 @Service
 public class ClickService {

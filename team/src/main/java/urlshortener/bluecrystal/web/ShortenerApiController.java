@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
+import java.util.Random;
 
 
 @RestController
@@ -109,7 +110,8 @@ public class ShortenerApiController implements ShortenerApi {
      */
     private String extractIP(HttpServletRequest request) {
 //        return request.getRemoteAddr();
-        return "199.212.191.92";
+        // Generates a random IP
+        return com.google.common.net.InetAddresses.fromInteger(new Random().nextInt()).getHostAddress();
     }
 
     /**
@@ -117,7 +119,7 @@ public class ShortenerApiController implements ShortenerApi {
      * @param request request to extract the referrer
      * @return referrer, or null if there were problems with headers
      */
-    private String extractReferrer(HttpServletRequest request) {
+    static String extractReferrer(HttpServletRequest request) {
         String referrer = null;
         if(!StringUtils.isEmpty(request.getHeader(HttpHeaders.REFERER))) {
             try {
@@ -136,7 +138,7 @@ public class ShortenerApiController implements ShortenerApi {
      * @param request request to extract browser
      * @return browser, or unknown if none is detected
      */
-    private String extractBrowser(HttpServletRequest request) {
+    static String extractBrowser(HttpServletRequest request) {
         String browserDetails = request.getHeader("User-Agent");
         if (browserDetails == null) {
             return null;
@@ -154,7 +156,7 @@ public class ShortenerApiController implements ShortenerApi {
             browser = "Opera";
         } else if (user.contains("chrome")) {
             browser = "Google Chrome";
-        } else if ((user.contains("mozilla/7.0")) || (user.contains("netscape6"))
+        } else if ((user.contains("mozilla/7.0")) || (user.contains("Netscape"))
                 || (user.contains("mozilla/4.7")) || (user.contains("mozilla/4.78"))
                 || (user.contains("mozilla/4.08")) || (user.contains("mozilla/3"))) {
             browser = "Netscape-?";
@@ -175,7 +177,7 @@ public class ShortenerApiController implements ShortenerApi {
      * @param request request to extract OS
      * @return OS, or unknown if none is detected
      */
-    private String extractOS(HttpServletRequest request) {
+    static String extractOS(HttpServletRequest request) {
         final String browserDetails = request.getHeader("User-Agent");
 
         if (browserDetails == null) {
@@ -183,19 +185,19 @@ public class ShortenerApiController implements ShortenerApi {
         }
 
         final String lowerCaseBrowser = browserDetails.toLowerCase();
-        String OS = "";
+        String OS;
         if (lowerCaseBrowser.contains("windows")) {
             OS = "Windows";
+        } else if (lowerCaseBrowser.contains("ipad")) {
+            OS = "IPad";
+        } else if (lowerCaseBrowser.contains("iphone")) {
+            OS = "IPhone";
         } else if (lowerCaseBrowser.contains("mac")) {
             OS = "Mac";
         } else if (lowerCaseBrowser.contains("x11")) {
             OS = "Unix";
         } else if (lowerCaseBrowser.contains("android")) {
             OS = "Android";
-        } else if (lowerCaseBrowser.contains("iphone")) {
-            OS = "IPhone";
-        } else if (lowerCaseBrowser.contains("ipad")) {
-            OS = "IPhone";
         } else {
             OS = "UnKnown";
         }
@@ -203,11 +205,11 @@ public class ShortenerApiController implements ShortenerApi {
         return OS;
     }
 
-    private ResponseEntity<?> createSuccessfulRedirectToResponse(ShortURL l) {
-        HttpHeaders h = new HttpHeaders();
-        h.setLocation(URI.create(l.getTarget()));
-        return new ResponseEntity<>(h, HttpStatus.TEMPORARY_REDIRECT);
-    }
+//    private ResponseEntity<?> createSuccessfulRedirectToResponse(ShortURL l) {
+//        HttpHeaders h = new HttpHeaders();
+//        h.setLocation(URI.create(l.getTarget()));
+//        return new ResponseEntity<>(h, HttpStatus.TEMPORARY_REDIRECT);
+//    }
 
     private ResponseEntity<? extends ApiJsonResponse> createRedirectToAdvertisement(
             String id, HttpServletRequest request) {

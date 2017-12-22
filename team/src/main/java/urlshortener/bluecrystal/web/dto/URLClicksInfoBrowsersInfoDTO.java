@@ -21,11 +21,6 @@ public class URLClicksInfoBrowsersInfoDTO {
         this.counter = counter;
     }
 
-    public URLClicksInfoBrowsersInfoDTO browser(String browser) {
-        this.browser = browser;
-        return this;
-    }
-
     /**
      * Get browser
      *
@@ -40,11 +35,6 @@ public class URLClicksInfoBrowsersInfoDTO {
 
     public void setBrowser(String browser) {
         this.browser = browser;
-    }
-
-    public URLClicksInfoBrowsersInfoDTO counter(Integer counter) {
-        this.counter = counter;
-        return this;
     }
 
     /**

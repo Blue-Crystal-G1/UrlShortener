@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import urlshortener.bluecrystal.persistence.dao.ClickRepository;
-import urlshortener.bluecrystal.persistence.dao.ShortURLRepository;
-import urlshortener.bluecrystal.persistence.dao.UserRepository;
+import urlshortener.bluecrystal.persistence.ClickRepository;
+import urlshortener.bluecrystal.persistence.ShortURLRepository;
+import urlshortener.bluecrystal.persistence.UserRepository;
 import urlshortener.bluecrystal.persistence.model.Click;
 import urlshortener.bluecrystal.persistence.model.ShortURL;
 import urlshortener.bluecrystal.persistence.model.User;
@@ -134,8 +134,8 @@ public class ShortUrlService {
         else return null;
     }
 
-    public List<ShortURL> findByTarget(String target) {
-        if(!StringUtils.isEmpty(target.trim()))
+    List<ShortURL> findByTarget(String target) {
+        if(!StringUtils.isEmpty(target))
             return shortURLRepository.findByTarget(target);
         else return null;
     }
@@ -265,7 +265,7 @@ public class ShortUrlService {
         else if(interval.equals(ClickInterval.MONTH.toString())) {
             LocalDate startDate = lcNow.withDayOfMonth(1);
             LocalDate endDate = lcNow.withDayOfMonth(lcNow.lengthOfMonth());
-            for(LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
+            for(LocalDate date = startDate; (date.isBefore(endDate) || date.isEqual(endDate)); date = date.plusDays(1)) {
                 timeInMillis = getMillisFromLocalDate(date);
                 Integer value = clicksInfo.getOrDefault(timeInMillis, 0);
                 clicksInfo.put(timeInMillis, value);
@@ -279,7 +279,7 @@ public class ShortUrlService {
                     : lctNow.withHour(0).withMinute(0).withSecond(0).withNano(0);
             LocalDateTime endDate = (interval.equals(ClickInterval.WEEK.toString())) ?
                     startDate.plusDays(7) : startDate.plusDays(1);
-            for(LocalDateTime date = startDate; date.isBefore(endDate); date = date.plusHours(1)) {
+            for(LocalDateTime date = startDate; (date.isBefore(endDate) || date.isEqual(endDate)); date = date.plusHours(1)) {
                 timeInMillis = getMillisFromLocalDateTime(date);
                 Integer value = clicksInfo.getOrDefault(timeInMillis, 0);
                 clicksInfo.put(timeInMillis, value);
@@ -341,16 +341,13 @@ public class ShortUrlService {
     }
 
     private List<Click> findByHashAndCreatedBetween(String hash, LocalDate startDate, LocalDate endDate) {
-        if (!StringUtils.isEmpty(hash) && startDate != null && endDate != null) {
-            LocalTime startTime = LocalTime.of(0, 0, 0, 0);
-            LocalTime endTime = LocalTime.of(23, 59, 59, 999999999);
+        LocalTime startTime = LocalTime.of(0, 0, 0, 0);
+        LocalTime endTime = LocalTime.of(23, 59, 59, 999999999);
 
-            return clickRepository.findByHashAndCreatedBetween(hash,
-                    LocalDateTime.of(startDate, startTime),
-                    LocalDateTime.of(endDate, endTime));
-        }
+        return clickRepository.findByHashAndCreatedBetween(hash,
+                LocalDateTime.of(startDate, startTime),
+                LocalDateTime.of(endDate, endTime));
 
-        return null;
     }
 
     private static Long getMillisFromLocalDate(LocalDate date) {

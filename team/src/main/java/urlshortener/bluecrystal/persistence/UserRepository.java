@@ -1,4 +1,4 @@
-package urlshortener.bluecrystal.persistence.dao;
+package urlshortener.bluecrystal.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import urlshortener.bluecrystal.persistence.model.User;

@@ -21,11 +21,6 @@ public class URLClicksInfoReferrersInfoDTO {
         this.counter = counter;
     }
 
-    public URLClicksInfoReferrersInfoDTO referrer(String referrer) {
-        this.referrer = referrer;
-        return this;
-    }
-
     /**
      * Get referrer
      *
@@ -40,11 +35,6 @@ public class URLClicksInfoReferrersInfoDTO {
 
     public void setReferrer(String referrer) {
         this.referrer = referrer;
-    }
-
-    public URLClicksInfoReferrersInfoDTO counter(Integer counter) {
-        this.counter = counter;
-        return this;
     }
 
     /**

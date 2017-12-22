@@ -21,11 +21,6 @@ public class URLClicksInfoPlatformsInfoDTO {
         this.counter = counter;
     }
 
-    public URLClicksInfoPlatformsInfoDTO platform(String platform) {
-        this.platform = platform;
-        return this;
-    }
-
     /**
      * Get platform
      *
@@ -40,11 +35,6 @@ public class URLClicksInfoPlatformsInfoDTO {
 
     public void setPlatform(String platform) {
         this.platform = platform;
-    }
-
-    public URLClicksInfoPlatformsInfoDTO counter(Integer counter) {
-        this.counter = counter;
-        return this;
     }
 
     /**

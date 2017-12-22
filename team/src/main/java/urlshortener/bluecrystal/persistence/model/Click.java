@@ -50,11 +50,6 @@ public class Click {
 
     public Click() {}
 
-    public Click id(Long id) {
-        this.id = id;
-        return this;
-    }
-
     public Click(String hash, LocalDateTime created, String referrer, String browser,
                  String platform, String ip, String country) {
         this.hash = hash;
@@ -80,11 +75,6 @@ public class Click {
         this.id = id;
     }
 
-    public Click hash(String hash) {
-        this.hash = hash;
-        return this;
-    }
-
     /**
      * Get hash
      *
@@ -97,11 +87,6 @@ public class Click {
 
     public void setHash(String hash) {
         this.hash = hash;
-    }
-
-    public Click created(LocalDateTime created) {
-        this.created = created;
-        return this;
     }
 
     /**
@@ -118,11 +103,6 @@ public class Click {
         this.created = created;
     }
 
-    public Click referrer(String referrer) {
-        this.referrer = referrer;
-        return this;
-    }
-
     /**
      * Get referrer
      *
@@ -135,11 +115,6 @@ public class Click {
 
     public void setReferrer(String referrer) {
         this.referrer = referrer;
-    }
-
-    public Click browser(String browser) {
-        this.browser = browser;
-        return this;
     }
 
     /**
@@ -156,11 +131,6 @@ public class Click {
         this.browser = browser;
     }
 
-    public Click platform(String platform) {
-        this.platform = platform;
-        return this;
-    }
-
     /**
      * Get platform
      *
@@ -175,11 +145,6 @@ public class Click {
         this.platform = platform;
     }
 
-    public Click ip(String ip) {
-        this.ip = ip;
-        return this;
-    }
-
     /**
      * Get ip
      *
@@ -192,11 +157,6 @@ public class Click {
 
     public void setIp(String ip) {
         this.ip = ip;
-    }
-
-    public Click country(String country) {
-        this.country = country;
-        return this;
     }
 
     /**

@@ -13,7 +13,7 @@ import static org.junit.Assert.assertNotEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class HashGeneratorTests {
+public class HashGeneratorServiceTests {
 
     @Autowired
     protected HashGenerator hashGenerator;

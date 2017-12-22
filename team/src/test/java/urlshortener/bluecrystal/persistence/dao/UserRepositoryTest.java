@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import urlshortener.bluecrystal.persistence.RoleRepository;
+import urlshortener.bluecrystal.persistence.UserRepository;
 import urlshortener.bluecrystal.persistence.model.Role;
 import urlshortener.bluecrystal.persistence.model.User;
 
