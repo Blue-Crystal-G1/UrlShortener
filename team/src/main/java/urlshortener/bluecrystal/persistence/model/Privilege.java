@@ -20,7 +20,6 @@ public class Privilege {
 
     public final static String READ_PRIVILEGE = "READ_PRIVILEGE";
     public final static String WRITE_PRIVILEGE = "WRITE_PRIVILEGE";
-    public final static String CHANGE_PASSWORD_PRIVILEGE = "CHANGE_PASSWORD_PRIVILEGE";
 
     public Privilege() {
         super();

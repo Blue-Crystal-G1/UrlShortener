@@ -11,7 +11,6 @@ import urlshortener.bluecrystal.web.messages.ApiErrorResponse;
 
 @Api(value = "systeminfo", description = "the systeminfo API")
 public interface SysteminfoRestApi {
-
     @ApiOperation(value = "Get information about the system by an interval", tags={ "systeminfo", })
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful operation", response = SystemInfoDTO.class),

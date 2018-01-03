@@ -51,13 +51,6 @@ public class PrivilegeRepositoryTests {
         assertEquals(privilegeRepository.count(), 2);
         assertNotNull(privilegeRepository.findByName(Privilege.READ_PRIVILEGE));
         assertNotNull(privilegeRepository.findOne(privilegeRead.getId()));
-
-        Privilege privilegeChangePassword = new Privilege(Privilege.CHANGE_PASSWORD_PRIVILEGE);
-        privilegeChangePassword = privilegeRepository.save(privilegeChangePassword);
-        assertNotNull(privilegeChangePassword);
-        assertEquals(privilegeRepository.count(), 3);
-        assertNotNull(privilegeRepository.findByName(Privilege.READ_PRIVILEGE));
-        assertNotNull(privilegeRepository.findOne(privilegeRead.getId()));
     }
 
     @Test

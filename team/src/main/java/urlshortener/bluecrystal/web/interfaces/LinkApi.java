@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 
 @Api(value = "link", description = "The link API")
 public interface LinkApi {
-
     @ApiOperation(value = "Creates a short URL (link)",
             notes = "Creates a short URL. Asynchronously checks if the url is valid, available and safe.",
             tags={ "link", })

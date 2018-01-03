@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 
 @Api(value = "shortener", description = "the shortener API")
 public interface ShortenerApi {
-
     @ApiOperation(value = "Get the target URI referenced by the shortURL given ",
             notes = "Get the target URI referenced by the shortURL given. " +
                     "The first time this method is called the client is redirected to advertising. " +

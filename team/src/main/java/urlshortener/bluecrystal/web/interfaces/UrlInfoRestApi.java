@@ -13,7 +13,6 @@ import urlshortener.bluecrystal.web.messages.ApiErrorResponse;
 
 @Api(value = "urlInfo", description = "the urlInfo API")
 public interface UrlInfoRestApi {
-
     @ApiOperation(value = "Get information about an url and associated clicks",
             notes = "Get information about an url and associated clicks",
             tags={ "urlInfo", })

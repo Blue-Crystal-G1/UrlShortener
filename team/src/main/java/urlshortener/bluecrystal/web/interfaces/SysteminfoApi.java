@@ -1,21 +1,16 @@
 package urlshortener.bluecrystal.web.interfaces;
 
-import io.swagger.annotations.*;
-import org.springframework.web.bind.annotation.*;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import springfox.documentation.annotations.ApiIgnore;
 
-
-@Api(value = "systeminfo", description = "the systeminfo API")
+@ApiIgnore
 public interface SysteminfoApi {
-
-    @ApiOperation(value = "Get information about the system by an interval", tags={ "systeminfo", })
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful operation"),
-            @ApiResponse(code = 400, message = "Invalid interval supplied"),
-            @ApiResponse(code = 403, message = "Insufficient permissions (only for administrator)") })
-    @RequestMapping(value = "/systeminfo/{interval}",
-            method = RequestMethod.GET)
-    @ResponseBody ModelAndView getSystemInfo(
-            @ApiParam(value = "The interval that needs to be fetched") @PathVariable("interval") String interval);
-
+    @ApiOperation(value = "", hidden = true)
+    @RequestMapping(value = "/systeminfo/{interval}", method = RequestMethod.GET)
+    @ResponseBody ModelAndView getSystemInfo(@PathVariable("interval") String interval);
 }
