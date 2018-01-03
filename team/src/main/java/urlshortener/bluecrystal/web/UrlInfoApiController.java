@@ -43,7 +43,8 @@ public class UrlInfoApiController implements UrlInfoApi {
     public @ResponseBody ModelAndView index() {
         User userDetails = authenticationFacade.getUserPrincipal();
         if (userDetails != null) {
-            List<URLInfoDTO> urlInfoList = shortUrlService.getInformationAboutAllUrls(userDetails.getEmail());
+            List<URLInfoDTO> urlInfoList = shortUrlService
+                    .getInformationAboutAllUrls(userDetails.getEmail());
 
             Map<String, Object> model = new HashMap<String, Object>() {{
                 put("info", urlInfoList);
@@ -65,7 +66,8 @@ public class UrlInfoApiController implements UrlInfoApi {
             ShortURL shortURL = shortUrlService.findByHash(id);
             if (shortURL != null) {
                 if (shortUrlService.URIisFromOwner(shortURL, userDetails.getId())) {
-                    URLClicksInfoDTO info = shortUrlService.getInformationAboutUrlAndClicks(shortURL, interval.toUpperCase());
+                    URLClicksInfoDTO info = shortUrlService
+                            .getInformationAboutUrlAndClicks(shortURL, interval.toUpperCase());
                     if (info != null) {
                         modifyLayout(Layout.DEFAULT);
                         return new ModelAndView("urlInfo", HttpStatus.OK)
@@ -95,7 +97,8 @@ public class UrlInfoApiController implements UrlInfoApi {
         User userDetails = authenticationFacade.getUserPrincipal();
         if (userDetails != null) {
             if(isAjaxRequest(request)) {
-                List<URLInfoDTO> urlInfoList = shortUrlService.getInformationAboutAllUrls(userDetails.getEmail());
+                List<URLInfoDTO> urlInfoList = shortUrlService
+                        .getInformationAboutAllUrls(userDetails.getEmail());
 
                 Map<String, Object> model = new HashMap<String, Object>() {{
                     put("info", urlInfoList);

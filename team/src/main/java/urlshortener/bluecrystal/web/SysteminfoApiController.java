@@ -16,7 +16,7 @@ import urlshortener.bluecrystal.web.annotations.Layout;
 import urlshortener.bluecrystal.web.dto.SystemInfoDTO;
 import urlshortener.bluecrystal.web.interfaces.SysteminfoApi;
 
-
+@Layout(Layout.DEFAULT)
 @Controller
 public class SysteminfoApiController implements SysteminfoApi {
 
@@ -51,7 +51,7 @@ public class SysteminfoApiController implements SysteminfoApi {
 
     private void modifyLayout(String layout) {
         DynamicLayout altered = new DynamicLayout(layout);
-        AnnotationHelper.alterAnnotationOn(UrlInfoApiController.class, Layout.class, altered);
+        AnnotationHelper.alterAnnotationOn(SysteminfoApiController.class, Layout.class, altered);
     }
 
 }

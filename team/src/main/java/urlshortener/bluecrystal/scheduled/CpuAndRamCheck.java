@@ -24,8 +24,8 @@ public class CpuAndRamCheck {
     @Autowired
     protected SystemRamRepository systemRamRepository;
 
-    // Checks every 30 seconds.
-    @Scheduled(fixedDelay = 30000L)
+    // Checks every 5 seconds.
+    @Scheduled(fixedDelay = 5000L)
     public void checkSystem() {
         LOGGER.info("Check CPU/RAM usage");
         OperatingSystemMXBean os = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
@@ -39,7 +39,7 @@ public class CpuAndRamCheck {
         bd = bd.setScale(2, RoundingMode.HALF_UP);
 
         SystemRamUsage ramUsage = new SystemRamUsage(System.currentTimeMillis(), bd.doubleValue());
-        LOGGER.info("Percentage of RAM used: {} %", ramUsage.getMemoryUsage());
+        LOGGER.info("Percentage of RAM used: {} %", ramUsage.getUsage());
         systemRamRepository.save(ramUsage);
 
         // What % load the overall system is at
@@ -48,7 +48,7 @@ public class CpuAndRamCheck {
         bd = bd.setScale(2, RoundingMode.HALF_UP);
 
         SystemCpuUsage cpuUsage = new SystemCpuUsage(System.currentTimeMillis(),bd.doubleValue());
-        LOGGER.info("Percentage of CPU used: {} %", cpuUsage.getMemoryUsage());
+        LOGGER.info("Percentage of CPU used: {} %", cpuUsage.getUsage());
         systemCpuRepository.save(cpuUsage);
     }
 }

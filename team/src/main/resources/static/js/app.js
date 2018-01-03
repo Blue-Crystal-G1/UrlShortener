@@ -10,16 +10,16 @@ $(document).ready(function() {
 
         var cUrl = String(window.location).split('?')[0];
 
-        if (cUrl.substr(cUrl.length - 1) == '#') {
+        if (cUrl.substr(cUrl.length - 1) === '#') {
             cUrl = cUrl.slice(0,-1);
         }
 
         var hRef = $($(this))[0].href;
-        if (hRef.substr(hRef.length - 1) == '#') {
+        if (hRef.substr(hRef.length - 1) === '#') {
             hRef = hRef.slice(0,-1);
         }
 
-        if (hRef==cUrl) {
+        if (hRef===cUrl) {
             //$(this).addClass('active');
             $(this).parents('li').addClass('active');
         }
@@ -28,16 +28,6 @@ $(document).ready(function() {
         }
     });
 });
-
-
-function IsJsonString(str) {
-    try {
-        JSON.parse(str);
-    } catch (e) {
-        return false;
-    }
-    return true;
-}
 
 // Serialize form to JavaScript object
 (function ($) {

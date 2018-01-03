@@ -21,16 +21,16 @@ public class SystemCpuUsage {
     private Long time = null;
 
     @Column(name = "USAGE")
-    @JsonProperty("memoryUsage")
-    private Double memoryUsage = null;
+    @JsonProperty("usage")
+    private Double usage = null;
 
 
     public SystemCpuUsage() {
     }
 
-    public SystemCpuUsage(Long time, Double memoryUsage) {
+    public SystemCpuUsage(Long time, Double usage) {
         this.time = time;
-        this.memoryUsage = memoryUsage;
+        this.usage = usage;
     }
 
     /**
@@ -44,13 +44,13 @@ public class SystemCpuUsage {
     }
 
     /**
-     * Get memoryUsage
+     * Get usage
      *
-     * @return memoryUsage
+     * @return usage
      **/
     @ApiModelProperty(value = "")
-    public Double getMemoryUsage() {
-        return memoryUsage;
+    public Double getUsage() {
+        return usage;
     }
 
 }

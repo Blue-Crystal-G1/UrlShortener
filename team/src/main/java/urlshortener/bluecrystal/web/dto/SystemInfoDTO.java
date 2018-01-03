@@ -36,7 +36,7 @@ public class SystemInfoDTO {
     @Valid
     private java.util.List<URLClicksInfoClicksInfoDTO> clicksInfo = null;
 
-    @JsonProperty("memoryUsage")
+    @JsonProperty("cpuUsage")
     private List<SystemCpuUsage> memoryUsage = new ArrayList<SystemCpuUsage>();
 
     @JsonProperty("ramUsage")

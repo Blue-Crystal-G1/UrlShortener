@@ -39,7 +39,7 @@ public class SystemRamRepositoryTest {
         SystemRamUsage usageSaved = systemRamRepository.save(usage);
         count = systemRamRepository.count();
         assertEquals(count,1);
-        assertTrue(usageSaved.getMemoryUsage() > 0);
+        assertTrue(usageSaved.getUsage() > 0);
         assertTrue(usageSaved.getTime() > 0);
     }
 
@@ -52,7 +52,7 @@ public class SystemRamRepositoryTest {
         assertNotNull(cpuUsageList);
         assertEquals(cpuUsageList.size(), 1);
         assertEquals(usage.getTime(), millisNow);
-        assertTrue(usage.getMemoryUsage() ==  10.12);
+        assertTrue(usage.getUsage() ==  10.12);
     }
 
     @Test

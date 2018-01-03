@@ -107,12 +107,12 @@ public class SystemInfoRestApiTests {
                         is(systemInfoDTO.getTotalClicks())))
                 .andExpect(jsonPath("$.ramUsage[0].time",
                         is(systemInfoDTO.getRamUsage().get(0).getTime())))
-                .andExpect(jsonPath("$.ramUsage[0].memoryUsage",
-                        is(systemInfoDTO.getRamUsage().get(0).getMemoryUsage())))
-                .andExpect(jsonPath("$.memoryUsage[0].time",
+                .andExpect(jsonPath("$.ramUsage[0].usage",
+                        is(systemInfoDTO.getRamUsage().get(0).getUsage())))
+                .andExpect(jsonPath("$.cpuUsage[0].time",
                         is(systemInfoDTO.getMemoryUsage().get(0).getTime())))
-                .andExpect(jsonPath("$.memoryUsage[0].memoryUsage",
-                        is(systemInfoDTO.getMemoryUsage().get(0).getMemoryUsage())))
+                .andExpect(jsonPath("$.cpuUsage[0].usage",
+                        is(systemInfoDTO.getMemoryUsage().get(0).getUsage())))
                 .andExpect(jsonPath("$.countriesInfo.length()",
                         is(systemInfoDTO.getCountriesInfo().size())))
                 .andExpect(jsonPath("$.countriesInfo[0].country",

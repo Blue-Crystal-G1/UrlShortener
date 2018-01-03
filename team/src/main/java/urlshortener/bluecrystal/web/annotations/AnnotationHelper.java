@@ -9,7 +9,7 @@ public class AnnotationHelper {
     private static final String ANNOTATIONS = "annotations";
     private static final String ANNOTATION_DATA = "annotationData";
 
-    public static void alterAnnotationOn(Class<? extends urlshortener.bluecrystal.web.UrlInfoApiController> clazzToLookFor, Class<? extends Annotation> annotationToAlter, Annotation annotationValue) {
+    public static void alterAnnotationOn(Class<?> clazzToLookFor, Class<? extends Annotation> annotationToAlter, Annotation annotationValue) {
         try {
             //In JDK8 Class has a private method called annotationData().
             //We first need to invoke it to obtain a reference to AnnotationData class which is a private class

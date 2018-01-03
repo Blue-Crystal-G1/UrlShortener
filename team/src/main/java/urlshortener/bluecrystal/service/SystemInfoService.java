@@ -13,10 +13,10 @@ import urlshortener.bluecrystal.persistence.model.SystemRamUsage;
 import urlshortener.bluecrystal.web.dto.*;
 
 import java.lang.management.ManagementFactory;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static urlshortener.bluecrystal.service.ShortUrlService.addClickInfo;
 import static urlshortener.bluecrystal.service.ShortUrlService.addZeroClicksToEmptySlots;
@@ -42,10 +42,7 @@ public class SystemInfoService {
     protected UserService userService;
 
     /**
-     * Obtains information about all shorted urls and clicks (like
-     * number of clicks for each browser, referrer and country).
-     * The number of clicks in an interval of time are returned with the time
-     * in millis
+     * Obtains information about the system
      * @param interval interval of time to show global information
      * @return information about all the system. If the interval is not defined
      *          returns {@literal null}.
@@ -126,18 +123,23 @@ public class SystemInfoService {
         return null;
     }
 
-    private String formatUptimeToString(Long timeInMillis) {
-        Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(timeInMillis);
+    /**
+     * Convert a millisecond duration to a string format
+     *
+     * @param millis A duration to convert to a string form
+     * @return A string of the form "X días, HH:mm:ss".
+     */
+    private static String formatUptimeToString(long millis)
+    {
+        long days = TimeUnit.MILLISECONDS.toDays(millis);
+        millis -= TimeUnit.DAYS.toMillis(days);
+        long hours = TimeUnit.MILLISECONDS.toHours(millis);
+        millis -= TimeUnit.HOURS.toMillis(hours);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(millis);
+        millis -= TimeUnit.MINUTES.toMillis(minutes);
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
 
-        int mYear = c.get(Calendar.YEAR);
-        int mMonth = c.get(Calendar.MONTH);
-        int mDay = c.get(Calendar.DAY_OF_MONTH);
-        int hr = c.get(Calendar.HOUR);
-        int min = c.get(Calendar.MINUTE);
-        int sec = c.get(Calendar.SECOND);
-
-        return mYear + "/" + mMonth + "/" + mDay + " " + hr + ":" + min + ":" + sec;
+        return String.format("%d días, %02d:%02d:%02d", days, hours, minutes, seconds);
     }
 
 }

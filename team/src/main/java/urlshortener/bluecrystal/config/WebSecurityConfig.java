@@ -68,7 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/advertising/**", "/{id:(?!link|swagger|index|urlInfo).*}").permitAll()
                 .antMatchers(HttpMethod.POST, "/user*").anonymous()
                 .antMatchers(HttpMethod.GET, "as").denyAll()
-                .antMatchers("/user/updatePassword*","/user/savePassword*", "/updatePassword*").hasAuthority(Privilege.CHANGE_PASSWORD_PRIVILEGE)
+                .antMatchers("/systeminfo/**").hasAuthority(Privilege.WRITE_PRIVILEGE)
                 .anyRequest().hasAuthority(Privilege.READ_PRIVILEGE)
             .and()
                 .formLogin()
