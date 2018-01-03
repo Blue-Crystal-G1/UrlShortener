@@ -4,7 +4,6 @@ $.navigation = $('nav > ul.nav');
 'use strict';
 
 $(document).ready(function() {
-    var numMenu = 0;
     // Add class .active to current link
     $.navigation.find('a').each(function(){
 
@@ -20,11 +19,10 @@ $(document).ready(function() {
         }
 
         if (hRef===cUrl) {
-            //$(this).addClass('active');
             $(this).parents('li').addClass('active');
         }
         else {
-            numMenu = numMenu + 1;
+            $(this).parents('li').removeClass('active');
         }
     });
 });
