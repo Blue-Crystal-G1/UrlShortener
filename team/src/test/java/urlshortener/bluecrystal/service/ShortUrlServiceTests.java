@@ -139,8 +139,8 @@ public class ShortUrlServiceTests {
         compareUrlInfo(urlClicksInfo, click1, click2);
 
         List<URLClicksInfoClicksInfoDTO> clicksInfo = urlClicksInfo.getClicksInfo();
-        int hoursOnWeekPlusTwo = 24 + 2;
-        assertEquals(clicksInfo.size(), hoursOnWeekPlusTwo);
+        int hoursOnDayPlusTwo = 24 + 2;
+        assertEquals(clicksInfo.size(), hoursOnDayPlusTwo);
     }
 
     @Test
@@ -157,8 +157,8 @@ public class ShortUrlServiceTests {
         compareUrlInfo(urlClicksInfo, click1, click2);
 
         List<URLClicksInfoClicksInfoDTO> clicksInfo = urlClicksInfo.getClicksInfo();
-        int hoursOnWeek = (2 * 60) + 1;
-        assertEquals(clicksInfo.size(), hoursOnWeek);
+        int minutesInTwoHoursPlusOne = (2 * 60) + 1;
+        assertEquals(clicksInfo.size(), minutesInTwoHoursPlusOne);
     }
 
     @Test
