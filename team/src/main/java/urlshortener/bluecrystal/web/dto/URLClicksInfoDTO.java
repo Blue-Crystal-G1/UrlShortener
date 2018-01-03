@@ -36,31 +36,19 @@ public class URLClicksInfoDTO {
     @Valid
     private java.util.List<URLClicksInfoClicksInfoDTO> clicksInfo = null;
 
-    public URLClicksInfoDTO urlInfo(URLInfoDTO urlInfo) {
-        this.urlInfo = urlInfo;
-        return this;
-    }
-
     /**
      * Get urlInfo
      *
      * @return urlInfo
      **/
     @ApiModelProperty(value = "")
-
     @Valid
-
     public URLInfoDTO getUrlInfo() {
         return urlInfo;
     }
 
     public void setUrlInfo(URLInfoDTO urlInfo) {
         this.urlInfo = urlInfo;
-    }
-
-    public URLClicksInfoDTO countriesInfo(java.util.List<URLClicksInfoCountriesInfoDTO> countriesInfo) {
-        this.countriesInfo = countriesInfo;
-        return this;
     }
 
     public URLClicksInfoDTO addCountriesInfoItem(URLClicksInfoCountriesInfoDTO countriesInfoItem) {
@@ -77,9 +65,7 @@ public class URLClicksInfoDTO {
      * @return countriesInfo
      **/
     @ApiModelProperty(value = "")
-
     @Valid
-
     public java.util.List<URLClicksInfoCountriesInfoDTO> getCountriesInfo() {
         return countriesInfo;
     }
@@ -98,9 +84,7 @@ public class URLClicksInfoDTO {
      * @return platformsInfo
      **/
     @ApiModelProperty(value = "")
-
     @Valid
-
     public java.util.List<URLClicksInfoPlatformsInfoDTO> getPlatformsInfo() {
         return platformsInfo;
     }
@@ -119,9 +103,7 @@ public class URLClicksInfoDTO {
      * @return browsersInfo
      **/
     @ApiModelProperty(value = "")
-
     @Valid
-
     public java.util.List<URLClicksInfoBrowsersInfoDTO> getBrowsersInfo() {
         return browsersInfo;
     }
@@ -140,9 +122,7 @@ public class URLClicksInfoDTO {
      * @return referrersInfo
      **/
     @ApiModelProperty(value = "")
-
     @Valid
-
     public java.util.List<URLClicksInfoReferrersInfoDTO> getReferrersInfo() {
         return referrersInfo;
     }
@@ -161,9 +141,7 @@ public class URLClicksInfoDTO {
      * @return clicksInfo
      **/
     @ApiModelProperty(value = "")
-
     @Valid
-
     public java.util.List<URLClicksInfoClicksInfoDTO> getClicksInfo() {
         return clicksInfo;
     }
@@ -184,37 +162,6 @@ public class URLClicksInfoDTO {
                 Objects.equals(this.browsersInfo, urLClicksInfo.browsersInfo) &&
                 Objects.equals(this.referrersInfo, urLClicksInfo.referrersInfo) &&
                 Objects.equals(this.clicksInfo, urLClicksInfo.clicksInfo);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(urlInfo, countriesInfo, platformsInfo, browsersInfo, referrersInfo, clicksInfo);
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class URLClicksInfo {\n");
-
-        sb.append("    urlInfo: ").append(toIndentedString(urlInfo)).append("\n");
-        sb.append("    countriesInfo: ").append(toIndentedString(countriesInfo)).append("\n");
-        sb.append("    platformsInfo: ").append(toIndentedString(platformsInfo)).append("\n");
-        sb.append("    browsersInfo: ").append(toIndentedString(browsersInfo)).append("\n");
-        sb.append("    referrersInfo: ").append(toIndentedString(referrersInfo)).append("\n");
-        sb.append("    clicksInfo: ").append(toIndentedString(clicksInfo)).append("\n");
-        sb.append("}");
-        return sb.toString();
-    }
-
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     */
-    private String toIndentedString(java.lang.Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
     }
 
 }

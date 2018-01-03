@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import urlshortener.bluecrystal.persistence.RoleRepository;
-import urlshortener.bluecrystal.persistence.UserRepository;
+import urlshortener.bluecrystal.persistence.dao.RoleRepository;
+import urlshortener.bluecrystal.persistence.dao.UserRepository;
 import urlshortener.bluecrystal.persistence.model.Role;
 import urlshortener.bluecrystal.persistence.model.User;
 import urlshortener.bluecrystal.web.dto.UserDTO;
@@ -28,6 +28,13 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public Long countUsers() {
+        return userRepository.count();
+    }
 
     public User registerNewUser(final UserDTO userDto) {
         if(userDto != null ) {

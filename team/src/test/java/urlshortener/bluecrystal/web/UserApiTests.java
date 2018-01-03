@@ -76,7 +76,6 @@ public class UserApiTests {
                 .andExpect(jsonPath("$.status",is("error")))
                 .andExpect(jsonPath("$.type",is("UserAlreadyExists")))
                 .andExpect(jsonPath("$.message",is("Message")));
-
     }
 
 

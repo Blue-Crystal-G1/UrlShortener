@@ -8,7 +8,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import urlshortener.bluecrystal.persistence.model.User;
-import urlshortener.bluecrystal.persistence.UserRepository;
+import urlshortener.bluecrystal.persistence.dao.UserRepository;
 
 public class CustomAuthenticationProvider extends DaoAuthenticationProvider {
 

@@ -1,6 +1,5 @@
 package urlshortener.bluecrystal.web.dto.util;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
@@ -32,14 +31,5 @@ public enum ClickInterval {
         return String.valueOf(value);
     }
 
-    @JsonCreator
-    public static ClickInterval fromValue(String text) {
-        for (ClickInterval b : ClickInterval.values()) {
-            if (String.valueOf(b.value).equals(text)) {
-                return b;
-            }
-        }
-        return null;
-    }
 }
 

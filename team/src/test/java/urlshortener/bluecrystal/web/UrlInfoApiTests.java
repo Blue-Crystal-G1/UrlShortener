@@ -58,12 +58,12 @@ public class UrlInfoApiTests {
     }
 
     @Test
-    public void thatURLInfoListReturnsUnathorizedIfNotAunthenticated() throws Exception {
+    public void thatURLInfoListReturnsForbiddenIfNotAunthenticated() throws Exception {
         SecurityContextHolder.getContext().setAuthentication(null);
 
         mockMvc.perform(get("/urlInfo"))
-                .andExpect(status().isUnauthorized())
-                .andExpect(view().name("401"));
+                .andExpect(status().isForbidden())
+                .andExpect(view().name("403"));
     }
 
     @Test
@@ -85,12 +85,12 @@ public class UrlInfoApiTests {
     }
 
     @Test
-    public void thatURLInfoByIdReturnsUnauthorizedIfNotAuthenticated() throws Exception {
+    public void thatURLInfoByIdReturnsForbiddenIfNotAuthenticated() throws Exception {
         SecurityContextHolder.getContext().setAuthentication(null);
 
         mockMvc.perform(get("/urlInfo/someHash/" + ClickInterval.ALL.toString()))
-                .andExpect(status().isUnauthorized())
-                .andExpect(view().name("401"));
+                .andExpect(status().isForbidden())
+                .andExpect(view().name("403"));
     }
 
     @Test
@@ -103,14 +103,14 @@ public class UrlInfoApiTests {
     }
 
     @Test
-    public void thatURLInfoByIdReturnsUnauthorizedIfURINotFromUser() throws Exception {
+    public void thatURLInfoByIdReturnsForbiddenIfURINotFromUser() throws Exception {
         ShortURL shortUrl = ShortURLFixture.exampleURL();
         when(shortUrlService.findByHash(any())).thenReturn(shortUrl);
         when(shortUrlService.URIisFromOwner(any(),any())).thenReturn(false);
 
         mockMvc.perform(get("/urlInfo/" + shortUrl.getHash() + "/" + ClickInterval.ALL.toString()))
-                .andExpect(status().isUnauthorized())
-                .andExpect(view().name("401"));
+                .andExpect(status().isForbidden())
+                .andExpect(view().name("403"));
     }
 
     @Test
@@ -143,12 +143,12 @@ public class UrlInfoApiTests {
     }
 
     @Test
-    public void thatIndexReturnsUnauthorizedIfNotAuthenticated() throws Exception {
+    public void thatIndexReturnsForbiddenIfNotAuthenticated() throws Exception {
         SecurityContextHolder.getContext().setAuthentication(null);
 
         mockMvc.perform(get("/"))
-                .andExpect(status().isUnauthorized())
-                .andExpect(view().name("401"));
+                .andExpect(status().isForbidden())
+                .andExpect(view().name("403"));
     }
 
     @Test

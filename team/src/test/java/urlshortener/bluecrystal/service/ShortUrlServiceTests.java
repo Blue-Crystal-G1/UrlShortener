@@ -7,9 +7,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import urlshortener.bluecrystal.persistence.ClickRepository;
-import urlshortener.bluecrystal.persistence.ShortURLRepository;
-import urlshortener.bluecrystal.persistence.UserRepository;
+import urlshortener.bluecrystal.persistence.dao.ClickRepository;
+import urlshortener.bluecrystal.persistence.dao.ShortURLRepository;
+import urlshortener.bluecrystal.persistence.dao.UserRepository;
 import urlshortener.bluecrystal.persistence.model.Click;
 import urlshortener.bluecrystal.persistence.model.ShortURL;
 import urlshortener.bluecrystal.persistence.model.User;
@@ -24,13 +24,9 @@ import java.util.List;
 
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 import static urlshortener.bluecrystal.service.fixture.ClickFixture.*;
-import static urlshortener.bluecrystal.service.fixture.ShortURLFixture.exampleURL;
-import static urlshortener.bluecrystal.service.fixture.ShortURLFixture.exampleURL2;
-import static urlshortener.bluecrystal.service.fixture.ShortURLFixture.urlWithoutFirstChecksSafeAndAvailable;
+import static urlshortener.bluecrystal.service.fixture.ShortURLFixture.*;
 
 
 @RunWith(SpringRunner.class)
@@ -70,7 +66,10 @@ public class ShortUrlServiceTests {
         compareUrlInfo(urlClicksInfo, click1, click2);
 
         List<URLClicksInfoClicksInfoDTO> clicksInfo = urlClicksInfo.getClicksInfo();
-        assertEquals(clicksInfo.size(), Month.values().length * 3);
+        int beginYear = 2015;
+        int endYear = LocalDate.now().getYear();
+        int yearsFromBegin = (1+endYear) - beginYear;
+        assertEquals(clicksInfo.size(), Month.values().length * yearsFromBegin);
     }
 
     @Test
@@ -176,7 +175,11 @@ public class ShortUrlServiceTests {
         compareUrlInfo(urlClicksInfo, click1, click2);
 
         List<URLClicksInfoClicksInfoDTO> clicksInfo = urlClicksInfo.getClicksInfo();
-        assertEquals(clicksInfo.size(), Month.values().length * 3);
+
+        int beginYear = 2015;
+        int endYear = LocalDate.now().getYear();
+        int yearsFromBegin = (1+endYear) - beginYear;
+        assertEquals(clicksInfo.size(), Month.values().length * yearsFromBegin);
     }
 
     @Test
@@ -286,6 +289,14 @@ public class ShortUrlServiceTests {
     public void thatFindReturnsNullIfHashContainsSpaces() throws Exception {
         //Repository will return something, but function wont
         assertEquals(shortUrlService.findByHash(" "), null);
+    }
+
+    @Test
+    public void thatFindReturnsUrlIfHashExists() {
+        ShortURL shortURL = exampleURL(user.getId());
+        shortURLRepository.save(shortURL);
+        assert shortURL != null;
+        assertNotNull(shortUrlService.findByHash(shortURL.getHash()));
     }
 
     @Test

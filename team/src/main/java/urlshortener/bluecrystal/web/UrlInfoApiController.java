@@ -52,7 +52,7 @@ public class UrlInfoApiController implements UrlInfoApi {
             return new ModelAndView("index", model, HttpStatus.OK);
         } else {
             modifyLayout(Layout.NONE);
-            return new ModelAndView("401", HttpStatus.UNAUTHORIZED);
+            return new ModelAndView("403", HttpStatus.FORBIDDEN);
         }
     }
 
@@ -76,7 +76,7 @@ public class UrlInfoApiController implements UrlInfoApi {
                     }
                 } else {
                     modifyLayout(Layout.NONE);
-                    return new ModelAndView("401", HttpStatus.UNAUTHORIZED);
+                    return new ModelAndView("403", HttpStatus.FORBIDDEN);
                 }
             } else {
                 modifyLayout(Layout.NONE);
@@ -84,7 +84,7 @@ public class UrlInfoApiController implements UrlInfoApi {
             }
         } else {
             modifyLayout(Layout.NONE);
-            return new ModelAndView("401", HttpStatus.UNAUTHORIZED);
+            return new ModelAndView("403", HttpStatus.FORBIDDEN);
         }
     }
 
@@ -104,7 +104,7 @@ public class UrlInfoApiController implements UrlInfoApi {
                 return new ModelAndView("index :: shortList", model, HttpStatus.OK);
 
             } else { return new ModelAndView("400", HttpStatus.BAD_REQUEST); }
-        } else { return new ModelAndView("401", HttpStatus.UNAUTHORIZED); }
+        } else { return new ModelAndView("403", HttpStatus.FORBIDDEN); }
     }
 
     private static boolean isAjaxRequest(HttpServletRequest request) {

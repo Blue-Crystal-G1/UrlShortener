@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import urlshortener.bluecrystal.persistence.UserRepository;
+import urlshortener.bluecrystal.persistence.dao.UserRepository;
 import urlshortener.bluecrystal.persistence.model.Privilege;
 import urlshortener.bluecrystal.persistence.model.Role;
 import urlshortener.bluecrystal.persistence.model.User;

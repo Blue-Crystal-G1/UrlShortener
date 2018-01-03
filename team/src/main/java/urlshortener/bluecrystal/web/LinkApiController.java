@@ -74,8 +74,8 @@ public class LinkApiController implements LinkApi {
             }
         }
         else {
-            ApiErrorResponse response = new ApiErrorResponse(messages.get("message.unauthorized"));
-            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+            ApiErrorResponse response = new ApiErrorResponse(messages.get("message.forbidden"));
+            return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
         }
     }
 

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <div class="content-wrapper" th:fragment="content">
+        <h3 class="text-primary mb-4">
+          Información global del sistema</a>
+        </h3>
+        <div class="row">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
+                <div class="card">
+                    <div class="card-block">
+                        <div class="clearfix">
+                            <i class="fa fa-bar-chart float-right icon-grey-big"></i>
+                        </div>
+                        <h4 id="totalClicks" class="card-title font-weight-normal text-success" th:text="${info.urlInfo.totalClicks}">10</h4>
+                        <h6 class="card-subtitle">Clicks</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-4">
+                <div class="card">
+                    <div class="card-block">
+                        <div class="clearfix">
+                            <i class="fa fa-clock-o float-right icon-grey-big"></i>
+                        </div>
+                        <h4 class="card-title font-weight-normal text-success" th:text="${info.urlInfo.created}">20</h4>
+                        <h6 class="card-subtitle">Total de usuarios</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-4">
+                <div class="card">
+                    <div class="card-block">
+                        <div class="clearfix">
+                            <i class="fa fa-clock-o float-right icon-grey-big"></i>
+                        </div>
+                        <h4 class="card-title font-weight-normal text-success" th:text="${info.urlInfo.created}">Hace 2 horas</h4>
+                        <h6 class="card-subtitle">Total de URL acortadas</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/.row-->
+        <div class="card mb-4">
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-lg-2 col-2">
+                        <h4 class="card-title mb-0 mt-1">Clicks</h4>
+                    </div>
+                    <!--/.col-->
+                    <div class="col-lg-10 col-10">
+                        <div class="dropdown btn-group float-right">
+                            <button class="btn btn-primary">Todo</button>
+                            <button id="dropdownMenu" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true">
+                                <!--<span class="caret"></span>-->
+                            </button>
+                            <ul id="optionList" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                <li><a tabindex="1" href="#">Hace 2 horas</a></li>
+                                <li><a tabindex="2" href="#">Día</a></li>
+                                <li><a tabindex="3" href="#">Semana</a></li>
+                                <li><a tabindex="4" href="#">Mes</a></li>
+                                <li><a tabindex="5" href="#">Año</a></li>
+                                <li class="disabled"><a tabindex="6" href="#">Todo</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--/.col-->
+                </div>
+                <!--/.row-->
+                <div class="chart-wrapper" style="height:300px;margin-top:40px;">
+                    <canvas id="clicks-chart" class="chart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+        <!--/.clicks-chart-->
+        <div class="row">
+            <div class="col-lg-6  mb-4">
+                <div class="card">
+                    <div class="card-block">
+                        <h5 class="card-title mb-4">Memoria utilizada por el sistema</h5>
+                        <canvas id="memory-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6  mb-4">
+                <div class="card">
+                    <div class="card-block">
+                        <h5 class="card-title mb-4">CPU utilizada por el sistema</h5>
+                        <canvas id="cpu-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/.card-->
+        <div class="row">
+            <div class="col-lg-6 col-12 mb-4">
+                <div class="card">
+                    <div class="card-block">
+                        <h5 class="card-title mb-4">Referidores</h5>
+                        <canvas id="referrers-chart" style="height:230px"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12 mb-4">
+                <div class="card">
+                    <div class="card-block">
+                        <h5 class="card-title mb-4">Países</h5>
+                        <div id="map" class="map"></div>
+                        <div id="popup" class="ol-popup">
+                            <div id="popup-content"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/.row-->
+        <div class="row">
+            <div class="col-lg-6 col-12 mb-4">
+                <div class="card">
+                    <div class="card-block">
+                        <h5 class="card-title mb-4">Plataformas</h5>
+                        <canvas id="platforms-chart" style="height:230px"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12 mb-4">
+                <div class="card">
+                    <div class="card-block">
+                        <h5 class="card-title mb-4">Buscadores</h5>
+                        <canvas id="browsers-chart" style="height:230px"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/.row-->
+    </div>
+
+    <th:block th:fragment="assets">
+        <script type="text/javascript" th:src="@{/webjars/momentjs/2.19.3/min/moment.min.js}"></script>
+        <script type="text/javascript" th:src="@{/webjars/chart.js/2.7.1/dist/Chart.min.js}"></script>
+        <script type="text/javascript" th:src="@{/webjars/openlayers/4.0.1/ol.js}"></script>
+        <script type="text/javascript" th:src="@{/js/ol3-layerswitcher.js}"></script>
+        <script type="text/javascript" th:src="@{/js/info-url.js}"></script>
+        <script type="text/javascript" th:src="@{/js/map_clicks.js}"></script>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            var message = [[${info}]];
+            // Initially, shows information of all the url lifecycle
+            updateData(message, 'year', 1, message.urlInfo.totalClicks);
+
+            $(function(){
+                $(".dropdown-menu li a").click(function(event){
+                    event.preventDefault();
+                    if($(event.currentTarget.parentElement).attr('class') !== 'disabled') {
+                        var listItems = $("#optionList li");
+                        listItems.each(function(idx, li) {
+                            $(li).removeClass("disabled");
+                        });
+
+                        $(".btn:first-child").text($(this).text());
+                        $(".btn:first-child").val($(this).text());
+                        $(event.currentTarget.parentElement).addClass("disabled");
+
+                        var tabIndex = $(this).prop("tabindex");
+                        var hash = message.urlInfo.hash;
+
+                        getInfoByTabSelected(tabIndex, hash);
+                    }
+                });
+            });
+            /*]]>*/
+        </script>
+    </th:block>
+</body>
+</html>

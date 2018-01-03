@@ -7,12 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import urlshortener.bluecrystal.persistence.ClickRepository;
-import urlshortener.bluecrystal.persistence.ShortURLRepository;
-import urlshortener.bluecrystal.persistence.UserRepository;
-import urlshortener.bluecrystal.persistence.model.Click;
-import urlshortener.bluecrystal.persistence.model.ShortURL;
-import urlshortener.bluecrystal.persistence.model.User;
+import urlshortener.bluecrystal.persistence.dao.*;
+import urlshortener.bluecrystal.persistence.model.*;
 import urlshortener.bluecrystal.web.dto.*;
 import urlshortener.bluecrystal.web.dto.util.ClickInterval;
 
@@ -28,16 +24,16 @@ public class ShortUrlService {
     protected ShortURLRepository shortURLRepository;
 
     @Autowired
-    protected ClickRepository clickRepository;
+    protected UserService userService;
 
     @Autowired
-    protected UserRepository userRepository;
+    protected ClickService clickService;
 
     /**
      * Obtains associateed information about a short url and clicks (like
      * number of clicks for each browser, referrer and country).
      * The number of clicks in an interval of time are returned with the time
-     * in millis, for frontend purposes
+     * in millis
      * @param shortURL shortUrl to get associated information
      * @param interval interval of time to show information
      * @return information about the short url fetched. If the url defined
@@ -46,7 +42,7 @@ public class ShortUrlService {
     public URLClicksInfoDTO getInformationAboutUrlAndClicks(ShortURL shortURL, String interval) {
         if(shortURL != null && !StringUtils.isEmpty(interval))
         {
-            List<Click> clicks = getClicksByInterval(shortURL.getHash(), interval);
+            List<Click> clicks = clickService.getClicksByIntervalAndHash(shortURL.getHash(), interval);
             URLClicksInfoDTO urlClicksInfo = new URLClicksInfoDTO();
 
             if(!CollectionUtils.isEmpty(clicks)) {
@@ -111,7 +107,7 @@ public class ShortUrlService {
     }
 
     public List<URLInfoDTO> getInformationAboutAllUrls(String email) {
-        User user = userRepository.findByEmail(email);
+        User user = userService.findByEmail(email);
         if (user != null && !StringUtils.isEmpty(user.getEmail())) {
             List<ShortURL> shortURLList = shortURLRepository.findByOwner(user.getId());
 
@@ -119,7 +115,7 @@ public class ShortUrlService {
                 List<URLInfoDTO> urlInfoList = new ArrayList<>();
                 shortURLList.forEach(shortURL -> urlInfoList.add(
                         mapShortUrlToUrlInfo(shortURL,
-                                clickRepository.countClicksByHash(shortURL.getHash()))
+                                clickService.countClicksByHash(shortURL.getHash()))
                 ));
 
                 return urlInfoList;
@@ -205,7 +201,7 @@ public class ShortUrlService {
         return urlInfo;
     }
 
-    private Map<Long, Integer> addClickInfo(Map<Long, Integer> clicksInfo, Click click, String interval) {
+    static Map<Long, Integer> addClickInfo(Map<Long, Integer> clicksInfo, Click click, String interval) {
         Long timeInMillis = 0L;
 
         // For this interval, we show the clicks done on each month
@@ -298,56 +294,6 @@ public class ShortUrlService {
 
         // TreeMap order all time expressed in millis - ascending
         return new TreeMap<>(clicksInfo);
-    }
-
-    private List<Click> getClicksByInterval(String hash, String interval) {
-        List<Click> clicks = null;
-        LocalDate lcNow = LocalDate.now();
-
-        // Get all clicks since the url creation
-        if(interval.equals(ClickInterval.ALL.toString())) {
-            clicks = clickRepository.findByHash(hash);
-        }
-        // Get all clicks in the current year
-        else if(interval.equals(ClickInterval.YEAR.toString())) {
-            LocalDate start = lcNow.withDayOfYear(1);
-            LocalDate end = lcNow.withDayOfYear(lcNow.lengthOfYear());
-            clicks = findByHashAndCreatedBetween(hash, start, end);
-        }
-        // Get all clicks in the current month
-        else if(interval.equals(ClickInterval.MONTH.toString())) {
-            LocalDate start = lcNow.withDayOfMonth(1);
-            LocalDate end = lcNow.withDayOfMonth(lcNow.lengthOfMonth());
-            clicks = findByHashAndCreatedBetween(hash, start, end);
-        }
-        // Get all clicks in the current week
-        else if(interval.equals(ClickInterval.WEEK.toString())) {
-            LocalDate start = lcNow.with(DayOfWeek.MONDAY);
-            LocalDate end = lcNow.with(DayOfWeek.SUNDAY);
-            clicks = findByHashAndCreatedBetween(hash, start, end);
-        }
-        // Get all clicks in the curreny day
-        else if(interval.equals(ClickInterval.DAY.toString())) {
-            clicks = findByHashAndCreatedBetween(hash, lcNow, lcNow);
-        }
-        // Get all clicks in the last two hours
-        else if(interval.equals(ClickInterval.LASTHOURS.toString())) {
-            LocalDateTime now = LocalDateTime.now();
-            LocalDateTime start = now.minusHours(2);
-            clicks = clickRepository.findByHashAndCreatedBetween(hash, start, now);
-        }
-
-        return clicks;
-    }
-
-    private List<Click> findByHashAndCreatedBetween(String hash, LocalDate startDate, LocalDate endDate) {
-        LocalTime startTime = LocalTime.of(0, 0, 0, 0);
-        LocalTime endTime = LocalTime.of(23, 59, 59, 999999999);
-
-        return clickRepository.findByHashAndCreatedBetween(hash,
-                LocalDateTime.of(startDate, startTime),
-                LocalDateTime.of(endDate, endTime));
-
     }
 
     private static Long getMillisFromLocalDate(LocalDate date) {

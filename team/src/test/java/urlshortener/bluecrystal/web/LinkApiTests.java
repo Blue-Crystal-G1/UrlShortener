@@ -83,7 +83,7 @@ public class LinkApiTests {
 
         mockMvc.perform(post("/link").param("url", "http://google.com/"))
                 .andDo(print())
-                .andExpect(status().isUnauthorized())
+                .andExpect(status().isForbidden())
                 .andExpect(jsonPath("$.status", is("error")))
                 .andExpect(jsonPath("$.message", is("Message")));
     }

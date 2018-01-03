@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import urlshortener.bluecrystal.persistence.AdvertisingAccessRepository;
-import urlshortener.bluecrystal.persistence.ShortURLRepository;
+import urlshortener.bluecrystal.persistence.dao.AdvertisingAccessRepository;
+import urlshortener.bluecrystal.persistence.dao.ShortURLRepository;
 import urlshortener.bluecrystal.persistence.model.AdvertisingAccess;
 
 import java.util.UUID;

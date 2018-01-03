@@ -31,7 +31,7 @@ public class UrlInfoRestApiController implements UrlInfoRestApi {
     protected AuthenticationFacade authenticationFacade;
 
     @RequestMapping(value = "/urlInfo/{id}/{interval}", produces = { "application/json" }, method = RequestMethod.GET)
-    public @ResponseBody ResponseEntity<?> getUrlInfoById(@PathVariable("id") String id,
+    public ResponseEntity<?> getUrlInfoById(@PathVariable("id") String id,
                                                      @PathVariable("interval") String interval) {
         User userDetails = authenticationFacade.getUserPrincipal();
         if (userDetails != null) {
@@ -47,8 +47,8 @@ public class UrlInfoRestApiController implements UrlInfoRestApi {
                     }
 
                 } else {
-                    ApiErrorResponse response = new ApiErrorResponse(messages.get("message.unauthorized"));
-                    return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+                    ApiErrorResponse response = new ApiErrorResponse(messages.get("message.forbidden"));
+                    return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
                 }
 
             } else {
@@ -57,8 +57,8 @@ public class UrlInfoRestApiController implements UrlInfoRestApi {
             }
 
         } else {
-            ApiErrorResponse response = new ApiErrorResponse(messages.get("message.unauthorized"));
-            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+            ApiErrorResponse response = new ApiErrorResponse(messages.get("message.forbidden"));
+            return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
         }
     }
 
@@ -70,8 +70,8 @@ public class UrlInfoRestApiController implements UrlInfoRestApi {
             List<URLInfoDTO> urlInfoList = shortUrlService.getInformationAboutAllUrls(userDetails.getEmail());
             return new ResponseEntity<>(urlInfoList, HttpStatus.OK);
         } else {
-            ApiErrorResponse response = new ApiErrorResponse(messages.get("message.unauthorized"));
-            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+            ApiErrorResponse response = new ApiErrorResponse(messages.get("message.forbidden"));
+            return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
         }
     }
 

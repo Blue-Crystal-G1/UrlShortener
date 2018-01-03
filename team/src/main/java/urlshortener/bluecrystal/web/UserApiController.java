@@ -45,7 +45,7 @@ public class UserApiController implements UserApi {
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public ResponseEntity<? extends ApiJsonResponse> createUser(
+    public ResponseEntity<?> createUser(
             @Valid @RequestBody UserDTO accountDto, BindingResult result) {
 
         LOGGER.info("Registering user account: {}", accountDto);
@@ -53,16 +53,22 @@ public class UserApiController implements UserApi {
         // Check if proved data is correct
         if (result.hasErrors()) {
             List<ObjectError> errorList = result.getAllErrors();
-            List<String> errorListMessages = errorList.stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
-            ApiErrorResponse response = new ApiErrorResponse(Joiner.on(";").join(errorListMessages));
+            List<String> errorListMessages = errorList.stream().map(
+                    DefaultMessageSourceResolvable::getDefaultMessage)
+                    .collect(Collectors.toList());
+            ApiErrorResponse response = new ApiErrorResponse(Joiner.on(";")
+                    .join(errorListMessages));
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         } else {
             final User registered = userService.registerNewUser(accountDto);
             if (registered != null) {
                 LOGGER.info("User registration OK: {}", registered.toString());
-                return new ResponseEntity<ApiJsonResponse>(new ApiSuccessResponse<Void>(), HttpStatus.CREATED);
+                return new ResponseEntity<ApiJsonResponse>(
+                        new ApiSuccessResponse<Void>(), HttpStatus.CREATED);
             } else {
-                ApiErrorResponse response = new ApiErrorResponse(messages.get("message.userAlreadyRegistered"), "UserAlreadyExists");
+                ApiErrorResponse response = new ApiErrorResponse(
+                        messages.get("message.userAlreadyRegistered"),
+                        "UserAlreadyExists");
                 return new ResponseEntity<>(response, HttpStatus.CONFLICT);
             }
         }

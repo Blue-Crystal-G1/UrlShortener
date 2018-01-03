@@ -64,12 +64,12 @@ public class UrlInfoRestApiTests {
     }
 
     @Test
-    public void thatURLInfoListReturnsUnathorizedIfNotAunthenticated() throws Exception {
+    public void thatURLInfoListReturnsForbiddenIfNotAunthenticated() throws Exception {
         SecurityContextHolder.getContext().setAuthentication(null);
         when(messages.get(any())).thenReturn("Message");
 
         mockMvc.perform(get("/urlInfo"))
-                .andExpect(status().isUnauthorized())
+                .andExpect(status().isForbidden())
                 .andDo(print())
                 .andExpect(jsonPath("$.status", is("error")))
                 .andExpect(jsonPath("$.message", is("Message")));
@@ -124,19 +124,19 @@ public class UrlInfoRestApiTests {
     }
 
     @Test
-    public void thatURLInfoByIdReturnsUnauthorizedIfNotAuthenticated() throws Exception {
+    public void thatURLInfoByIdReturnsForbiddenIfNotAuthenticated() throws Exception {
         SecurityContextHolder.getContext().setAuthentication(null);
         when(messages.get(any())).thenReturn("Message");
 
         mockMvc.perform(get("/urlInfo/someHash/" + ClickInterval.ALL.toString()))
-                .andExpect(status().isUnauthorized())
+                .andExpect(status().isForbidden())
                 .andDo(print())
                 .andExpect(jsonPath("$.status", is("error")))
                 .andExpect(jsonPath("$.message", is("Message")));
     }
 
     @Test
-    public void thatURLInfoByIdReturnsUnauthorizedIfURINotFromUser() throws Exception {
+    public void thatURLInfoByIdReturnsForbiddenIfURINotFromUser() throws Exception {
         ShortURL shortUrl = ShortURLFixture.exampleURL();
         when(shortUrlService.findByHash(any())).thenReturn(shortUrl);
         when(shortUrlService.URIisFromOwner(any(),any())).thenReturn(false);
@@ -144,7 +144,7 @@ public class UrlInfoRestApiTests {
 
         assert shortUrl != null;
         mockMvc.perform(get("/urlInfo/" + shortUrl.getHash() + "/" + ClickInterval.ALL.toString()))
-                .andExpect(status().isUnauthorized())
+                .andExpect(status().isForbidden())
                 .andDo(print())
                 .andExpect(jsonPath("$.status", is("error")))
                 .andExpect(jsonPath("$.message", is("Message")));

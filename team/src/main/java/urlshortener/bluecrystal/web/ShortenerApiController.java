@@ -75,8 +75,6 @@ public class ShortenerApiController implements ShortenerApi {
             // URI is correct, proceed
             extractClickDataAndSave(id, request);
 
-            // TODO: This will be the response when the URI has been created without advertise redirection
-            //return createSuccessfulRedirectToResponse(l);
             ApiSuccessResponse<URI> response = new ApiSuccessResponse<>(URI.create(l.getTarget()));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -123,7 +121,7 @@ public class ShortenerApiController implements ShortenerApi {
             try {
                 referrer = new URI(request.getHeader(HttpHeaders.REFERER)).getHost();
             } catch (URISyntaxException e) {
-                logger.info("Obtaining referrer");
+                logger.error("Obtaining referrer");
             }
         }
 

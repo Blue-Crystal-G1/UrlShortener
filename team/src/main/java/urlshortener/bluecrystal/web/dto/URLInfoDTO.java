@@ -3,8 +3,6 @@ package urlshortener.bluecrystal.web.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.Objects;
-
 /**
  * URLInfoDTO
  */
@@ -189,59 +187,5 @@ public class URLInfoDTO {
         this.safe = safe;
     }
 
-
-    @Override
-    public boolean equals(java.lang.Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        URLInfoDTO urLInfo = (URLInfoDTO) o;
-        return Objects.equals(this.hash, urLInfo.hash) &&
-                Objects.equals(this.target, urLInfo.target) &&
-                Objects.equals(this.uri, urLInfo.uri) &&
-                Objects.equals(this.created, urLInfo.created) &&
-                Objects.equals(this.totalClicks, urLInfo.totalClicks) &&
-                Objects.equals(this.lastCheckAvailableDate, urLInfo.lastCheckAvailableDate) &&
-                Objects.equals(this.available, urLInfo.available) &&
-                Objects.equals(this.lastCheckSafeDate, urLInfo.lastCheckSafeDate) &&
-                Objects.equals(this.safe, urLInfo.safe);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(hash, target, uri, created, totalClicks, lastCheckAvailableDate, available, lastCheckSafeDate, safe);
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class URLInfoDTO {\n");
-
-        sb.append("    hash: ").append(toIndentedString(hash)).append("\n");
-        sb.append("    target: ").append(toIndentedString(target)).append("\n");
-        sb.append("    uri: ").append(toIndentedString(uri)).append("\n");
-        sb.append("    created: ").append(toIndentedString(created)).append("\n");
-        sb.append("    totalClicks: ").append(toIndentedString(totalClicks)).append("\n");
-        sb.append("    lastCheckAvailableDate: ").append(toIndentedString(lastCheckAvailableDate)).append("\n");
-        sb.append("    available: ").append(toIndentedString(available)).append("\n");
-        sb.append("    lastCheckSafeDate: ").append(toIndentedString(lastCheckSafeDate)).append("\n");
-        sb.append("    safe: ").append(toIndentedString(safe)).append("\n");
-        sb.append("}");
-        return sb.toString();
-    }
-
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     */
-    private String toIndentedString(java.lang.Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
-    }
 }
 

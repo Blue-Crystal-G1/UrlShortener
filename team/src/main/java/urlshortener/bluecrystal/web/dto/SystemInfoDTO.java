@@ -2,9 +2,10 @@ package urlshortener.bluecrystal.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import urlshortener.bluecrystal.persistence.model.SystemMemoryUsage;
+import urlshortener.bluecrystal.persistence.model.SystemCpuUsage;
 import urlshortener.bluecrystal.persistence.model.SystemRamUsage;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,212 +15,245 @@ import java.util.Objects;
  */
 
 public class SystemInfoDTO {
-  @JsonProperty("upTime")
-  private String upTime = null;
 
-  @JsonProperty("totalUsers")
-  private Integer totalUsers = null;
+    @JsonProperty("countriesInfo")
+    @Valid
+    private java.util.List<URLClicksInfoCountriesInfoDTO> countriesInfo = null;
 
-  @JsonProperty("totalUrls")
-  private Long totalUrls = null;
+    @JsonProperty("platformsInfo")
+    @Valid
+    private java.util.List<URLClicksInfoPlatformsInfoDTO> platformsInfo = null;
 
-  @JsonProperty("totalClicks")
-  private Long totalClicks = null;
+    @JsonProperty("browsersInfo")
+    @Valid
+    private java.util.List<URLClicksInfoBrowsersInfoDTO> browsersInfo = null;
 
-  @JsonProperty("lastRedirectionTime")
-  private Integer lastRedirectionTime = null;
+    @JsonProperty("referrersInfo")
+    @Valid
+    private java.util.List<URLClicksInfoReferrersInfoDTO> referrersInfo = null;
 
-  @JsonProperty("memoryUsage")
-  private List<SystemMemoryUsage> memoryUsage = new ArrayList<SystemMemoryUsage>();
+    @JsonProperty("clicksInfo")
+    @Valid
+    private java.util.List<URLClicksInfoClicksInfoDTO> clicksInfo = null;
 
-  @JsonProperty("ramUsage")
-  private List<SystemRamUsage> ramUsage = new ArrayList<SystemRamUsage>();
+    @JsonProperty("memoryUsage")
+    private List<SystemCpuUsage> memoryUsage = new ArrayList<SystemCpuUsage>();
 
-  public SystemInfoDTO upTime(String upTime) {
-    this.upTime = upTime;
-    return this;
-  }
+    @JsonProperty("ramUsage")
+    private List<SystemRamUsage> ramUsage = new ArrayList<SystemRamUsage>();
 
-   /**
-   * Time that server has been online formatted (YYYY MM DD HH:MM:SS)
-   * @return upTime
-  **/
-  @ApiModelProperty(value = "Time that server has been online formatted (YYYY MM DD HH:MM:SS)")
-  public String getUpTime() {
-    return upTime;
-  }
+    @JsonProperty("upTime")
+    private String upTime = null;
 
-  public void setUpTime(String upTime) {
-    this.upTime = upTime;
-  }
+    @JsonProperty("totalUsers")
+    private Long totalUsers = null;
 
-  public SystemInfoDTO totalUsers(Integer totalUsers) {
-    this.totalUsers = totalUsers;
-    return this;
-  }
+    @JsonProperty("totalUrls")
+    private Long totalUrls = null;
 
-   /**
-   * Total number of users registered
-   * @return totalUsers
-  **/
-  @ApiModelProperty(value = "Total number of users registered")
-  public Integer getTotalUsers() {
-    return totalUsers;
-  }
+    @JsonProperty("totalClicks")
+    private Long totalClicks = null;
 
-  public void setTotalUsers(Integer totalUsers) {
-    this.totalUsers = totalUsers;
-  }
-
-  public SystemInfoDTO totalUrls(Long totalUrls) {
-    this.totalUrls = totalUrls;
-    return this;
-  }
-
-   /**
-   * Total number of Shorted URLs
-   * @return totalUrls
-  **/
-  @ApiModelProperty(value = "Total number of Shorted URLs")
-  public Long getTotalUrls() {
-    return totalUrls;
-  }
-
-  public void setTotalUrls(Long totalUrls) {
-    this.totalUrls = totalUrls;
-  }
-
-  public SystemInfoDTO totalClicks(Long totalClicks) {
-    this.totalClicks = totalClicks;
-    return this;
-  }
-
-   /**
-   * Total number of clicks done to all Shorted URLs
-   * @return totalClicks
-  **/
-  @ApiModelProperty(value = "Total number of clicks done to all Shorted URLs")
-  public Long getTotalClicks() {
-    return totalClicks;
-  }
-
-  public void setTotalClicks(Long totalClicks) {
-    this.totalClicks = totalClicks;
-  }
-
-  public SystemInfoDTO lastRedirectionTime(Integer lastRedirectionTime) {
-    this.lastRedirectionTime = lastRedirectionTime;
-    return this;
-  }
-
-   /**
-   * last redirection time in seconds
-   * @return lastRedirectionTime
-  **/
-  @ApiModelProperty(value = "last redirection time in seconds")
-  public Integer getLastRedirectionTime() {
-    return lastRedirectionTime;
-  }
-
-  public void setLastRedirectionTime(Integer lastRedirectionTime) {
-    this.lastRedirectionTime = lastRedirectionTime;
-  }
-
-  public SystemInfoDTO memoryUsage(List<SystemMemoryUsage> memoryUsage) {
-    this.memoryUsage = memoryUsage;
-    return this;
-  }
-
-  public SystemInfoDTO addMemoryUsageItem(SystemMemoryUsage memoryUsageItem) {
-    this.memoryUsage.add(memoryUsageItem);
-    return this;
-  }
-
-   /**
-   * array with memory used in intervals of time
-   * @return memoryUsage
-  **/
-  @ApiModelProperty(value = "array with memory used in intervals of time")
-  public List<SystemMemoryUsage> getMemoryUsage() {
-    return memoryUsage;
-  }
-
-  public void setMemoryUsage(List<SystemMemoryUsage> memoryUsage) {
-    this.memoryUsage = memoryUsage;
-  }
-
-  public SystemInfoDTO ramUsage(List<SystemRamUsage> ramUsage) {
-    this.ramUsage = ramUsage;
-    return this;
-  }
-
-  public SystemInfoDTO addRamUsageItem(SystemRamUsage ramUsageItem) {
-    this.ramUsage.add(ramUsageItem);
-    return this;
-  }
-
-   /**
-   * array with ram used in intervals of time
-   * @return ramUsage
-  **/
-  @ApiModelProperty(value = "array with ram used in intervals of time")
-  public List<SystemRamUsage> getRamUsage() {
-    return ramUsage;
-  }
-
-  public void setRamUsage(List<SystemRamUsage> ramUsage) {
-    this.ramUsage = ramUsage;
-  }
-
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    public SystemInfoDTO addCountriesInfoItem(URLClicksInfoCountriesInfoDTO countriesInfoItem) {
+        if (this.countriesInfo == null) {
+            this.countriesInfo = new java.util.ArrayList<>();
+        }
+        this.countriesInfo.add(countriesInfoItem);
+        return this;
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+
+    /**
+     * Get countriesInfo
+     *
+     * @return countriesInfo
+     **/
+    @ApiModelProperty(value = "")
+    @Valid
+    public java.util.List<URLClicksInfoCountriesInfoDTO> getCountriesInfo() {
+        return countriesInfo;
     }
-    SystemInfoDTO systemInfo = (SystemInfoDTO) o;
-    return Objects.equals(this.upTime, systemInfo.upTime) &&
-        Objects.equals(this.totalUsers, systemInfo.totalUsers) &&
-        Objects.equals(this.totalUrls, systemInfo.totalUrls) &&
-        Objects.equals(this.totalClicks, systemInfo.totalClicks) &&
-        Objects.equals(this.lastRedirectionTime, systemInfo.lastRedirectionTime) &&
-        Objects.equals(this.memoryUsage, systemInfo.memoryUsage) &&
-        Objects.equals(this.ramUsage, systemInfo.ramUsage);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(upTime, totalUsers, totalUrls, totalClicks, lastRedirectionTime, memoryUsage, ramUsage);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class SystemInfoDTO {\n");
-
-    sb.append("    upTime: ").append(toIndentedString(upTime)).append("\n");
-    sb.append("    totalUsers: ").append(toIndentedString(totalUsers)).append("\n");
-    sb.append("    totalUrls: ").append(toIndentedString(totalUrls)).append("\n");
-    sb.append("    totalClicks: ").append(toIndentedString(totalClicks)).append("\n");
-    sb.append("    lastRedirectionTime: ").append(toIndentedString(lastRedirectionTime)).append("\n");
-    sb.append("    memoryUsage: ").append(toIndentedString(memoryUsage)).append("\n");
-    sb.append("    ramUsage: ").append(toIndentedString(ramUsage)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
+    public SystemInfoDTO addPlatformsInfoItem(URLClicksInfoPlatformsInfoDTO platformsInfoItem) {
+        if (this.platformsInfo == null) {
+            this.platformsInfo = new java.util.ArrayList<>();
+        }
+        this.platformsInfo.add(platformsInfoItem);
+        return this;
     }
-    return o.toString().replace("\n", "\n    ");
-  }
+
+    /**
+     * Get platformsInfo
+     *
+     * @return platformsInfo
+     **/
+    @ApiModelProperty(value = "")
+    @Valid
+    public java.util.List<URLClicksInfoPlatformsInfoDTO> getPlatformsInfo() {
+        return platformsInfo;
+    }
+
+    public SystemInfoDTO addBrowsersInfoItem(URLClicksInfoBrowsersInfoDTO browsersInfoItem) {
+        if (this.browsersInfo == null) {
+            this.browsersInfo = new java.util.ArrayList<>();
+        }
+        this.browsersInfo.add(browsersInfoItem);
+        return this;
+    }
+
+    /**
+     * Get browsersInfo
+     *
+     * @return browsersInfo
+     **/
+    @ApiModelProperty(value = "")
+    @Valid
+    public java.util.List<URLClicksInfoBrowsersInfoDTO> getBrowsersInfo() {
+        return browsersInfo;
+    }
+
+    public SystemInfoDTO addReferrersInfoItem(URLClicksInfoReferrersInfoDTO referrersInfoItem) {
+        if (this.referrersInfo == null) {
+            this.referrersInfo = new java.util.ArrayList<>();
+        }
+        this.referrersInfo.add(referrersInfoItem);
+        return this;
+    }
+
+    /**
+     * Get referrersInfo
+     *
+     * @return referrersInfo
+     **/
+    @ApiModelProperty(value = "")
+    @Valid
+    public java.util.List<URLClicksInfoReferrersInfoDTO> getReferrersInfo() {
+        return referrersInfo;
+    }
+
+    public SystemInfoDTO addClicksInfoItem(URLClicksInfoClicksInfoDTO clicksInfoItem) {
+        if (this.clicksInfo == null) {
+            this.clicksInfo = new java.util.ArrayList<>();
+        }
+        this.clicksInfo.add(clicksInfoItem);
+        return this;
+    }
+
+    /**
+     * Get clicksInfo
+     *
+     * @return clicksInfo
+     **/
+    @ApiModelProperty(value = "")
+    @Valid
+    public java.util.List<URLClicksInfoClicksInfoDTO> getClicksInfo() {
+        return clicksInfo;
+    }
+
+    /**
+     * Time that server has been online formatted (YYYY MM DD HH:MM:SS)
+     *
+     * @return upTime
+     **/
+    @ApiModelProperty(value = "Time that server has been online formatted (YYYY MM DD HH:MM:SS)")
+    public String getUpTime() {
+        return upTime;
+    }
+
+    public void setUpTime(String upTime) {
+        this.upTime = upTime;
+    }
+
+    /**
+     * Total number of users registered
+     *
+     * @return totalUsers
+     **/
+    @ApiModelProperty(value = "Total number of users registered")
+    public Long getTotalUsers() {
+        return totalUsers;
+    }
+
+    public void setTotalUsers(Long totalUsers) {
+        this.totalUsers = totalUsers;
+    }
+
+    /**
+     * Total number of Shorted URLs
+     *
+     * @return totalUrls
+     **/
+    @ApiModelProperty(value = "Total number of Shorted URLs")
+    public Long getTotalUrls() {
+        return totalUrls;
+    }
+
+    public void setTotalUrls(Long totalUrls) {
+        this.totalUrls = totalUrls;
+    }
+
+    /**
+     * Total number of clicks done to all Shorted URLs
+     *
+     * @return totalClicks
+     **/
+    @ApiModelProperty(value = "Total number of clicks done to all Shorted URLs")
+    public Long getTotalClicks() {
+        return totalClicks;
+    }
+
+    public void setTotalClicks(Long totalClicks) {
+        this.totalClicks = totalClicks;
+    }
+
+    /**
+     * array with memory used in intervals of time
+     *
+     * @return memoryUsage
+     **/
+    @ApiModelProperty(value = "array with memory used in intervals of time")
+    public List<SystemCpuUsage> getMemoryUsage() {
+        return memoryUsage;
+    }
+
+    public void setMemoryUsage(List<SystemCpuUsage> memoryUsage) {
+        this.memoryUsage = memoryUsage;
+    }
+
+    /**
+     * array with ram used in intervals of time
+     *
+     * @return ramUsage
+     **/
+    @ApiModelProperty(value = "array with ram used in intervals of time")
+    public List<SystemRamUsage> getRamUsage() {
+        return ramUsage;
+    }
+
+    public void setRamUsage(List<SystemRamUsage> ramUsage) {
+        this.ramUsage = ramUsage;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        SystemInfoDTO systemInfo = (SystemInfoDTO) o;
+        return Objects.equals(this.upTime, systemInfo.upTime) &&
+                Objects.equals(this.totalUsers, systemInfo.totalUsers) &&
+                Objects.equals(this.totalUrls, systemInfo.totalUrls) &&
+                Objects.equals(this.totalClicks, systemInfo.totalClicks) &&
+                Objects.equals(this.memoryUsage, systemInfo.memoryUsage) &&
+                Objects.equals(this.ramUsage, systemInfo.ramUsage) &&
+                Objects.equals(this.countriesInfo, systemInfo.countriesInfo) &&
+                Objects.equals(this.platformsInfo, systemInfo.platformsInfo) &&
+                Objects.equals(this.browsersInfo, systemInfo.browsersInfo) &&
+                Objects.equals(this.referrersInfo, systemInfo.referrersInfo) &&
+                Objects.equals(this.clicksInfo, systemInfo.clicksInfo);
+    }
+
 }
-

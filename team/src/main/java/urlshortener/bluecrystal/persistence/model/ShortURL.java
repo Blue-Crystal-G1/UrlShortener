@@ -18,7 +18,6 @@ public class ShortURL {
     @Id
     @Column(name = "HASH")
     @JsonProperty("hash")
-    //@GeneratedValue(strategy = GenerationType.TABLE)
     private String hash = null;
 
     @JsonProperty("target")
@@ -26,7 +25,6 @@ public class ShortURL {
     private String target = null;
 
     @JsonProperty("uri")
-    //@Transient
     private URI uri = null;
 
     @JsonProperty("created")
@@ -90,10 +88,6 @@ public class ShortURL {
         return hash;
     }
 
-    public void setHash(String hash) {
-        this.hash = hash;
-    }
-
     /**
      * Get target
      *
@@ -118,10 +112,6 @@ public class ShortURL {
         return uri;
     }
 
-    public void setUri(URI uri) {
-        this.uri = uri;
-    }
-
     /**
      * Get created
      *
@@ -132,10 +122,6 @@ public class ShortURL {
         return created;
     }
 
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
     /**
      * Get owner
      *
@@ -144,10 +130,6 @@ public class ShortURL {
     @ApiModelProperty(value = "")
     public Long getOwner() {
         return owner;
-    }
-
-    public void setOwner(Long owner) {
-        this.owner = owner;
     }
 
     /**
@@ -256,40 +238,4 @@ public class ShortURL {
                 Objects.equals(this.available, shortURL.available);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(hash, target, uri, created, owner, ip, country,
-                lastCheckSafeDate, safe, lastCheckAvailableDate, available);
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class ShortURL {\n");
-
-        sb.append("    hash: ").append(toIndentedString(hash)).append("\n");
-        sb.append("    target: ").append(toIndentedString(target)).append("\n");
-        sb.append("    uri: ").append(toIndentedString(uri)).append("\n");
-        sb.append("    created: ").append(toIndentedString(created)).append("\n");
-        sb.append("    owner: ").append(toIndentedString(owner)).append("\n");
-        sb.append("    ip: ").append(toIndentedString(ip)).append("\n");
-        sb.append("    country: ").append(toIndentedString(country)).append("\n");
-        sb.append("    lastCheckSafeDate: ").append(toIndentedString(lastCheckSafeDate)).append("\n");
-        sb.append("    safe: ").append(toIndentedString(safe)).append("\n");
-        sb.append("    lastCheckAvailableDate: ").append(toIndentedString(lastCheckAvailableDate)).append("\n");
-        sb.append("    available: ").append(toIndentedString(available)).append("\n");
-        sb.append("}");
-        return sb.toString();
-    }
-
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     */
-    private String toIndentedString(Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
-    }
 }

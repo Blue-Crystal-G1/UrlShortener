@@ -71,10 +71,6 @@ public class Click {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     /**
      * Get hash
      *
@@ -83,10 +79,6 @@ public class Click {
     @ApiModelProperty(value = "")
     public String getHash() {
         return hash;
-    }
-
-    public void setHash(String hash) {
-        this.hash = hash;
     }
 
     /**
@@ -99,10 +91,6 @@ public class Click {
         return created;
     }
 
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
     /**
      * Get referrer
      *
@@ -111,10 +99,6 @@ public class Click {
     @ApiModelProperty(value = "")
     public String getReferrer() {
         return referrer;
-    }
-
-    public void setReferrer(String referrer) {
-        this.referrer = referrer;
     }
 
     /**
@@ -127,10 +111,6 @@ public class Click {
         return browser;
     }
 
-    public void setBrowser(String browser) {
-        this.browser = browser;
-    }
-
     /**
      * Get platform
      *
@@ -141,10 +121,6 @@ public class Click {
         return platform;
     }
 
-    public void setPlatform(String platform) {
-        this.platform = platform;
-    }
-
     /**
      * Get ip
      *
@@ -153,10 +129,6 @@ public class Click {
     @ApiModelProperty(value = "")
     public String getIp() {
         return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
     }
 
     /**
@@ -193,36 +165,4 @@ public class Click {
                 Objects.equals(this.country, click.country);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, hash, created, referrer, browser, platform, ip, country);
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class Click {\n");
-
-        sb.append("    id: ").append(toIndentedString(id)).append("\n");
-        sb.append("    hash: ").append(toIndentedString(hash)).append("\n");
-        sb.append("    created: ").append(toIndentedString(created)).append("\n");
-        sb.append("    referrer: ").append(toIndentedString(referrer)).append("\n");
-        sb.append("    browser: ").append(toIndentedString(browser)).append("\n");
-        sb.append("    platform: ").append(toIndentedString(platform)).append("\n");
-        sb.append("    ip: ").append(toIndentedString(ip)).append("\n");
-        sb.append("    country: ").append(toIndentedString(country)).append("\n");
-        sb.append("}");
-        return sb.toString();
-    }
-
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     */
-    private String toIndentedString(Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
-    }
 }
