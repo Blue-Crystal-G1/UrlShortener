@@ -2,10 +2,12 @@ package urlshortener.bluecrystal.web;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
@@ -35,6 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static urlshortener.bluecrystal.web.fixture.UrlInfoDTOFixture.urlInfoExample;
 import static urlshortener.bluecrystal.web.fixture.UrlInfoDTOFixture.urlInfoExample2;
 
+@RunWith(MockitoJUnitRunner.class)
 public class UrlInfoRestApiTests {
 
     private MockMvc mockMvc;
