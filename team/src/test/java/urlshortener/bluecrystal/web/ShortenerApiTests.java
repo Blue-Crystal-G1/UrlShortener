@@ -118,7 +118,7 @@ public class ShortenerApiTests {
         when(advertisingAccessService.hasAccessToUri(any(),any())).thenReturn(true);
         when(messages.get(any())).thenReturn("something");
         when(locationService.getCountryName(any())).thenReturn("SPAIN");
-        when(clickService.save(any())).thenReturn(ClickFixture.testClick1(0L));
+        when(clickService.save(any())).thenReturn(ClickFixture.testClick1(shortURL.getHash()));
 
         mockMvc.perform(get("/{id}", shortURL.getHash()).param("guid",guid)).andDo(print())
                 .andExpect(status().isOk())

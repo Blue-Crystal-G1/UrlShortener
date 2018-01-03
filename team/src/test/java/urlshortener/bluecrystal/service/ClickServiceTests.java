@@ -49,7 +49,7 @@ public class ClickServiceTests {
         assert shortURL != null;
         assertNotNull(shortURLRepository.findByHash(shortURL.getHash()));
 
-        Click click = ClickFixture.testClick1(user.getId());
+        Click click = ClickFixture.testClick1(shortURL.getHash());
         Click clickSaved = clickService.save(click);
         assertNotNull(clickSaved);
         assertEquals(clickRepository.count(), 1);

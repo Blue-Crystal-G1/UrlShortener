@@ -21,13 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 import static urlshortener.bluecrystal.service.fixture.ClickFixture.testClick1;
 import static urlshortener.bluecrystal.service.fixture.ClickFixture.testClick2;
 import static urlshortener.bluecrystal.service.fixture.ShortURLFixture.exampleURL;
-import static urlshortener.bluecrystal.service.fixture.ShortURLFixture.urlWithoutFirstChecksSafeAndAvailable;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -64,9 +61,9 @@ public class SystemInfoServiceTests {
 
     @Test
     public void thatGetsInfoAboutUrlAndClicks_withInterval_All() throws Exception {
-        shortURLRepository.save(exampleURL(user.getId()));
-        Click click1 = testClick1(user.getId());
-        Click click2 = testClick2(user.getId());
+        ShortURL shortURL = shortURLRepository.save(exampleURL(user.getId()));
+        Click click1 = testClick1(shortURL.getHash());
+        Click click2 = testClick2(shortURL.getHash());
         List<Click> clicksList = new ArrayList<Click>() {{add(click1);add(click2);}};
         clickRepository.save(clicksList);
         long timeInMillisNow = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
@@ -86,9 +83,9 @@ public class SystemInfoServiceTests {
 
     @Test
     public void thatGetsInfoAboutUrlAndClicks_withInterval_Year() throws Exception {
-        shortURLRepository.save(exampleURL(user.getId()));
-        Click click1 = testClick1(user.getId());
-        Click click2 = testClick2(user.getId());
+        ShortURL shortURL = shortURLRepository.save(exampleURL(user.getId()));
+        Click click1 = testClick1(shortURL.getHash());
+        Click click2 = testClick2(shortURL.getHash());
         List<Click> clicksList = new ArrayList<Click>() {{add(click1);add(click2);}};
         clickRepository.save(clicksList);
         long timeInMillisNow = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
@@ -105,9 +102,9 @@ public class SystemInfoServiceTests {
 
     @Test
     public void thatGetsInfoAboutUrlAndClicks_withInterval_Month() throws Exception {
-        shortURLRepository.save(exampleURL(user.getId()));
-        Click click1 = testClick1(user.getId());
-        Click click2 = testClick2(user.getId());
+        ShortURL shortURL = shortURLRepository.save(exampleURL(user.getId()));
+        Click click1 = testClick1(shortURL.getHash());
+        Click click2 = testClick2(shortURL.getHash());
         List<Click> clicksList = new ArrayList<Click>() {{add(click1);add(click2);}};
         clickRepository.save(clicksList);
         long timeInMillisNow = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
@@ -125,9 +122,9 @@ public class SystemInfoServiceTests {
 
     @Test
     public void thatGetsInfoAboutUrlAndClicks_withInterval_Week() throws Exception {
-        shortURLRepository.save(exampleURL(user.getId()));
-        Click click1 = testClick1(user.getId());
-        Click click2 = testClick2(user.getId());
+        ShortURL shortURL = shortURLRepository.save(exampleURL(user.getId()));
+        Click click1 = testClick1(shortURL.getHash());
+        Click click2 = testClick2(shortURL.getHash());
         List<Click> clicksList = new ArrayList<Click>() {{add(click1);add(click2);}};
         clickRepository.save(clicksList);
         long timeInMillisNow = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
@@ -145,9 +142,9 @@ public class SystemInfoServiceTests {
 
     @Test
     public void thatGetsInfoAboutUrlAndClicks_withInterval_Day() throws Exception {
-        shortURLRepository.save(exampleURL(user.getId()));
-        Click click1 = testClick1(user.getId());
-        Click click2 = testClick2(user.getId());
+        ShortURL shortURL = shortURLRepository.save(exampleURL(user.getId()));
+        Click click1 = testClick1(shortURL.getHash());
+        Click click2 = testClick2(shortURL.getHash());
         List<Click> clicksList = new ArrayList<Click>() {{add(click1);add(click2);}};
         clickRepository.save(clicksList);
         long timeInMillisNow = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
@@ -165,9 +162,9 @@ public class SystemInfoServiceTests {
 
     @Test
     public void thatGetsInfoAboutUrlAndClicks_withInterval_LastHours() throws Exception {
-        shortURLRepository.save(exampleURL(user.getId()));
-        Click click1 = testClick1(user.getId());
-        Click click2 = testClick2(user.getId());
+        ShortURL shortURL = shortURLRepository.save(exampleURL(user.getId()));
+        Click click1 = testClick1(shortURL.getHash());
+        Click click2 = testClick2(shortURL.getHash());
         List<Click> clicksList = new ArrayList<Click>() {{add(click1);add(click2);}};
         clickRepository.save(clicksList);
         long timeInMillisNow = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
@@ -185,9 +182,9 @@ public class SystemInfoServiceTests {
 
     @Test
     public void thatGetsInfoAboutUrlAndClicks_withoutUrlFirstCheck_ReturnsInfo() throws Exception {
-        shortURLRepository.save(urlWithoutFirstChecksSafeAndAvailable(user.getId()));
-        Click click1 = testClick1(user.getId());
-        Click click2 = testClick2(user.getId());
+        ShortURL shortURL = shortURLRepository.save(exampleURL(user.getId()));
+        Click click1 = testClick1(shortURL.getHash());
+        Click click2 = testClick2(shortURL.getHash());
         List<Click> clicksList = new ArrayList<Click>() {{add(click1);add(click2);}};
         clickRepository.save(clicksList);
         long timeInMillisNow = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();

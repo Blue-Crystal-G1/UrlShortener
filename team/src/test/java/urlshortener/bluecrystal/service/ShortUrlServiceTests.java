@@ -55,9 +55,8 @@ public class ShortUrlServiceTests {
     @Test
     public void thatGetsInfoAboutUrlAndClicks_withInterval_All() throws Exception {
         ShortURL shortURL = shortURLRepository.save(exampleURL(user.getId()));
-
-        Click click1 = testClick1(user.getId());
-        Click click2 = testClick2(user.getId());
+        Click click1 = testClick1(shortURL.getHash());
+        Click click2 = testClick2(shortURL.getHash());
         List<Click> clicksList = new ArrayList<Click>() {{add(click1);add(click2);}};
         clickRepository.save(clicksList);
 
@@ -75,9 +74,8 @@ public class ShortUrlServiceTests {
     @Test
     public void thatGetsInfoAboutUrlAndClicks_withInterval_Year() throws Exception {
         ShortURL shortURL = shortURLRepository.save(exampleURL(user.getId()));
-
-        Click click1 = testClick1(user.getId());
-        Click click2 = testClick2(user.getId());
+        Click click1 = testClick1(shortURL.getHash());
+        Click click2 = testClick2(shortURL.getHash());
         List<Click> clicksList = new ArrayList<Click>() {{add(click1);add(click2);}};
         clickRepository.save(clicksList);
 
@@ -92,9 +90,8 @@ public class ShortUrlServiceTests {
     @Test
     public void thatGetsInfoAboutUrlAndClicks_withInterval_Month() throws Exception {
         ShortURL shortURL = shortURLRepository.save(exampleURL(user.getId()));
-
-        Click click1 = testClick1(user.getId());
-        Click click2 = testClick2(user.getId());
+        Click click1 = testClick1(shortURL.getHash());
+        Click click2 = testClick2(shortURL.getHash());
         List<Click> clicksList = new ArrayList<Click>() {{add(click1);add(click2);}};
         clickRepository.save(clicksList);
 
@@ -110,9 +107,8 @@ public class ShortUrlServiceTests {
     @Test
     public void thatGetsInfoAboutUrlAndClicks_withInterval_Week() throws Exception {
         ShortURL shortURL = shortURLRepository.save(exampleURL(user.getId()));
-
-        Click click1 = testClick1(user.getId());
-        Click click2 = testClick2(user.getId());
+        Click click1 = testClick1(shortURL.getHash());
+        Click click2 = testClick2(shortURL.getHash());
         List<Click> clicksList = new ArrayList<Click>() {{add(click1);add(click2);}};
         clickRepository.save(clicksList);
 
@@ -128,9 +124,8 @@ public class ShortUrlServiceTests {
     @Test
     public void thatGetsInfoAboutUrlAndClicks_withInterval_Day() throws Exception {
         ShortURL shortURL = shortURLRepository.save(exampleURL(user.getId()));
-
-        Click click1 = testClick1(user.getId());
-        Click click2 = testClick2(user.getId());
+        Click click1 = testClick1(shortURL.getHash());
+        Click click2 = testClick2(shortURL.getHash());
         List<Click> clicksList = new ArrayList<Click>() {{add(click1);add(click2);}};
         clickRepository.save(clicksList);
 
@@ -146,9 +141,8 @@ public class ShortUrlServiceTests {
     @Test
     public void thatGetsInfoAboutUrlAndClicks_withInterval_LastHours() throws Exception {
         ShortURL shortURL = shortURLRepository.save(exampleURL(user.getId()));
-
-        Click click1 = testClick1(user.getId());
-        Click click2 = testClick2(user.getId());
+        Click click1 = testClick1(shortURL.getHash());
+        Click click2 = testClick2(shortURL.getHash());
         List<Click> clicksList = new ArrayList<Click>() {{add(click1);add(click2);}};
         clickRepository.save(clicksList);
 
@@ -163,10 +157,9 @@ public class ShortUrlServiceTests {
 
     @Test
     public void thatGetsInfoAboutUrlAndClicks_withoutUrlFirstCheck_ReturnsInfo() throws Exception {
-        ShortURL shortURL = shortURLRepository.save(urlWithoutFirstChecksSafeAndAvailable(user.getId()));
-
-        Click click1 = testClick1(user.getId());
-        Click click2 = testClick2(user.getId());
+        ShortURL shortURL = shortURLRepository.save(exampleURL(user.getId()));
+        Click click1 = testClick1(shortURL.getHash());
+        Click click2 = testClick2(shortURL.getHash());
         List<Click> clicksList = new ArrayList<Click>() {{add(click1);add(click2);}};
         clickRepository.save(clicksList);
 
@@ -185,9 +178,10 @@ public class ShortUrlServiceTests {
     @Test
     public void thatInfoCountersIncrements() throws Exception {
         //Saves 2 clicks with the same attributes
-        ShortURL shortURL = exampleURL(user.getId());
-        shortURLRepository.save(shortURL);
-        List<Click> clicksList = new ArrayList<Click>() {{add(testClick1(user.getId()));add(testClick1(user.getId()));}};
+        ShortURL shortURL = shortURLRepository.save(exampleURL(user.getId()));
+        Click click1 = testClick1(shortURL.getHash());
+        Click click2 = testClick1(shortURL.getHash());
+        List<Click> clicksList = new ArrayList<Click>() {{add(click1);add(click2);}};
         clickRepository.save(clicksList);
 
         URLClicksInfoDTO urlClicksInfo = shortUrlService.getInformationAboutUrlAndClicks(exampleURL(), ClickInterval.ALL.toString());
@@ -239,43 +233,37 @@ public class ShortUrlServiceTests {
         }};
         shortURLRepository.save(shortURLList);
 
-        List<Click> clicksList1 = new ArrayList<Click>() {{
-            add(testClick1(user.getId()));
-            add(testClick2(user.getId()));
-            add(testClick3(user.getId()));
+        assert shortURL1 != null;
+        Click click1 = testClick1(shortURL1.getHash());
+        Click click2 = testClick2(shortURL1.getHash());
+        assert shortURL2 != null;
+        Click click3 = testClick3(shortURL2.getHash());
+        List<Click> clicksList = new ArrayList<Click>() {{
+            add(click1);
+            add(click2);
+            add(click3);
         }};
-        clickRepository.save(clicksList1);
+        clickRepository.save(clicksList);
 
         List<URLInfoDTO> infoList = shortUrlService.getInformationAboutAllUrls(user.getEmail());
-        assertEquals(infoList.size(),2);
 
+        assertEquals(infoList.size(),2);
         assertEquals(infoList.get(0).getTotalClicks().intValue(), 2);
         assertEquals(infoList.get(1).getTotalClicks().intValue(), 1);
-
-        assert shortURL1 != null;
-        assert shortURL2 != null;
-
         assertEquals(infoList.get(0).getAvailable().intValue(), shortURL1.getAvailable() ? 1 : 0);
         assertEquals(infoList.get(1).getAvailable().intValue(), shortURL2.getAvailable() ? 1 : 0);
-
         assertEquals(infoList.get(0).getSafe().intValue(), shortURL1.getSafe() ? 1 : 0);
         assertEquals(infoList.get(1).getSafe().intValue(), shortURL2.getSafe() ? 1 : 0);
-
         assertEquals(infoList.get(0).getHash(), shortURL1.getHash());
         assertEquals(infoList.get(1).getHash(), shortURL2.getHash());
-
         assertEquals(infoList.get(0).getTarget(), shortURL1.getTarget());
         assertEquals(infoList.get(1).getTarget(), shortURL2.getTarget());
-
         assertEquals(infoList.get(0).getUri(), shortURL1.getUri().toString());
         assertEquals(infoList.get(1).getUri(), shortURL2.getUri().toString());
-
         assertNotNull(infoList.get(0).getCreated());
         assertNotNull(infoList.get(1).getCreated());
-
         assertNotNull(infoList.get(0).getLastCheckAvailableDate());
         assertNotNull(infoList.get(1).getLastCheckAvailableDate());
-
         assertNotNull(infoList.get(0).getLastCheckSafeDate());
         assertNotNull(infoList.get(1).getLastCheckSafeDate());
     }
