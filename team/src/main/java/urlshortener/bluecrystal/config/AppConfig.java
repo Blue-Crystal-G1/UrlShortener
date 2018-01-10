@@ -8,9 +8,16 @@ import urlshortener.bluecrystal.scheduled.CpuAndRamCheck;
 import urlshortener.bluecrystal.scheduled.SafePeriodicCheck;
 import urlshortener.bluecrystal.security.ActiveUserStore;
 
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
+
 @Configuration
 @EnableScheduling
 public class AppConfig {
+
+    @Resource(name = "systemInfoInterval")
+    private Map<Long, String> systemInfoInterval = new HashMap<>();
 
     @Bean
     public ActiveUserStore activeUserStore() {
@@ -30,6 +37,11 @@ public class AppConfig {
     @Bean
     public CpuAndRamCheck cpuAndRamCheck() {
         return new CpuAndRamCheck();
+    }
+
+    @Bean
+    public Map<Long, String> systemInfoInterval() {
+        return systemInfoInterval;
     }
 
 }

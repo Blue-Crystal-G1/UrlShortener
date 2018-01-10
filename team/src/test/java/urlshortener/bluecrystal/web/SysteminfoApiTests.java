@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
@@ -19,6 +20,8 @@ import urlshortener.bluecrystal.web.dto.SystemInfoDTO;
 import urlshortener.bluecrystal.web.dto.util.ClickInterval;
 import urlshortener.bluecrystal.web.fixture.SystemInfoDTOFixture;
 import urlshortener.bluecrystal.web.fixture.UserFixture;
+
+import java.util.Map;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -34,6 +37,12 @@ public class SysteminfoApiTests {
 
     @Mock
     private SystemInfoService systemInfoService;
+
+    @Mock
+    private Map<Long, String> systemInfoInterval;
+
+    @Mock
+    private TaskScheduler scheduler;
 
     @Spy
     private AuthenticationFacade authenticationFacade;

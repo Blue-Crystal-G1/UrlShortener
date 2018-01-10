@@ -2,7 +2,6 @@ package urlshortener.bluecrystal.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.Assert;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -20,16 +19,6 @@ public class ThymeleafLayoutInterceptor extends HandlerInterceptorAdapter {
 
     private String defaultLayout = DEFAULT_LAYOUT;
     private String viewAttributeName = DEFAULT_VIEW_ATTRIBUTE_NAME;
-
-    public void setDefaultLayout(String defaultLayout) {
-        Assert.hasLength(defaultLayout, "layout must not be empty");
-        this.defaultLayout = defaultLayout;
-    }
-
-    public void setViewAttributeName(String viewAttributeName) {
-        Assert.hasLength(defaultLayout, "attribute must not be empty");
-        this.viewAttributeName = viewAttributeName;
-    }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {

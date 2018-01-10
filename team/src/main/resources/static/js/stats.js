@@ -57,6 +57,7 @@ function showClicksGraphic(clicksInfo, displayUnits, timeInterval, totalClicks) 
     };
 
     var trafficOptions = {
+        animation : false,
         responsive: true,
         maintainAspectRatio: false,
         legend: {
@@ -130,6 +131,7 @@ function showRamGraphic(ramInfo) {
     };
 
     var ramOptions = {
+        animation : false,
         responsive: true,
         maintainAspectRatio: true,
         legend: {
@@ -194,6 +196,7 @@ function showCpuGraphic(ramInfo) {
     };
 
     var cpuOptions = {
+        animation : false,
         responsive: true,
         maintainAspectRatio: true,
         legend: {
@@ -252,11 +255,8 @@ function showReferrersGraphic(referrersInfo) {
     }
 
     var referrersOptions = {
-        responsive: true,
-        animation: {
-          tanimateScale: true,
-            animaeRotate: true
-        }
+        animation : false,
+        responsive: true
     };
 
     if ($("#referrers-chart").length) {
@@ -285,6 +285,7 @@ function showPlatformsGraphic(platformsInfo) {
     };
 
     var platformsOptions = {
+        animation : false,
         legend: {
             display: false
         },
@@ -324,6 +325,7 @@ function showBrowsersGraphic(browsersInfo) {
     };
 
     var browsersOptions = {
+        animation : false,
         legend: {
             display: false
         },
@@ -387,30 +389,67 @@ function getInformationByType(type, displayUnits, timeInterval) {
 
 function getInfoByTabSelected(tabIndex) {
     // Destroys the previous data
-    if(clickGraphicInstance) clickGraphicInstance.destroy();
-    if(referrerGraphicInstance) referrerGraphicInstance.destroy();
-    if(platformGraphicInstance) platformGraphicInstance.destroy();
-    if(browserGraphicInstance) browserGraphicInstance.destroy();
-    if(ramGraphicInstance) ramGraphicInstance.destroy();
-    if(cpuGraphicInstance) cpuGraphicInstance.destroy();
+    if (clickGraphicInstance) clickGraphicInstance.destroy();
+    if (referrerGraphicInstance) referrerGraphicInstance.destroy();
+    if (platformGraphicInstance) platformGraphicInstance.destroy();
+    if (browserGraphicInstance) browserGraphicInstance.destroy();
+    if (ramGraphicInstance) ramGraphicInstance.destroy();
+    if (cpuGraphicInstance) cpuGraphicInstance.destroy();
 
-    if(tabIndex === 1){
+    if (tabIndex === 1) {
         // Show information of last two hours, within intervals of 15 minutes in xAxes
         getInformationByType('lastHours', 'minute', 15);
-    } else if(tabIndex === 2){
+    } else if (tabIndex === 2) {
         // Show information of the current day, within intervals of 4 hours in xAxes
         getInformationByType('day', 'hour', 4);
-    } else if(tabIndex === 3){
+    } else if (tabIndex === 3) {
         // Show information of the current week, within intervals of 1 day in xAxes
         getInformationByType('week', 'day', 1);
-    } else if(tabIndex === 4){
+    } else if (tabIndex === 4) {
         // Show information of the current month, within intervals of 7 days in xAxes
         getInformationByType('month', 'day', 7);
-    } else if(tabIndex === 5){
+    } else if (tabIndex === 5) {
         // Show information of the current year, within intervals of 1 month in xAxes
         getInformationByType('year', 'month', 1);
-    } else if(tabIndex === 6){
+    } else if (tabIndex === 6) {
         // Show information of all the url life cycle, within intervals of 1 year in xAxes
         getInformationByType('all', 'year', 1);
+    }
+}
+
+function getInformationByTypeWebSocket(displayUnits, timeInterval, data) {
+    $('#totalClicks').text(data.totalClicks);
+    $('#totalUsers').text(data.totalUsers);
+    $('#totalUrls').text(data.totalUrls);
+    $('#upTime').text(data.upTime);
+    updateData(data, displayUnits, timeInterval);
+}
+
+function getInfoByTabSelectedWebSocket(tabIndex, data) {
+    if (clickGraphicInstance) clickGraphicInstance.destroy();
+    if (referrerGraphicInstance) referrerGraphicInstance.destroy();
+    if (platformGraphicInstance) platformGraphicInstance.destroy();
+    if (browserGraphicInstance) browserGraphicInstance.destroy();
+    if (ramGraphicInstance) ramGraphicInstance.destroy();
+    if (cpuGraphicInstance) cpuGraphicInstance.destroy();
+
+    if (tabIndex === 1) {
+        // Show information of last two hours, within intervals of 15 minutes in xAxes
+        getInformationByTypeWebSocket('minute', 15, data);
+    } else if (tabIndex === 2) {
+        // Show information of the current day, within intervals of 4 hours in xAxes
+        getInformationByTypeWebSocket('hour', 4, data);
+    } else if (tabIndex === 3) {
+        // Show information of the current week, within intervals of 1 day in xAxes
+        getInformationByTypeWebSocket('day', 1, data);
+    } else if (tabIndex === 4) {
+        // Show information of the current month, within intervals of 7 days in xAxes
+        getInformationByTypeWebSocket('day', 7, data);
+    } else if (tabIndex === 5) {
+        // Show information of the current year, within intervals of 1 month in xAxes
+        getInformationByTypeWebSocket('month', 1, data);
+    } else if (tabIndex === 6) {
+        // Show information of all the url life cycle, within intervals of 1 year in xAxes
+        getInformationByTypeWebSocket('year', 1, data);
     }
 }

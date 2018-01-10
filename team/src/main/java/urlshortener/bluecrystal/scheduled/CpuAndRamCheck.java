@@ -14,7 +14,6 @@ import java.lang.management.ManagementFactory;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-
 public class CpuAndRamCheck {
     private final static Logger LOGGER = LoggerFactory.getLogger(CpuAndRamCheck.class);
 
