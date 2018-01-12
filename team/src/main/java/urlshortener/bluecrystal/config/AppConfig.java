@@ -17,7 +17,7 @@ import java.util.Map;
 public class AppConfig {
 
     @Resource(name = "systemInfoInterval")
-    private Map<Long, String> systemInfoInterval = new HashMap<>();
+    private Map<String, String> systemInfoInterval = new HashMap<>();
 
     @Bean
     public ActiveUserStore activeUserStore() {
@@ -40,7 +40,7 @@ public class AppConfig {
     }
 
     @Bean
-    public Map<Long, String> systemInfoInterval() {
+    public Map<String, String> systemInfoInterval() {
         return systemInfoInterval;
     }
 

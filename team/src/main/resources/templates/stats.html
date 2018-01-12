@@ -188,7 +188,7 @@
                     stompClient = Stomp.over(socket);
                     stompClient.connect({}, function (frame) {
                         console.log('Connected: ' + frame);
-                        stompClient.subscribe('/topic/statsChanged', function (content) {
+                        stompClient.subscribe('/user/topic/statsChanged', function (content) {
                             if(content.body !== 'unknown') {
                                 var listItems = $("#optionList li");
                                 listItems.each(function (idx, li) {

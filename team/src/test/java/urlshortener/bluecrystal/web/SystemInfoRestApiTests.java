@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.scheduling.TaskScheduler;
+import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
@@ -44,10 +44,10 @@ public class SystemInfoRestApiTests {
     private Messages messages;
 
     @Mock
-    private Map<Long, String> systemInfoInterval;
+    private Map<String, String> systemInfoInterval;
 
     @Mock
-    private TaskScheduler scheduler;
+    protected SimpUserRegistry simpUserRegistry;
 
     @Spy
     private AuthenticationFacade authenticationFacade;
@@ -77,7 +77,6 @@ public class SystemInfoRestApiTests {
                 .andDo(print())
                 .andExpect(jsonPath("$.status", is("error")))
                 .andExpect(jsonPath("$.message", is("Message")));
-
     }
 
     @Test

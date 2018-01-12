@@ -9,6 +9,7 @@ import urlshortener.bluecrystal.persistence.dao.SystemCpuRepository;
 import urlshortener.bluecrystal.persistence.dao.SystemRamRepository;
 import urlshortener.bluecrystal.persistence.model.SystemCpuUsage;
 import urlshortener.bluecrystal.persistence.model.SystemRamUsage;
+import urlshortener.bluecrystal.web.SysteminfoRestApiController;
 
 import java.lang.management.ManagementFactory;
 import java.math.BigDecimal;
@@ -23,7 +24,15 @@ public class CpuAndRamCheck {
     @Autowired
     protected SystemRamRepository systemRamRepository;
 
-    // Checks every 5 seconds.
+    @Autowired
+    protected SysteminfoRestApiController systeminfoRestApiController;
+
+
+    /**
+     * Check the memory and ram used in the system within an interval of 5 seconds.
+     * Also, it sends system information to the administrator (which only will be
+     * processed if he is in the corresponding stats page)
+     */
     @Scheduled(fixedDelay = 5000L)
     public void checkSystem() {
         LOGGER.info("Check CPU/RAM usage");
@@ -49,5 +58,7 @@ public class CpuAndRamCheck {
         SystemCpuUsage cpuUsage = new SystemCpuUsage(System.currentTimeMillis(),bd.doubleValue());
         LOGGER.info("Percentage of CPU used: {} %", cpuUsage.getUsage());
         systemCpuRepository.save(cpuUsage);
+
+        systeminfoRestApiController.sendSystemInfoStomp();
     }
 }

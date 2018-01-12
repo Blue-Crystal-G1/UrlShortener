@@ -389,12 +389,7 @@ function getInformationByType(type, displayUnits, timeInterval) {
 
 function getInfoByTabSelected(tabIndex) {
     // Destroys the previous data
-    if (clickGraphicInstance) clickGraphicInstance.destroy();
-    if (referrerGraphicInstance) referrerGraphicInstance.destroy();
-    if (platformGraphicInstance) platformGraphicInstance.destroy();
-    if (browserGraphicInstance) browserGraphicInstance.destroy();
-    if (ramGraphicInstance) ramGraphicInstance.destroy();
-    if (cpuGraphicInstance) cpuGraphicInstance.destroy();
+    destroyInstances();
 
     if (tabIndex === 1) {
         // Show information of last two hours, within intervals of 15 minutes in xAxes
@@ -417,7 +412,7 @@ function getInfoByTabSelected(tabIndex) {
     }
 }
 
-function getInformationByTypeWebSocket(displayUnits, timeInterval, data) {
+function getInformationByIntervalWebSocket(displayUnits, timeInterval, data) {
     $('#totalClicks').text(data.totalClicks);
     $('#totalUsers').text(data.totalUsers);
     $('#totalUrls').text(data.totalUrls);
@@ -426,30 +421,36 @@ function getInformationByTypeWebSocket(displayUnits, timeInterval, data) {
 }
 
 function getInfoByTabSelectedWebSocket(tabIndex, data) {
+    // Destroys the previous data
+    destroyInstances();
+
+    if (tabIndex === 1) {
+        // Show information of last two hours, within intervals of 15 minutes in xAxes
+        getInformationByIntervalWebSocket('minute', 15, data);
+    } else if (tabIndex === 2) {
+        // Show information of the current day, within intervals of 4 hours in xAxes
+        getInformationByIntervalWebSocket('hour', 4, data);
+    } else if (tabIndex === 3) {
+        // Show information of the current week, within intervals of 1 day in xAxes
+        getInformationByIntervalWebSocket('day', 1, data);
+    } else if (tabIndex === 4) {
+        // Show information of the current month, within intervals of 7 days in xAxes
+        getInformationByIntervalWebSocket('day', 7, data);
+    } else if (tabIndex === 5) {
+        // Show information of the current year, within intervals of 1 month in xAxes
+        getInformationByIntervalWebSocket('month', 1, data);
+    } else if (tabIndex === 6) {
+        // Show information of all the url life cycle, within intervals of 1 year in xAxes
+        getInformationByIntervalWebSocket('year', 1, data);
+    }
+}
+
+function destroyInstances() {
+    // Destroys the previous data
     if (clickGraphicInstance) clickGraphicInstance.destroy();
     if (referrerGraphicInstance) referrerGraphicInstance.destroy();
     if (platformGraphicInstance) platformGraphicInstance.destroy();
     if (browserGraphicInstance) browserGraphicInstance.destroy();
     if (ramGraphicInstance) ramGraphicInstance.destroy();
     if (cpuGraphicInstance) cpuGraphicInstance.destroy();
-
-    if (tabIndex === 1) {
-        // Show information of last two hours, within intervals of 15 minutes in xAxes
-        getInformationByTypeWebSocket('minute', 15, data);
-    } else if (tabIndex === 2) {
-        // Show information of the current day, within intervals of 4 hours in xAxes
-        getInformationByTypeWebSocket('hour', 4, data);
-    } else if (tabIndex === 3) {
-        // Show information of the current week, within intervals of 1 day in xAxes
-        getInformationByTypeWebSocket('day', 1, data);
-    } else if (tabIndex === 4) {
-        // Show information of the current month, within intervals of 7 days in xAxes
-        getInformationByTypeWebSocket('day', 7, data);
-    } else if (tabIndex === 5) {
-        // Show information of the current year, within intervals of 1 month in xAxes
-        getInformationByTypeWebSocket('month', 1, data);
-    } else if (tabIndex === 6) {
-        // Show information of all the url life cycle, within intervals of 1 year in xAxes
-        getInformationByTypeWebSocket('year', 1, data);
-    }
 }

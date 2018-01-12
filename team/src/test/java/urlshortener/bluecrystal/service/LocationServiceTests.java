@@ -48,7 +48,7 @@ public class LocationServiceTests {
         shortURLRepository.save(shortURL);
 
         locationService.checkLocationAsync(shortURL);
-        Thread.sleep(2000);
+        Thread.sleep(5000);
         shortURL = shortURLRepository.findByHash(shortURL.getHash());
         assertNotNull(shortURL);
         assertNotNull(shortURL.getCountry());
@@ -62,7 +62,7 @@ public class LocationServiceTests {
         shortURLRepository.save(shortURL);
 
         locationService.checkLocationAsync(shortURL);
-        Thread.sleep(2000);
+        Thread.sleep(3000);
         shortURL = shortURLRepository.findByHash(shortURL.getHash());
         assertNotNull(shortURL);
         assertNull(shortURL.getCountry());
